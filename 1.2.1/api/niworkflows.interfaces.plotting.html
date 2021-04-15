@@ -4,10 +4,11 @@
 <html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" />
-  
+  <meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>niworkflows.interfaces.plotting module &mdash; niworkflows 1.4.0rc5+7.g616d2bca documentation</title>
+  <title>niworkflows.interfaces.plotting module &mdash; niworkflows 1.3.3 documentation</title>
   
 
   
@@ -33,6 +34,8 @@
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -64,7 +67,7 @@
             
             
               <div class="version">
-                1.4.0
+                1.3.3
               </div>
             
           
@@ -211,67 +214,67 @@
 
 
     <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../master/api/niworkflows.interfaces.plotting.html"><b>Warning:</b> This document is for an old version of niworkflows. The main version is master.</a></p>
-<div class="section" id="module-niworkflows.interfaces.plotting">
+<section id="module-niworkflows.interfaces.plotting">
 <span id="niworkflows-interfaces-plotting-module"></span><h1>niworkflows.interfaces.plotting module<a class="headerlink" href="#module-niworkflows.interfaces.plotting" title="Permalink to this headline">¶</a></h1>
 <p>Visualization tools.</p>
-<dl class="py class">
+<dl class="class">
 <dt id="niworkflows.interfaces.plotting.CompCorVariancePlot">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">niworkflows.interfaces.plotting.</span></code><code class="sig-name descname"><span class="pre">CompCorVariancePlot</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_monitor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">inputs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/plotting.html#CompCorVariancePlot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#niworkflows.interfaces.plotting.CompCorVariancePlot" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">niworkflows.interfaces.plotting.</code><code class="sig-name descname">CompCorVariancePlot</code><span class="sig-paren">(</span><em class="sig-param">from_file=None</em>, <em class="sig-param">resource_monitor=None</em>, <em class="sig-param">**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/plotting.html#CompCorVariancePlot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.interfaces.plotting.CompCorVariancePlot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">nipype.interfaces.base.core.SimpleInterface</span></code></p>
 <p>Plot the number of components necessary to explain the specified levels of variance.</p>
-<dl class="py attribute">
+<dl class="attribute">
 <dt id="niworkflows.interfaces.plotting.CompCorVariancePlot.input_spec">
-<code class="sig-name descname"><span class="pre">input_spec</span></code><a class="headerlink" href="#niworkflows.interfaces.plotting.CompCorVariancePlot.input_spec" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">niworkflows.interfaces.plotting._CompCorVariancePlotInputSpec</span></code></p>
+<code class="sig-name descname">input_spec</code><a class="headerlink" href="#niworkflows.interfaces.plotting.CompCorVariancePlot.input_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_CompCorVariancePlotInputSpec</span></code></p>
 </dd></dl>
 
-<dl class="py attribute">
+<dl class="attribute">
 <dt id="niworkflows.interfaces.plotting.CompCorVariancePlot.output_spec">
-<code class="sig-name descname"><span class="pre">output_spec</span></code><a class="headerlink" href="#niworkflows.interfaces.plotting.CompCorVariancePlot.output_spec" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">niworkflows.interfaces.plotting._CompCorVariancePlotOutputSpec</span></code></p>
+<code class="sig-name descname">output_spec</code><a class="headerlink" href="#niworkflows.interfaces.plotting.CompCorVariancePlot.output_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_CompCorVariancePlotOutputSpec</span></code></p>
 </dd></dl>
 
 </dd></dl>
 
-<dl class="py class">
+<dl class="class">
 <dt id="niworkflows.interfaces.plotting.ConfoundsCorrelationPlot">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">niworkflows.interfaces.plotting.</span></code><code class="sig-name descname"><span class="pre">ConfoundsCorrelationPlot</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_monitor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">inputs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/plotting.html#ConfoundsCorrelationPlot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#niworkflows.interfaces.plotting.ConfoundsCorrelationPlot" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">niworkflows.interfaces.plotting.</code><code class="sig-name descname">ConfoundsCorrelationPlot</code><span class="sig-paren">(</span><em class="sig-param">from_file=None</em>, <em class="sig-param">resource_monitor=None</em>, <em class="sig-param">**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/plotting.html#ConfoundsCorrelationPlot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.interfaces.plotting.ConfoundsCorrelationPlot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">nipype.interfaces.base.core.SimpleInterface</span></code></p>
 <p>Plot the correlation among confound regressors.</p>
-<dl class="py attribute">
+<dl class="attribute">
 <dt id="niworkflows.interfaces.plotting.ConfoundsCorrelationPlot.input_spec">
-<code class="sig-name descname"><span class="pre">input_spec</span></code><a class="headerlink" href="#niworkflows.interfaces.plotting.ConfoundsCorrelationPlot.input_spec" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">niworkflows.interfaces.plotting._ConfoundsCorrelationPlotInputSpec</span></code></p>
+<code class="sig-name descname">input_spec</code><a class="headerlink" href="#niworkflows.interfaces.plotting.ConfoundsCorrelationPlot.input_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_ConfoundsCorrelationPlotInputSpec</span></code></p>
 </dd></dl>
 
-<dl class="py attribute">
+<dl class="attribute">
 <dt id="niworkflows.interfaces.plotting.ConfoundsCorrelationPlot.output_spec">
-<code class="sig-name descname"><span class="pre">output_spec</span></code><a class="headerlink" href="#niworkflows.interfaces.plotting.ConfoundsCorrelationPlot.output_spec" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">niworkflows.interfaces.plotting._ConfoundsCorrelationPlotOutputSpec</span></code></p>
+<code class="sig-name descname">output_spec</code><a class="headerlink" href="#niworkflows.interfaces.plotting.ConfoundsCorrelationPlot.output_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_ConfoundsCorrelationPlotOutputSpec</span></code></p>
 </dd></dl>
 
 </dd></dl>
 
-<dl class="py class">
+<dl class="class">
 <dt id="niworkflows.interfaces.plotting.FMRISummary">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">niworkflows.interfaces.plotting.</span></code><code class="sig-name descname"><span class="pre">FMRISummary</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_monitor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">inputs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/plotting.html#FMRISummary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#niworkflows.interfaces.plotting.FMRISummary" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">niworkflows.interfaces.plotting.</code><code class="sig-name descname">FMRISummary</code><span class="sig-paren">(</span><em class="sig-param">from_file=None</em>, <em class="sig-param">resource_monitor=None</em>, <em class="sig-param">**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/plotting.html#FMRISummary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.interfaces.plotting.FMRISummary" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">nipype.interfaces.base.core.SimpleInterface</span></code></p>
 <p>Prepare an fMRI summary plot for the report.</p>
-<dl class="py attribute">
+<dl class="attribute">
 <dt id="niworkflows.interfaces.plotting.FMRISummary.input_spec">
-<code class="sig-name descname"><span class="pre">input_spec</span></code><a class="headerlink" href="#niworkflows.interfaces.plotting.FMRISummary.input_spec" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">niworkflows.interfaces.plotting._FMRISummaryInputSpec</span></code></p>
+<code class="sig-name descname">input_spec</code><a class="headerlink" href="#niworkflows.interfaces.plotting.FMRISummary.input_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_FMRISummaryInputSpec</span></code></p>
 </dd></dl>
 
-<dl class="py attribute">
+<dl class="attribute">
 <dt id="niworkflows.interfaces.plotting.FMRISummary.output_spec">
-<code class="sig-name descname"><span class="pre">output_spec</span></code><a class="headerlink" href="#niworkflows.interfaces.plotting.FMRISummary.output_spec" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">niworkflows.interfaces.plotting._FMRISummaryOutputSpec</span></code></p>
+<code class="sig-name descname">output_spec</code><a class="headerlink" href="#niworkflows.interfaces.plotting.FMRISummary.output_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_FMRISummaryOutputSpec</span></code></p>
 </dd></dl>
 
 </dd></dl>
 
-</div>
+</section>
 
 
            </div>
@@ -287,7 +290,7 @@
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright Copyright 2021, The NiPreps Developers.
+        &#169; Copyright Copyright 2021, Center for Reproducible Neuroscience, Stanford University.
 
     </p>
   </div>
@@ -358,6 +361,7 @@
             <dd><a href="../../1.3.0rc3/api/niworkflows.interfaces.plotting.html">1.3.0rc3</a></dd>
             <dd><a href="../../1.3.1/api/niworkflows.interfaces.plotting.html">1.3.1</a></dd>
             <dd><a href="../../1.3.2/api/niworkflows.interfaces.plotting.html">1.3.2</a></dd>
+            <dd><a href="../../1.3.3/api/niworkflows.interfaces.plotting.html">1.3.3</a></dd>
             <dd><a href="../../1.4.0rc0/api/niworkflows.interfaces.plotting.html">1.4.0rc0</a></dd>
             <dd><a href="../../1.4.0rc1/api/niworkflows.interfaces.plotting.html">1.4.0rc1</a></dd>
             <dd><a href="../../1.4.0rc2/api/niworkflows.interfaces.plotting.html">1.4.0rc2</a></dd>

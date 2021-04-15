@@ -4,10 +4,11 @@
 <html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" />
-  
+  <meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>niworkflows.interfaces.fixes module &mdash; niworkflows 1.4.0rc5+7.g616d2bca documentation</title>
+  <title>niworkflows.interfaces.fixes module &mdash; niworkflows 1.3.3 documentation</title>
   
 
   
@@ -33,6 +34,8 @@
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -64,7 +67,7 @@
             
             
               <div class="version">
-                1.4.0
+                1.3.3
               </div>
             
           
@@ -210,46 +213,46 @@
 
 
     <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../master/api/niworkflows.interfaces.fixes.html"><b>Warning:</b> This document is for an old version of niworkflows. The main version is master.</a></p>
-<div class="section" id="module-niworkflows.interfaces.fixes">
+<section id="module-niworkflows.interfaces.fixes">
 <span id="niworkflows-interfaces-fixes-module"></span><h1>niworkflows.interfaces.fixes module<a class="headerlink" href="#module-niworkflows.interfaces.fixes" title="Permalink to this headline">¶</a></h1>
-<dl class="py class">
+<dl class="class">
 <dt id="niworkflows.interfaces.fixes.FixHeaderApplyTransforms">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">niworkflows.interfaces.fixes.</span></code><code class="sig-name descname"><span class="pre">FixHeaderApplyTransforms</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">inputs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/fixes.html#FixHeaderApplyTransforms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#niworkflows.interfaces.fixes.FixHeaderApplyTransforms" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">niworkflows.interfaces.fixes.</code><code class="sig-name descname">FixHeaderApplyTransforms</code><span class="sig-paren">(</span><em class="sig-param">**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/fixes.html#FixHeaderApplyTransforms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.interfaces.fixes.FixHeaderApplyTransforms" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">nipype.interfaces.ants.resampling.ApplyTransforms</span></code></p>
 <p>A replacement for nipype.interfaces.ants.resampling.ApplyTransforms that
 fixes the resampled image header to match the xform of the reference
 image</p>
-<dl class="py attribute">
+<dl class="attribute">
 <dt id="niworkflows.interfaces.fixes.FixHeaderApplyTransforms.input_spec">
-<code class="sig-name descname"><span class="pre">input_spec</span></code><a class="headerlink" href="#niworkflows.interfaces.fixes.FixHeaderApplyTransforms.input_spec" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">niworkflows.interfaces.fixes._FixTraitApplyTransformsInputSpec</span></code></p>
+<code class="sig-name descname">input_spec</code><a class="headerlink" href="#niworkflows.interfaces.fixes.FixHeaderApplyTransforms.input_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_FixTraitApplyTransformsInputSpec</span></code></p>
 </dd></dl>
 
 </dd></dl>
 
-<dl class="py class">
+<dl class="class">
 <dt id="niworkflows.interfaces.fixes.FixHeaderRegistration">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">niworkflows.interfaces.fixes.</span></code><code class="sig-name descname"><span class="pre">FixHeaderRegistration</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">inputs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/fixes.html#FixHeaderRegistration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#niworkflows.interfaces.fixes.FixHeaderRegistration" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">niworkflows.interfaces.fixes.</code><code class="sig-name descname">FixHeaderRegistration</code><span class="sig-paren">(</span><em class="sig-param">**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/fixes.html#FixHeaderRegistration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.interfaces.fixes.FixHeaderRegistration" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">nipype.interfaces.ants.registration.Registration</span></code></p>
 <p>A replacement for nipype.interfaces.ants.registration.Registration that
 fixes the resampled image header to match the xform of the reference
 image</p>
 </dd></dl>
 
-<dl class="py class">
+<dl class="class">
 <dt id="niworkflows.interfaces.fixes.FixN4BiasFieldCorrection">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">niworkflows.interfaces.fixes.</span></code><code class="sig-name descname"><span class="pre">FixN4BiasFieldCorrection</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/fixes.html#FixN4BiasFieldCorrection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#niworkflows.interfaces.fixes.FixN4BiasFieldCorrection" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">niworkflows.interfaces.fixes.</code><code class="sig-name descname">FixN4BiasFieldCorrection</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/fixes.html#FixN4BiasFieldCorrection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.interfaces.fixes.FixN4BiasFieldCorrection" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">nipype.interfaces.ants.segmentation.N4BiasFieldCorrection</span></code></p>
 <p>Checks and fixes for nonpositive values in the input to <code class="docutils literal notranslate"><span class="pre">N4BiasFieldCorrection</span></code>.</p>
-<dl class="py attribute">
+<dl class="attribute">
 <dt id="niworkflows.interfaces.fixes.FixN4BiasFieldCorrection.output_spec">
-<code class="sig-name descname"><span class="pre">output_spec</span></code><a class="headerlink" href="#niworkflows.interfaces.fixes.FixN4BiasFieldCorrection.output_spec" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">niworkflows.interfaces.fixes._FixN4BiasFieldCorrectionOutputSpec</span></code></p>
+<code class="sig-name descname">output_spec</code><a class="headerlink" href="#niworkflows.interfaces.fixes.FixN4BiasFieldCorrection.output_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_FixN4BiasFieldCorrectionOutputSpec</span></code></p>
 </dd></dl>
 
 </dd></dl>
 
-</div>
+</section>
 
 
            </div>
@@ -265,7 +268,7 @@ image</p>
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright Copyright 2021, The NiPreps Developers.
+        &#169; Copyright Copyright 2021, Center for Reproducible Neuroscience, Stanford University.
 
     </p>
   </div>
@@ -336,6 +339,7 @@ image</p>
             <dd><a href="niworkflows.interfaces.fixes.html">1.3.0rc3</a></dd>
             <dd><a href="../../1.3.1/api/niworkflows.interfaces.fixes.html">1.3.1</a></dd>
             <dd><a href="../../1.3.2/api/niworkflows.interfaces.fixes.html">1.3.2</a></dd>
+            <dd><a href="../../1.3.3/api/niworkflows.interfaces.fixes.html">1.3.3</a></dd>
             <dd><a href="../../1.4.0rc0/api/niworkflows.interfaces.fixes.html">1.4.0rc0</a></dd>
             <dd><a href="../../1.4.0rc1/api/niworkflows.interfaces.fixes.html">1.4.0rc1</a></dd>
             <dd><a href="../../1.4.0rc2/api/niworkflows.interfaces.fixes.html">1.4.0rc2</a></dd>

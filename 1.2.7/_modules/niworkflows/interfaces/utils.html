@@ -1,0 +1,1330 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>niworkflows.interfaces.utils &mdash; niworkflows 1.3.3 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/banner.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> niworkflows
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.3.3
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">Library API (application program interface)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">What’s new?</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">niworkflows</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>niworkflows.interfaces.utils</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+
+
+    
+    
+
+
+
+    <p class="scv-banner scv-sphinx_rtd_theme"><b>Warning:</b> This document is for an old version of niworkflows.</p>
+<h1>Source code for niworkflows.interfaces.utils</h1><div class="highlight"><pre>
+<span></span><span class="c1"># emacs: -*- mode: python; py-indent-offset: 4; indent-tabs-mode: nil -*-</span>
+<span class="c1"># vi: set ft=python sts=4 ts=4 sw=4 et:</span>
+<span class="sd">&quot;&quot;&quot;Utilities.&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">nibabel</span> <span class="k">as</span> <span class="nn">nb</span>
+<span class="kn">import</span> <span class="nn">nilearn.image</span> <span class="k">as</span> <span class="nn">nli</span>
+<span class="kn">from</span> <span class="nn">textwrap</span> <span class="kn">import</span> <span class="n">indent</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
+
+<span class="kn">import</span> <span class="nn">scipy.ndimage</span> <span class="k">as</span> <span class="nn">nd</span>
+<span class="kn">from</span> <span class="nn">nipype</span> <span class="kn">import</span> <span class="n">logging</span>
+<span class="kn">from</span> <span class="nn">nipype.utils.filemanip</span> <span class="kn">import</span> <span class="n">fname_presuffix</span>
+<span class="kn">from</span> <span class="nn">nipype.utils.misc</span> <span class="kn">import</span> <span class="n">normalize_mc_params</span>
+<span class="kn">from</span> <span class="nn">nipype.interfaces.io</span> <span class="kn">import</span> <span class="n">add_traits</span>
+<span class="kn">from</span> <span class="nn">nipype.interfaces.base</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">traits</span><span class="p">,</span>
+    <span class="n">isdefined</span><span class="p">,</span>
+    <span class="n">File</span><span class="p">,</span>
+    <span class="n">InputMultiPath</span><span class="p">,</span>
+    <span class="n">TraitedSpec</span><span class="p">,</span>
+    <span class="n">BaseInterfaceInputSpec</span><span class="p">,</span>
+    <span class="n">SimpleInterface</span><span class="p">,</span>
+    <span class="n">DynamicTraitedSpec</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">__version__</span>
+
+
+<span class="n">LOG</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;nipype.interface&quot;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_CopyXFormInputSpec</span><span class="p">(</span><span class="n">DynamicTraitedSpec</span><span class="p">,</span> <span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
+    <span class="n">hdr_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;the file we get the header from&quot;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="CopyXForm"><a class="viewcode-back" href="../../../api/niworkflows.interfaces.utils.html#niworkflows.interfaces.utils.CopyXForm">[docs]</a><span class="k">class</span> <span class="nc">CopyXForm</span><span class="p">(</span><span class="n">SimpleInterface</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Copy the x-form matrices from `hdr_file` to `out_file`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">input_spec</span> <span class="o">=</span> <span class="n">_CopyXFormInputSpec</span>
+    <span class="n">output_spec</span> <span class="o">=</span> <span class="n">DynamicTraitedSpec</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">inputs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fields</span> <span class="o">=</span> <span class="n">fields</span> <span class="ow">or</span> <span class="p">[</span><span class="s2">&quot;in_file&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fields</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_fields</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_fields</span><span class="p">]</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">CopyXForm</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">inputs</span><span class="p">)</span>
+
+        <span class="n">add_traits</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fields</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fields</span><span class="p">)</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">inputs</span><span class="o">.</span><span class="n">keys</span><span class="p">())):</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">inputs</span><span class="p">[</span><span class="n">f</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">_outputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">base</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">CopyXForm</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_outputs</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fields</span><span class="p">:</span>
+            <span class="n">fields</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fields</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="k">if</span> <span class="s2">&quot;in_file&quot;</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">:</span>
+                <span class="n">idx</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;in_file&quot;</span><span class="p">)</span>
+                <span class="n">fields</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+                <span class="n">fields</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="s2">&quot;out_file&quot;</span><span class="p">)</span>
+
+            <span class="n">base</span> <span class="o">=</span> <span class="n">add_traits</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">fields</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">base</span>
+
+    <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fields</span><span class="p">:</span>
+            <span class="n">in_files</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="n">f</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">in_files</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="n">in_files</span> <span class="o">=</span> <span class="p">[</span><span class="n">in_files</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">in_file</span> <span class="ow">in</span> <span class="n">in_files</span><span class="p">:</span>
+                <span class="n">out_name</span> <span class="o">=</span> <span class="n">fname_presuffix</span><span class="p">(</span>
+                    <span class="n">in_file</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;_xform&quot;</span><span class="p">,</span> <span class="n">newpath</span><span class="o">=</span><span class="n">runtime</span><span class="o">.</span><span class="n">cwd</span>
+                <span class="p">)</span>
+                <span class="c1"># Copy and replace header</span>
+                <span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">in_file</span><span class="p">,</span> <span class="n">out_name</span><span class="p">)</span>
+                <span class="n">_copyxform</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">hdr_file</span><span class="p">,</span>
+                    <span class="n">out_name</span><span class="p">,</span>
+                    <span class="n">message</span><span class="o">=</span><span class="s2">&quot;CopyXForm (niworkflows v</span><span class="si">%s</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="n">__version__</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="n">f</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">out_name</span><span class="p">)</span>
+
+            <span class="c1"># Flatten out one-element lists</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="n">f</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="n">f</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="n">f</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="n">default</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;in_file&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">default</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="s2">&quot;out_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">default</span>
+        <span class="k">return</span> <span class="n">runtime</span></div>
+
+
+<span class="k">class</span> <span class="nc">_CopyHeaderInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
+    <span class="n">in_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;the file we get the data from&quot;</span><span class="p">)</span>
+    <span class="n">hdr_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;the file we get the header from&quot;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_CopyHeaderOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
+    <span class="n">out_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;written file path&quot;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="CopyHeader"><a class="viewcode-back" href="../../../api/niworkflows.interfaces.utils.html#niworkflows.interfaces.utils.CopyHeader">[docs]</a><span class="k">class</span> <span class="nc">CopyHeader</span><span class="p">(</span><span class="n">SimpleInterface</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Copy a header from the `hdr_file` to `out_file` with data drawn from</span>
+<span class="sd">    `in_file`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">input_spec</span> <span class="o">=</span> <span class="n">_CopyHeaderInputSpec</span>
+    <span class="n">output_spec</span> <span class="o">=</span> <span class="n">_CopyHeaderOutputSpec</span>
+
+    <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
+        <span class="n">in_img</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">hdr_file</span><span class="p">)</span>
+        <span class="n">out_img</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">in_file</span><span class="p">)</span>
+        <span class="n">new_img</span> <span class="o">=</span> <span class="n">out_img</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">out_img</span><span class="o">.</span><span class="n">dataobj</span><span class="p">,</span> <span class="n">in_img</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span> <span class="n">in_img</span><span class="o">.</span><span class="n">header</span><span class="p">)</span>
+        <span class="n">new_img</span><span class="o">.</span><span class="n">set_data_dtype</span><span class="p">(</span><span class="n">out_img</span><span class="o">.</span><span class="n">get_data_dtype</span><span class="p">())</span>
+
+        <span class="n">out_name</span> <span class="o">=</span> <span class="n">fname_presuffix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">in_file</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;_fixhdr&quot;</span><span class="p">,</span> <span class="n">newpath</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+        <span class="n">new_img</span><span class="o">.</span><span class="n">to_filename</span><span class="p">(</span><span class="n">out_name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="s2">&quot;out_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">out_name</span>
+        <span class="k">return</span> <span class="n">runtime</span></div>
+
+
+<span class="k">class</span> <span class="nc">_NormalizeMotionParamsInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
+    <span class="n">in_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;the input parameters file&quot;</span><span class="p">)</span>
+    <span class="nb">format</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Enum</span><span class="p">(</span>
+        <span class="s2">&quot;FSL&quot;</span><span class="p">,</span> <span class="s2">&quot;AFNI&quot;</span><span class="p">,</span> <span class="s2">&quot;FSFAST&quot;</span><span class="p">,</span> <span class="s2">&quot;NIPY&quot;</span><span class="p">,</span> <span class="n">usedefault</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;output format&quot;</span>
+    <span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_NormalizeMotionParamsOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
+    <span class="n">out_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;written file path&quot;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="NormalizeMotionParams"><a class="viewcode-back" href="../../../api/niworkflows.interfaces.utils.html#niworkflows.interfaces.utils.NormalizeMotionParams">[docs]</a><span class="k">class</span> <span class="nc">NormalizeMotionParams</span><span class="p">(</span><span class="n">SimpleInterface</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert input motion parameters into the designated convention.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">input_spec</span> <span class="o">=</span> <span class="n">_NormalizeMotionParamsInputSpec</span>
+    <span class="n">output_spec</span> <span class="o">=</span> <span class="n">_NormalizeMotionParamsOutputSpec</span>
+
+    <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
+        <span class="n">mpars</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">in_file</span><span class="p">)</span>  <span class="c1"># mpars is N_t x 6</span>
+        <span class="n">mpars</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">apply_along_axis</span><span class="p">(</span>
+            <span class="n">func1d</span><span class="o">=</span><span class="n">normalize_mc_params</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">arr</span><span class="o">=</span><span class="n">mpars</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">format</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="s2">&quot;out_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">runtime</span><span class="o">.</span><span class="n">cwd</span><span class="p">,</span> <span class="s2">&quot;motion_params.txt&quot;</span><span class="p">)</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="s2">&quot;out_file&quot;</span><span class="p">],</span> <span class="n">mpars</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">runtime</span></div>
+
+
+<span class="k">class</span> <span class="nc">_GenerateSamplingReferenceInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
+    <span class="n">fixed_image</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span>
+        <span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;the reference file, defines the FoV&quot;</span>
+    <span class="p">)</span>
+    <span class="n">moving_image</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;the pixel size reference&quot;</span><span class="p">)</span>
+    <span class="n">xform_code</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Enum</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">usedefault</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;force xform code&quot;</span><span class="p">)</span>
+    <span class="n">fov_mask</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Either</span><span class="p">(</span>
+        <span class="kc">None</span><span class="p">,</span>
+        <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="n">usedefault</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;mask to clip field of view (in fixed_image space)&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">keep_native</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Bool</span><span class="p">(</span>
+        <span class="kc">True</span><span class="p">,</span>
+        <span class="n">usedefault</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;calculate a grid with native resolution covering &quot;</span>
+        <span class="s2">&quot;the volume extent given by fixed_image, fast forward &quot;</span>
+        <span class="s2">&quot;fixed_image otherwise.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_GenerateSamplingReferenceOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
+    <span class="n">out_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;one file with all inputs flattened&quot;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="GenerateSamplingReference"><a class="viewcode-back" href="../../../api/niworkflows.interfaces.utils.html#niworkflows.interfaces.utils.GenerateSamplingReference">[docs]</a><span class="k">class</span> <span class="nc">GenerateSamplingReference</span><span class="p">(</span><span class="n">SimpleInterface</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generates a reference grid for resampling one image keeping original resolution,</span>
+<span class="sd">    but moving data to a different space (e.g. MNI).</span>
+
+<span class="sd">    If the `fov_mask` optional input is provided, then the abbr:`FoV (field-of-view)`</span>
+<span class="sd">    is cropped to a bounding box containing the brain mask plus an offest of two</span>
+<span class="sd">    voxels along all dimensions. The `fov_mask` should be to the brain mask calculated</span>
+<span class="sd">    from the T1w, and should not contain the brain stem. The mask is resampled into</span>
+<span class="sd">    target space, and then the bounding box is calculated. Finally, the FoV is adjusted</span>
+<span class="sd">    to that bounding box.</span>
+
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">input_spec</span> <span class="o">=</span> <span class="n">_GenerateSamplingReferenceInputSpec</span>
+    <span class="n">output_spec</span> <span class="o">=</span> <span class="n">_GenerateSamplingReferenceOutputSpec</span>
+
+    <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">keep_native</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="s2">&quot;out_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">fixed_image</span>
+            <span class="k">return</span> <span class="n">runtime</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="s2">&quot;out_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_gen_reference</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">fixed_image</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">moving_image</span><span class="p">,</span>
+            <span class="n">fov_mask</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">fov_mask</span><span class="p">,</span>
+            <span class="n">force_xform_code</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">xform_code</span><span class="p">,</span>
+            <span class="n">message</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> (niworkflows v</span><span class="si">%s</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">__version__</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">runtime</span></div>
+
+
+<span class="k">def</span> <span class="nf">_copyxform</span><span class="p">(</span><span class="n">ref_image</span><span class="p">,</span> <span class="n">out_image</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="c1"># Read in reference and output</span>
+    <span class="c1"># Use mmap=False because we will be overwriting the output image</span>
+    <span class="n">resampled</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">out_image</span><span class="p">,</span> <span class="n">mmap</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">orig</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">ref_image</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">orig</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span> <span class="n">resampled</span><span class="o">.</span><span class="n">affine</span><span class="p">):</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+            <span class="s2">&quot;Affines of input and reference images do not match, &quot;</span>
+            <span class="s2">&quot;FMRIPREP will set the reference image headers. &quot;</span>
+            <span class="s2">&quot;Please, check that the x-form matrices of the input dataset&quot;</span>
+            <span class="s2">&quot;are correct and manually verify the alignment of results.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Copy xform infos</span>
+    <span class="n">qform</span><span class="p">,</span> <span class="n">qform_code</span> <span class="o">=</span> <span class="n">orig</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">get_qform</span><span class="p">(</span><span class="n">coded</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">sform</span><span class="p">,</span> <span class="n">sform_code</span> <span class="o">=</span> <span class="n">orig</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">get_sform</span><span class="p">(</span><span class="n">coded</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">header</span> <span class="o">=</span> <span class="n">resampled</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">header</span><span class="o">.</span><span class="n">set_qform</span><span class="p">(</span><span class="n">qform</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">qform_code</span><span class="p">))</span>
+    <span class="n">header</span><span class="o">.</span><span class="n">set_sform</span><span class="p">(</span><span class="n">sform</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">sform_code</span><span class="p">))</span>
+    <span class="n">header</span><span class="p">[</span><span class="s2">&quot;descrip&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;xform matrices modified by </span><span class="si">%s</span><span class="s2">.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">message</span> <span class="ow">or</span> <span class="s2">&quot;(unknown)&quot;</span><span class="p">)</span>
+
+    <span class="n">newimg</span> <span class="o">=</span> <span class="n">resampled</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">resampled</span><span class="o">.</span><span class="n">dataobj</span><span class="p">,</span> <span class="n">orig</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span> <span class="n">header</span><span class="p">)</span>
+    <span class="n">newimg</span><span class="o">.</span><span class="n">to_filename</span><span class="p">(</span><span class="n">out_image</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_gen_reference</span><span class="p">(</span>
+    <span class="n">fixed_image</span><span class="p">,</span>
+    <span class="n">moving_image</span><span class="p">,</span>
+    <span class="n">fov_mask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">out_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">message</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">force_xform_code</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generates a sampling reference, and makes sure xform matrices/codes are</span>
+<span class="sd">    correct</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">out_file</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">out_file</span> <span class="o">=</span> <span class="n">fname_presuffix</span><span class="p">(</span>
+            <span class="n">fixed_image</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;_reference&quot;</span><span class="p">,</span> <span class="n">newpath</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Moving images may not be RAS/LPS (more generally, transverse-longitudinal-axial)</span>
+    <span class="n">reoriented_moving_img</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">as_closest_canonical</span><span class="p">(</span><span class="n">nb</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">moving_image</span><span class="p">))</span>
+    <span class="n">new_zooms</span> <span class="o">=</span> <span class="n">reoriented_moving_img</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">get_zooms</span><span class="p">()[:</span><span class="mi">3</span><span class="p">]</span>
+
+    <span class="c1"># Avoid small differences in reported resolution to cause changes to</span>
+    <span class="c1"># FOV. See https://github.com/nipreps/fmriprep/issues/512</span>
+    <span class="c1"># A positive diagonal affine is RAS, hence the need to reorient above.</span>
+    <span class="n">new_affine</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">new_zooms</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+
+    <span class="n">resampled</span> <span class="o">=</span> <span class="n">nli</span><span class="o">.</span><span class="n">resample_img</span><span class="p">(</span>
+        <span class="n">fixed_image</span><span class="p">,</span> <span class="n">target_affine</span><span class="o">=</span><span class="n">new_affine</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">fov_mask</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># If we have a mask, resample again dropping (empty) samples</span>
+        <span class="c1"># out of the FoV.</span>
+        <span class="n">fixednii</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">fixed_image</span><span class="p">)</span>
+        <span class="n">masknii</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">fov_mask</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">masknii</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span> <span class="o">!=</span> <span class="n">fixednii</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">3</span><span class="p">]):</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Fixed image and mask do not have the same dimensions.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">masknii</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span> <span class="n">fixednii</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Fixed image and mask have different affines&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Get mask into reference space</span>
+        <span class="n">masknii</span> <span class="o">=</span> <span class="n">nli</span><span class="o">.</span><span class="n">resample_img</span><span class="p">(</span>
+            <span class="n">masknii</span><span class="p">,</span> <span class="n">target_affine</span><span class="o">=</span><span class="n">new_affine</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span>
+        <span class="p">)</span>
+        <span class="n">res_shape</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">masknii</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">3</span><span class="p">])</span>
+
+        <span class="c1"># Calculate a bounding box for the input mask</span>
+        <span class="c1"># with an offset of 2 voxels per face</span>
+        <span class="n">bbox</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argwhere</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asanyarray</span><span class="p">(</span><span class="n">masknii</span><span class="o">.</span><span class="n">dataobj</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">new_origin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">bbox</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="p">,</span> <span class="n">a_min</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">a_max</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+        <span class="n">new_end</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">bbox</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="n">a_min</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">a_max</span><span class="o">=</span><span class="n">res_shape</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># Find new origin, and set into new affine</span>
+        <span class="n">new_affine_4</span> <span class="o">=</span> <span class="n">resampled</span><span class="o">.</span><span class="n">affine</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">new_affine_4</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_affine_4</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">new_origin</span><span class="p">)</span> <span class="o">+</span> <span class="n">new_affine_4</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+
+        <span class="c1"># Calculate new shapes</span>
+        <span class="n">new_shape</span> <span class="o">=</span> <span class="n">new_end</span> <span class="o">-</span> <span class="n">new_origin</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">resampled</span> <span class="o">=</span> <span class="n">nli</span><span class="o">.</span><span class="n">resample_img</span><span class="p">(</span>
+            <span class="n">fixed_image</span><span class="p">,</span>
+            <span class="n">target_affine</span><span class="o">=</span><span class="n">new_affine_4</span><span class="p">,</span>
+            <span class="n">target_shape</span><span class="o">=</span><span class="n">new_shape</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
+            <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="n">xform</span> <span class="o">=</span> <span class="n">resampled</span><span class="o">.</span><span class="n">affine</span>  <span class="c1"># nibabel will pick the best affine</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">qform_code</span> <span class="o">=</span> <span class="n">resampled</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">get_qform</span><span class="p">(</span><span class="n">coded</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">sform_code</span> <span class="o">=</span> <span class="n">resampled</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">get_sform</span><span class="p">(</span><span class="n">coded</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">xform_code</span> <span class="o">=</span> <span class="n">sform_code</span> <span class="k">if</span> <span class="n">sform_code</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">qform_code</span>
+    <span class="k">if</span> <span class="n">xform_code</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">xform_code</span> <span class="o">=</span> <span class="mi">2</span>
+
+    <span class="k">if</span> <span class="n">force_xform_code</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">xform_code</span> <span class="o">=</span> <span class="n">force_xform_code</span>
+
+    <span class="c1"># Keep 0, 2, 3, 4 unchanged</span>
+    <span class="n">resampled</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">set_qform</span><span class="p">(</span><span class="n">xform</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">xform_code</span><span class="p">))</span>
+    <span class="n">resampled</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">set_sform</span><span class="p">(</span><span class="n">xform</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">xform_code</span><span class="p">))</span>
+    <span class="n">resampled</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s2">&quot;descrip&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;reference image generated by </span><span class="si">%s</span><span class="s2">.&quot;</span> <span class="o">%</span> <span class="p">(</span>
+        <span class="n">message</span> <span class="ow">or</span> <span class="s2">&quot;(unknown software)&quot;</span>
+    <span class="p">)</span>
+    <span class="n">resampled</span><span class="o">.</span><span class="n">to_filename</span><span class="p">(</span><span class="n">out_file</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">out_file</span>
+
+
+<span class="k">class</span> <span class="nc">_SanitizeImageInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
+    <span class="n">in_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;input image&quot;</span><span class="p">)</span>
+    <span class="n">n_volumes_to_discard</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Int</span><span class="p">(</span>
+        <span class="mi">0</span><span class="p">,</span> <span class="n">usedefault</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;discard n first volumes&quot;</span>
+    <span class="p">)</span>
+    <span class="n">max_32bit</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Bool</span><span class="p">(</span>
+        <span class="kc">False</span><span class="p">,</span>
+        <span class="n">usedefault</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;cast data to float32 if higher &quot;</span> <span class="s2">&quot;precision is encountered&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_SanitizeImageOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
+    <span class="n">out_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;validated image&quot;</span><span class="p">)</span>
+    <span class="n">out_report</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;HTML segment containing warning&quot;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="SanitizeImage"><a class="viewcode-back" href="../../../api/niworkflows.interfaces.utils.html#niworkflows.interfaces.utils.SanitizeImage">[docs]</a><span class="k">class</span> <span class="nc">SanitizeImage</span><span class="p">(</span><span class="n">SimpleInterface</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check the correctness of x-form headers (matrix and code) and fixes</span>
+<span class="sd">    problematic combinations of values. Removes any extension form the header</span>
+<span class="sd">    if present.</span>
+<span class="sd">    This interface implements the `following logic</span>
+<span class="sd">    &lt;https://github.com/nipreps/fmriprep/issues/873#issuecomment-349394544&gt;`_:</span>
+<span class="sd">    +-------------------+------------------+------------------+------------------\</span>
+<span class="sd">+------------------------------------------------+</span>
+<span class="sd">    | valid quaternions | `qform_code &gt; 0` | `sform_code &gt; 0` | `qform == sform` \</span>
+<span class="sd">| actions                                        |</span>
+<span class="sd">    +===================+==================+==================+==================\</span>
+<span class="sd">+================================================+</span>
+<span class="sd">    | True              | True             | True             | True             \</span>
+<span class="sd">| None                                           |</span>
+<span class="sd">    +-------------------+------------------+------------------+------------------\</span>
+<span class="sd">+------------------------------------------------+</span>
+<span class="sd">    | True              | True             | False            | *                \</span>
+<span class="sd">| sform, scode &lt;- qform, qcode                   |</span>
+<span class="sd">    +-------------------+------------------+------------------+------------------\</span>
+<span class="sd">+------------------------------------------------+</span>
+<span class="sd">    | *                 | True             | *                | False            \</span>
+<span class="sd">| sform, scode &lt;- qform, qcode                   |</span>
+<span class="sd">    +-------------------+------------------+------------------+------------------\</span>
+<span class="sd">+------------------------------------------------+</span>
+<span class="sd">    | *                 | False            | True             | *                \</span>
+<span class="sd">| qform, qcode &lt;- sform, scode                   |</span>
+<span class="sd">    +-------------------+------------------+------------------+------------------\</span>
+<span class="sd">+------------------------------------------------+</span>
+<span class="sd">    | *                 | False            | False            | *                \</span>
+<span class="sd">| sform, qform &lt;- best affine; scode, qcode &lt;- 1 |</span>
+<span class="sd">    +-------------------+------------------+------------------+------------------\</span>
+<span class="sd">+------------------------------------------------+</span>
+<span class="sd">    | False             | *                | False            | *                \</span>
+<span class="sd">| sform, qform &lt;- best affine; scode, qcode &lt;- 1 |</span>
+<span class="sd">    +-------------------+------------------+------------------+------------------\</span>
+<span class="sd">+------------------------------------------------+</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">input_spec</span> <span class="o">=</span> <span class="n">_SanitizeImageInputSpec</span>
+    <span class="n">output_spec</span> <span class="o">=</span> <span class="n">_SanitizeImageOutputSpec</span>
+
+    <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">in_file</span><span class="p">)</span>
+        <span class="n">out_report</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">runtime</span><span class="o">.</span><span class="n">cwd</span><span class="p">,</span> <span class="s2">&quot;report.html&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Retrieve xform codes</span>
+        <span class="n">sform_code</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">_structarr</span><span class="p">[</span><span class="s2">&quot;sform_code&quot;</span><span class="p">])</span>
+        <span class="n">qform_code</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">_structarr</span><span class="p">[</span><span class="s2">&quot;qform_code&quot;</span><span class="p">])</span>
+
+        <span class="c1"># Check qform is valid</span>
+        <span class="n">valid_qform</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">img</span><span class="o">.</span><span class="n">get_qform</span><span class="p">()</span>
+            <span class="n">valid_qform</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+        <span class="c1"># Matching affines</span>
+        <span class="n">matching_affines</span> <span class="o">=</span> <span class="n">valid_qform</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">get_qform</span><span class="p">(),</span> <span class="n">img</span><span class="o">.</span><span class="n">get_sform</span><span class="p">())</span>
+
+        <span class="n">save_file</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">warning_txt</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+        <span class="c1"># Both match, qform valid (implicit with match), codes okay -&gt; do nothing, empty report</span>
+        <span class="k">if</span> <span class="n">matching_affines</span> <span class="ow">and</span> <span class="n">qform_code</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">sform_code</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="s2">&quot;out_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">in_file</span>
+            <span class="nb">open</span><span class="p">(</span><span class="n">out_report</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+        <span class="c1"># Row 2:</span>
+        <span class="k">elif</span> <span class="n">valid_qform</span> <span class="ow">and</span> <span class="n">qform_code</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">img</span><span class="o">.</span><span class="n">set_sform</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">get_qform</span><span class="p">(),</span> <span class="n">qform_code</span><span class="p">)</span>
+            <span class="n">save_file</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">warning_txt</span> <span class="o">=</span> <span class="s2">&quot;Note on orientation: sform matrix set&quot;</span>
+            <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">&lt;p class=&quot;elem-desc&quot;&gt;The sform has been copied from qform.&lt;/p&gt;</span>
+<span class="s2">&quot;&quot;&quot;</span>
+        <span class="c1"># Rows 3-4:</span>
+        <span class="c1"># Note: if qform is not valid, matching_affines is False</span>
+        <span class="k">elif</span> <span class="n">sform_code</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="n">matching_affines</span> <span class="ow">or</span> <span class="n">qform_code</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="n">img</span><span class="o">.</span><span class="n">set_qform</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">get_sform</span><span class="p">(),</span> <span class="n">sform_code</span><span class="p">)</span>
+            <span class="n">save_file</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">warning_txt</span> <span class="o">=</span> <span class="s2">&quot;Note on orientation: qform matrix overwritten&quot;</span>
+            <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">&lt;p class=&quot;elem-desc&quot;&gt;The qform has been copied from sform.&lt;/p&gt;</span>
+<span class="s2">&quot;&quot;&quot;</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">valid_qform</span> <span class="ow">and</span> <span class="n">qform_code</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">warning_txt</span> <span class="o">=</span> <span class="s2">&quot;WARNING - Invalid qform information&quot;</span>
+                <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">&lt;p class=&quot;elem-desc&quot;&gt;</span>
+<span class="s2">    The qform matrix found in the file header is invalid.</span>
+<span class="s2">    The qform has been copied from sform.</span>
+<span class="s2">    Checking the original qform information from the data produced</span>
+<span class="s2">    by the scanner is advised.</span>
+<span class="s2">&lt;/p&gt;</span>
+<span class="s2">&quot;&quot;&quot;</span>
+        <span class="c1"># Rows 5-6:</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">affine</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">affine</span>
+            <span class="n">img</span><span class="o">.</span><span class="n">set_sform</span><span class="p">(</span><span class="n">affine</span><span class="p">,</span> <span class="n">nb</span><span class="o">.</span><span class="n">nifti1</span><span class="o">.</span><span class="n">xform_codes</span><span class="p">[</span><span class="s2">&quot;scanner&quot;</span><span class="p">])</span>
+            <span class="n">img</span><span class="o">.</span><span class="n">set_qform</span><span class="p">(</span><span class="n">affine</span><span class="p">,</span> <span class="n">nb</span><span class="o">.</span><span class="n">nifti1</span><span class="o">.</span><span class="n">xform_codes</span><span class="p">[</span><span class="s2">&quot;scanner&quot;</span><span class="p">])</span>
+            <span class="n">save_file</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">warning_txt</span> <span class="o">=</span> <span class="s2">&quot;WARNING - Missing orientation information&quot;</span>
+            <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">&lt;p class=&quot;elem-desc&quot;&gt;</span>
+<span class="s2">    Orientation information could not be retrieved from the image header.</span>
+<span class="s2">    The qform and sform matrices have been set to a default, LAS-oriented affine.</span>
+<span class="s2">    Analyses of this dataset MAY BE INVALID.</span>
+<span class="s2">&lt;/p&gt;</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">max_32bit</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">get_data_dtype</span><span class="p">())</span><span class="o">.</span><span class="n">itemsize</span> <span class="o">&gt;</span> <span class="mi">4</span>
+        <span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">n_volumes_to_discard</span><span class="p">:</span>
+            <span class="c1"># force float32 only if 64 bit dtype is detected</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">max_32bit</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">get_data_dtype</span><span class="p">())</span><span class="o">.</span><span class="n">itemsize</span> <span class="o">&gt;</span> <span class="mi">4</span><span class="p">:</span>
+                <span class="n">in_data</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">in_data</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">dataobj</span>
+
+            <span class="n">img</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">Nifti1Image</span><span class="p">(</span>
+                <span class="n">in_data</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">n_volumes_to_discard</span><span class="p">:],</span>
+                <span class="n">img</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span>
+                <span class="n">img</span><span class="o">.</span><span class="n">header</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">save_file</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">extensions</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">img</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">extensions</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+            <span class="n">save_file</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="c1"># Store new file</span>
+        <span class="k">if</span> <span class="n">save_file</span><span class="p">:</span>
+            <span class="n">out_fname</span> <span class="o">=</span> <span class="n">fname_presuffix</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">in_file</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;_valid&quot;</span><span class="p">,</span> <span class="n">newpath</span><span class="o">=</span><span class="n">runtime</span><span class="o">.</span><span class="n">cwd</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="s2">&quot;out_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">out_fname</span>
+            <span class="n">img</span><span class="o">.</span><span class="n">to_filename</span><span class="p">(</span><span class="n">out_fname</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">warning_txt</span><span class="p">:</span>
+            <span class="n">snippet</span> <span class="o">=</span> <span class="s1">&#39;&lt;h3 class=&quot;elem-title&quot;&gt;</span><span class="si">%s</span><span class="s1">&lt;/h3&gt;</span><span class="se">\n</span><span class="si">%s</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span>
+                <span class="n">warning_txt</span><span class="p">,</span>
+                <span class="n">description</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">out_report</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fobj</span><span class="p">:</span>
+                <span class="n">fobj</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">indent</span><span class="p">(</span><span class="n">snippet</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span> <span class="o">*</span> <span class="mi">3</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="s2">&quot;out_report&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">out_report</span>
+        <span class="k">return</span> <span class="n">runtime</span></div>
+
+
+<span class="k">class</span> <span class="nc">_TPM2ROIInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
+    <span class="n">in_tpm</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span>
+        <span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Tissue probability map file in T1 space&quot;</span>
+    <span class="p">)</span>
+    <span class="n">in_mask</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span>
+        <span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Binary mask of skull-stripped T1w image&quot;</span>
+    <span class="p">)</span>
+    <span class="n">mask_erode_mm</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span>
+        <span class="n">xor</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;mask_erode_prop&quot;</span><span class="p">],</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;erode input mask (kernel width in mm)&quot;</span>
+    <span class="p">)</span>
+    <span class="n">erode_mm</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span>
+        <span class="n">xor</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;erode_prop&quot;</span><span class="p">],</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;erode output mask (kernel width in mm)&quot;</span>
+    <span class="p">)</span>
+    <span class="n">mask_erode_prop</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span>
+        <span class="n">xor</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;mask_erode_mm&quot;</span><span class="p">],</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;erode input mask (target volume ratio)&quot;</span>
+    <span class="p">)</span>
+    <span class="n">erode_prop</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span>
+        <span class="n">xor</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;erode_mm&quot;</span><span class="p">],</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;erode output mask (target volume ratio)&quot;</span>
+    <span class="p">)</span>
+    <span class="n">prob_thresh</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span>
+        <span class="mf">0.95</span><span class="p">,</span> <span class="n">usedefault</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;threshold for the tissue probability maps&quot;</span>
+    <span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_TPM2ROIOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
+    <span class="n">roi_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;output ROI file&quot;</span><span class="p">)</span>
+    <span class="n">eroded_mask</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;resulting eroded mask&quot;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="TPM2ROI"><a class="viewcode-back" href="../../../api/niworkflows.interfaces.utils.html#niworkflows.interfaces.utils.TPM2ROI">[docs]</a><span class="k">class</span> <span class="nc">TPM2ROI</span><span class="p">(</span><span class="n">SimpleInterface</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convert tissue probability maps (TPMs) into ROIs</span>
+
+<span class="sd">    This interface follows the following logic:</span>
+
+<span class="sd">    #. Erode ``in_mask`` by ``mask_erode_mm`` and apply to ``in_tpm``</span>
+<span class="sd">    #. Threshold masked TPM at ``prob_thresh``</span>
+<span class="sd">    #. Erode resulting mask by ``erode_mm``</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">input_spec</span> <span class="o">=</span> <span class="n">_TPM2ROIInputSpec</span>
+    <span class="n">output_spec</span> <span class="o">=</span> <span class="n">_TPM2ROIOutputSpec</span>
+
+    <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
+        <span class="n">mask_erode_mm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mask_erode_mm</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">isdefined</span><span class="p">(</span><span class="n">mask_erode_mm</span><span class="p">):</span>
+            <span class="n">mask_erode_mm</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">erode_mm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">erode_mm</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">isdefined</span><span class="p">(</span><span class="n">erode_mm</span><span class="p">):</span>
+            <span class="n">erode_mm</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">mask_erode_prop</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mask_erode_prop</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">isdefined</span><span class="p">(</span><span class="n">mask_erode_prop</span><span class="p">):</span>
+            <span class="n">mask_erode_prop</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">erode_prop</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">erode_prop</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">isdefined</span><span class="p">(</span><span class="n">erode_prop</span><span class="p">):</span>
+            <span class="n">erode_prop</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">roi_file</span><span class="p">,</span> <span class="n">eroded_mask</span> <span class="o">=</span> <span class="n">_tpm2roi</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">in_tpm</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">in_mask</span><span class="p">,</span>
+            <span class="n">mask_erode_mm</span><span class="p">,</span>
+            <span class="n">erode_mm</span><span class="p">,</span>
+            <span class="n">mask_erode_prop</span><span class="p">,</span>
+            <span class="n">erode_prop</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">prob_thresh</span><span class="p">,</span>
+            <span class="n">newpath</span><span class="o">=</span><span class="n">runtime</span><span class="o">.</span><span class="n">cwd</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="s2">&quot;roi_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">roi_file</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="s2">&quot;eroded_mask&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">eroded_mask</span>
+        <span class="k">return</span> <span class="n">runtime</span></div>
+
+
+<span class="k">class</span> <span class="nc">_AddTPMsInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
+    <span class="n">in_files</span> <span class="o">=</span> <span class="n">InputMultiPath</span><span class="p">(</span>
+        <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">mandatory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;input list of ROIs&quot;</span>
+    <span class="p">)</span>
+    <span class="n">indices</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">traits</span><span class="o">.</span><span class="n">Int</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;select specific maps&quot;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_AddTPMsOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
+    <span class="n">out_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;union of binarized input files&quot;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="AddTPMs"><a class="viewcode-back" href="../../../api/niworkflows.interfaces.utils.html#niworkflows.interfaces.utils.AddTPMs">[docs]</a><span class="k">class</span> <span class="nc">AddTPMs</span><span class="p">(</span><span class="n">SimpleInterface</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate the union of several :abbr:`TPMs (tissue-probability map)`&quot;&quot;&quot;</span>
+
+    <span class="n">input_spec</span> <span class="o">=</span> <span class="n">_AddTPMsInputSpec</span>
+    <span class="n">output_spec</span> <span class="o">=</span> <span class="n">_AddTPMsOutputSpec</span>
+
+    <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
+        <span class="n">in_files</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">in_files</span>
+
+        <span class="n">indices</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">in_files</span><span class="p">)))</span>
+        <span class="k">if</span> <span class="n">isdefined</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">indices</span><span class="p">):</span>
+            <span class="n">indices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">indices</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">in_files</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="s2">&quot;out_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">in_files</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">runtime</span>
+
+        <span class="n">first_fname</span> <span class="o">=</span> <span class="n">in_files</span><span class="p">[</span><span class="n">indices</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="s2">&quot;out_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">first_fname</span>
+            <span class="k">return</span> <span class="n">runtime</span>
+
+        <span class="n">im</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">concat_images</span><span class="p">([</span><span class="n">in_files</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indices</span><span class="p">])</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">a_min</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">a_max</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+
+        <span class="n">out_file</span> <span class="o">=</span> <span class="n">fname_presuffix</span><span class="p">(</span><span class="n">first_fname</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;_tpmsum&quot;</span><span class="p">,</span> <span class="n">newpath</span><span class="o">=</span><span class="n">runtime</span><span class="o">.</span><span class="n">cwd</span><span class="p">)</span>
+        <span class="n">newnii</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">im</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span> <span class="n">im</span><span class="o">.</span><span class="n">header</span><span class="p">)</span>
+        <span class="n">newnii</span><span class="o">.</span><span class="n">set_data_dtype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+
+        <span class="c1"># Set visualization thresholds</span>
+        <span class="n">newnii</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s2">&quot;cal_max&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="n">newnii</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s2">&quot;cal_min&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">newnii</span><span class="o">.</span><span class="n">to_filename</span><span class="p">(</span><span class="n">out_file</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="s2">&quot;out_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">out_file</span>
+
+        <span class="k">return</span> <span class="n">runtime</span></div>
+
+
+<span class="k">class</span> <span class="nc">_AddTSVHeaderInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
+    <span class="n">in_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;input file&quot;</span><span class="p">)</span>
+    <span class="n">columns</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">traits</span><span class="o">.</span><span class="n">Str</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;header for columns&quot;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_AddTSVHeaderOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
+    <span class="n">out_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;output average file&quot;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="AddTSVHeader"><a class="viewcode-back" href="../../../api/niworkflows.interfaces.utils.html#niworkflows.interfaces.utils.AddTSVHeader">[docs]</a><span class="k">class</span> <span class="nc">AddTSVHeader</span><span class="p">(</span><span class="n">SimpleInterface</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Add a header row to a TSV file</span>
+
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">    &gt;&gt;&gt; cwd = os.getcwd()</span>
+<span class="sd">    &gt;&gt;&gt; os.chdir(tmpdir)</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">    An example TSV:</span>
+
+<span class="sd">    &gt;&gt;&gt; np.savetxt(&#39;data.tsv&#39;, np.arange(30).reshape((6, 5)), delimiter=&#39;\t&#39;)</span>
+
+<span class="sd">    Add headers:</span>
+
+<span class="sd">    &gt;&gt;&gt; addheader = AddTSVHeader()</span>
+<span class="sd">    &gt;&gt;&gt; addheader.inputs.in_file = &#39;data.tsv&#39;</span>
+<span class="sd">    &gt;&gt;&gt; addheader.inputs.columns = [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#39;e&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; res = addheader.run()</span>
+<span class="sd">    &gt;&gt;&gt; df = pd.read_csv(res.outputs.out_file, delim_whitespace=True,</span>
+<span class="sd">    ...                  index_col=None)</span>
+<span class="sd">    &gt;&gt;&gt; df.columns.ravel().tolist()</span>
+<span class="sd">    [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#39;e&#39;]</span>
+
+<span class="sd">    &gt;&gt;&gt; np.all(df.values == np.arange(30).reshape((6, 5)))</span>
+<span class="sd">    True</span>
+
+<span class="sd">    .. testcleanup::</span>
+
+<span class="sd">    &gt;&gt;&gt; os.chdir(cwd)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">input_spec</span> <span class="o">=</span> <span class="n">_AddTSVHeaderInputSpec</span>
+    <span class="n">output_spec</span> <span class="o">=</span> <span class="n">_AddTSVHeaderOutputSpec</span>
+
+    <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
+        <span class="n">out_file</span> <span class="o">=</span> <span class="n">fname_presuffix</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">in_file</span><span class="p">,</span>
+            <span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;_motion.tsv&quot;</span><span class="p">,</span>
+            <span class="n">newpath</span><span class="o">=</span><span class="n">runtime</span><span class="o">.</span><span class="n">cwd</span><span class="p">,</span>
+            <span class="n">use_ext</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">in_file</span><span class="p">)</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span>
+            <span class="n">out_file</span><span class="p">,</span>
+            <span class="n">data</span><span class="p">,</span>
+            <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">header</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">columns</span><span class="p">),</span>
+            <span class="n">comments</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="s2">&quot;out_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">out_file</span>
+        <span class="k">return</span> <span class="n">runtime</span></div>
+
+
+<span class="k">class</span> <span class="nc">_JoinTSVColumnsInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
+    <span class="n">in_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;input file&quot;</span><span class="p">)</span>
+    <span class="n">join_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;file to be adjoined&quot;</span><span class="p">)</span>
+    <span class="n">side</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Enum</span><span class="p">(</span><span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="n">usedefault</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;where to join&quot;</span><span class="p">)</span>
+    <span class="n">columns</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">traits</span><span class="o">.</span><span class="n">Str</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;header for columns&quot;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_JoinTSVColumnsOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
+    <span class="n">out_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;output TSV file&quot;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="JoinTSVColumns"><a class="viewcode-back" href="../../../api/niworkflows.interfaces.utils.html#niworkflows.interfaces.utils.JoinTSVColumns">[docs]</a><span class="k">class</span> <span class="nc">JoinTSVColumns</span><span class="p">(</span><span class="n">SimpleInterface</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Add a header row to a TSV file</span>
+
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">    &gt;&gt;&gt; cwd = os.getcwd()</span>
+<span class="sd">    &gt;&gt;&gt; os.chdir(tmpdir)</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">    An example TSV:</span>
+
+<span class="sd">    &gt;&gt;&gt; data = np.arange(30).reshape((6, 5))</span>
+<span class="sd">    &gt;&gt;&gt; np.savetxt(&#39;data.tsv&#39;, data[:, :3], delimiter=&#39;\t&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; np.savetxt(&#39;add.tsv&#39;, data[:, 3:], delimiter=&#39;\t&#39;)</span>
+
+<span class="sd">    Join without naming headers:</span>
+
+<span class="sd">    &gt;&gt;&gt; join = JoinTSVColumns()</span>
+<span class="sd">    &gt;&gt;&gt; join.inputs.in_file = &#39;data.tsv&#39;</span>
+<span class="sd">    &gt;&gt;&gt; join.inputs.join_file = &#39;add.tsv&#39;</span>
+<span class="sd">    &gt;&gt;&gt; res = join.run()</span>
+<span class="sd">    &gt;&gt;&gt; df = pd.read_csv(res.outputs.out_file, delim_whitespace=True,</span>
+<span class="sd">    ...                  index_col=None, dtype=float, header=None)</span>
+<span class="sd">    &gt;&gt;&gt; df.columns.ravel().tolist() == list(range(5))</span>
+<span class="sd">    True</span>
+
+<span class="sd">    &gt;&gt;&gt; np.all(df.values.astype(int) == data)</span>
+<span class="sd">    True</span>
+
+
+<span class="sd">    Adding column names:</span>
+
+<span class="sd">    &gt;&gt;&gt; join = JoinTSVColumns()</span>
+<span class="sd">    &gt;&gt;&gt; join.inputs.in_file = &#39;data.tsv&#39;</span>
+<span class="sd">    &gt;&gt;&gt; join.inputs.join_file = &#39;add.tsv&#39;</span>
+<span class="sd">    &gt;&gt;&gt; join.inputs.columns = [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#39;e&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; res = join.run()</span>
+<span class="sd">    &gt;&gt;&gt; res.outputs.out_file  # doctest: +ELLIPSIS</span>
+<span class="sd">    &#39;...data_joined.tsv&#39;</span>
+<span class="sd">    &gt;&gt;&gt; df = pd.read_csv(res.outputs.out_file, delim_whitespace=True,</span>
+<span class="sd">    ...                  index_col=None)</span>
+<span class="sd">    &gt;&gt;&gt; df.columns.ravel().tolist()</span>
+<span class="sd">    [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#39;e&#39;]</span>
+
+<span class="sd">    &gt;&gt;&gt; np.all(df.values == np.arange(30).reshape((6, 5)))</span>
+<span class="sd">    True</span>
+
+<span class="sd">    &gt;&gt;&gt; join = JoinTSVColumns()</span>
+<span class="sd">    &gt;&gt;&gt; join.inputs.in_file = &#39;data.tsv&#39;</span>
+<span class="sd">    &gt;&gt;&gt; join.inputs.join_file = &#39;add.tsv&#39;</span>
+<span class="sd">    &gt;&gt;&gt; join.inputs.side = &#39;left&#39;</span>
+<span class="sd">    &gt;&gt;&gt; join.inputs.columns = [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#39;e&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; res = join.run()</span>
+<span class="sd">    &gt;&gt;&gt; df = pd.read_csv(res.outputs.out_file, delim_whitespace=True,</span>
+<span class="sd">    ...                  index_col=None)</span>
+<span class="sd">    &gt;&gt;&gt; df.columns.ravel().tolist()</span>
+<span class="sd">    [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#39;e&#39;]</span>
+
+<span class="sd">    &gt;&gt;&gt; np.all(df.values == np.hstack((data[:, 3:], data[:, :3])))</span>
+<span class="sd">    True</span>
+
+<span class="sd">    .. testcleanup::</span>
+
+<span class="sd">    &gt;&gt;&gt; os.chdir(cwd)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">input_spec</span> <span class="o">=</span> <span class="n">_JoinTSVColumnsInputSpec</span>
+    <span class="n">output_spec</span> <span class="o">=</span> <span class="n">_JoinTSVColumnsOutputSpec</span>
+
+    <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
+        <span class="n">out_file</span> <span class="o">=</span> <span class="n">fname_presuffix</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">in_file</span><span class="p">,</span>
+            <span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;_joined.tsv&quot;</span><span class="p">,</span>
+            <span class="n">newpath</span><span class="o">=</span><span class="n">runtime</span><span class="o">.</span><span class="n">cwd</span><span class="p">,</span>
+            <span class="n">use_ext</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">header</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">isdefined</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="n">header</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">in_file</span><span class="p">)</span> <span class="k">as</span> <span class="n">ifh</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">ifh</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">(</span><span class="n">keepends</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">join_file</span><span class="p">)</span> <span class="k">as</span> <span class="n">ifh</span><span class="p">:</span>
+            <span class="n">join</span> <span class="o">=</span> <span class="n">ifh</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">(</span><span class="n">keepends</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">join</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Number of columns in datasets do not match&quot;</span><span class="p">)</span>
+
+        <span class="n">merged</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">d</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">join</span><span class="p">):</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="se">\t</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">((</span><span class="n">j</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">side</span> <span class="o">==</span> <span class="s2">&quot;left&quot;</span> <span class="k">else</span> <span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">j</span><span class="p">))</span>
+            <span class="n">merged</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">header</span><span class="p">:</span>
+            <span class="n">merged</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">header</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">out_file</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ofh</span><span class="p">:</span>
+            <span class="n">ofh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">merged</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="s2">&quot;out_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">out_file</span>
+        <span class="k">return</span> <span class="n">runtime</span></div>
+
+
+<span class="k">class</span> <span class="nc">_DictMergeInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
+    <span class="n">in_dicts</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">List</span><span class="p">(</span>
+        <span class="n">traits</span><span class="o">.</span><span class="n">Either</span><span class="p">(</span><span class="n">traits</span><span class="o">.</span><span class="n">Dict</span><span class="p">,</span> <span class="n">traits</span><span class="o">.</span><span class="n">Instance</span><span class="p">(</span><span class="n">OrderedDict</span><span class="p">)),</span>
+        <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Dictionaries to be merged. In the event of a collision, values &quot;</span>
+        <span class="s2">&quot;from dictionaries later in the list receive precedence.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_DictMergeOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
+    <span class="n">out_dict</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Dict</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Merged dictionary&quot;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="DictMerge"><a class="viewcode-back" href="../../../api/niworkflows.interfaces.utils.html#niworkflows.interfaces.utils.DictMerge">[docs]</a><span class="k">class</span> <span class="nc">DictMerge</span><span class="p">(</span><span class="n">SimpleInterface</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Merge (ordered) dictionaries.&quot;&quot;&quot;</span>
+
+    <span class="n">input_spec</span> <span class="o">=</span> <span class="n">_DictMergeInputSpec</span>
+    <span class="n">output_spec</span> <span class="o">=</span> <span class="n">_DictMergeOutputSpec</span>
+
+    <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
+        <span class="n">out_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">in_dict</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">in_dicts</span><span class="p">:</span>
+            <span class="n">out_dict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">in_dict</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="s2">&quot;out_dict&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">out_dict</span>
+        <span class="k">return</span> <span class="n">runtime</span></div>
+
+
+<span class="k">class</span> <span class="nc">_TSV2JSONInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
+    <span class="n">in_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Input TSV file&quot;</span><span class="p">)</span>
+    <span class="n">index_column</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Str</span><span class="p">(</span>
+        <span class="n">mandatory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Name of the column in the TSV to be used &quot;</span>
+        <span class="s2">&quot;as the top-level key in the JSON. All &quot;</span>
+        <span class="s2">&quot;remaining columns will be assigned as &quot;</span>
+        <span class="s2">&quot;nested keys.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Either</span><span class="p">(</span>
+        <span class="kc">None</span><span class="p">,</span>
+        <span class="n">File</span><span class="p">,</span>
+        <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Path where the output file is to be saved. &quot;</span>
+        <span class="s2">&quot;If this is `None`, then a JSON-compatible &quot;</span>
+        <span class="s2">&quot;dictionary is returned instead.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">additional_metadata</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Either</span><span class="p">(</span>
+        <span class="kc">None</span><span class="p">,</span>
+        <span class="n">traits</span><span class="o">.</span><span class="n">Dict</span><span class="p">,</span>
+        <span class="n">traits</span><span class="o">.</span><span class="n">Instance</span><span class="p">(</span><span class="n">OrderedDict</span><span class="p">),</span>
+        <span class="n">usedefault</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Any additional metadata that &quot;</span>
+        <span class="s2">&quot;should be applied to all &quot;</span>
+        <span class="s2">&quot;entries in the JSON.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">drop_columns</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Either</span><span class="p">(</span>
+        <span class="kc">None</span><span class="p">,</span>
+        <span class="n">traits</span><span class="o">.</span><span class="n">List</span><span class="p">(),</span>
+        <span class="n">usedefault</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;List of columns in the TSV to be &quot;</span> <span class="s2">&quot;dropped from the JSON.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">enforce_case</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Bool</span><span class="p">(</span>
+        <span class="kc">True</span><span class="p">,</span>
+        <span class="n">usedefault</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Enforce snake case for top-level keys &quot;</span> <span class="s2">&quot;and camel case for nested keys&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_TSV2JSONOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Either</span><span class="p">(</span>
+        <span class="n">traits</span><span class="o">.</span><span class="n">Dict</span><span class="p">,</span>
+        <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="n">traits</span><span class="o">.</span><span class="n">Instance</span><span class="p">(</span><span class="n">OrderedDict</span><span class="p">),</span>
+        <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Output dictionary or JSON file&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+
+<div class="viewcode-block" id="TSV2JSON"><a class="viewcode-back" href="../../../api/niworkflows.interfaces.utils.html#niworkflows.interfaces.utils.TSV2JSON">[docs]</a><span class="k">class</span> <span class="nc">TSV2JSON</span><span class="p">(</span><span class="n">SimpleInterface</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convert metadata from TSV format to JSON format.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">input_spec</span> <span class="o">=</span> <span class="n">_TSV2JSONInputSpec</span>
+    <span class="n">output_spec</span> <span class="o">=</span> <span class="n">_TSV2JSONOutputSpec</span>
+
+    <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">isdefined</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">output</span><span class="p">):</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="n">fname_presuffix</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">in_file</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;.json&quot;</span><span class="p">,</span> <span class="n">newpath</span><span class="o">=</span><span class="n">runtime</span><span class="o">.</span><span class="n">cwd</span><span class="p">,</span> <span class="n">use_ext</span><span class="o">=</span><span class="kc">False</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">output</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="s2">&quot;output&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_tsv2json</span><span class="p">(</span>
+            <span class="n">in_tsv</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">in_file</span><span class="p">,</span>
+            <span class="n">out_json</span><span class="o">=</span><span class="n">output</span><span class="p">,</span>
+            <span class="n">index_column</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">index_column</span><span class="p">,</span>
+            <span class="n">additional_metadata</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">additional_metadata</span><span class="p">,</span>
+            <span class="n">drop_columns</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">drop_columns</span><span class="p">,</span>
+            <span class="n">enforce_case</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">enforce_case</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">runtime</span></div>
+
+
+<span class="k">def</span> <span class="nf">_tsv2json</span><span class="p">(</span>
+    <span class="n">in_tsv</span><span class="p">,</span>
+    <span class="n">out_json</span><span class="p">,</span>
+    <span class="n">index_column</span><span class="p">,</span>
+    <span class="n">additional_metadata</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">drop_columns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">enforce_case</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert metadata from TSV format to JSON format.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    in_tsv: str</span>
+<span class="sd">        Path to the metadata in TSV format.</span>
+<span class="sd">    out_json: str</span>
+<span class="sd">        Path where the metadata should be saved in JSON format after</span>
+<span class="sd">        conversion. If this is None, then a dictionary is returned instead.</span>
+<span class="sd">    index_column: str</span>
+<span class="sd">        Name of the column in the TSV to be used as an index (top-level key in</span>
+<span class="sd">        the JSON).</span>
+<span class="sd">    additional_metadata: dict</span>
+<span class="sd">        Any additional metadata that should be applied to all entries in the</span>
+<span class="sd">        JSON.</span>
+<span class="sd">    drop_columns: list</span>
+<span class="sd">        List of columns from the input TSV to be dropped from the JSON.</span>
+<span class="sd">    enforce_case: bool</span>
+<span class="sd">        Indicates whether BIDS case conventions should be followed. Currently,</span>
+<span class="sd">        this means that index fields (column names in the associated data TSV)</span>
+<span class="sd">        use snake case and other fields use camel case.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str</span>
+<span class="sd">        Path to the metadata saved in JSON format.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+    <span class="c1"># Adapted from https://dev.to/rrampage/snake-case-to-camel-case-and- ...</span>
+    <span class="c1"># back-using-regular-expressions-and-python-m9j</span>
+    <span class="n">re_to_camel</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;(.*?)_([a-zA-Z0-9])&quot;</span>
+    <span class="n">re_to_snake</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;(^.+?|.*?)((?&lt;![_A-Z])[A-Z]|(?&lt;![_0-9])[0-9]+)&quot;</span>
+
+    <span class="k">def</span> <span class="nf">snake</span><span class="p">(</span><span class="n">match</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">_</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="nf">camel</span><span class="p">(</span><span class="n">match</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
+
+    <span class="c1"># from fmriprep</span>
+    <span class="k">def</span> <span class="nf">less_breakable</span><span class="p">(</span><span class="n">a_string</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; hardens the string to different envs (i.e. case insensitive, no</span>
+<span class="sd">        whitespace, &#39;#&#39; &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">a_string</span><span class="o">.</span><span class="n">split</span><span class="p">())</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="p">)</span>
+
+    <span class="n">drop_columns</span> <span class="o">=</span> <span class="n">drop_columns</span> <span class="ow">or</span> <span class="p">[]</span>
+    <span class="n">additional_metadata</span> <span class="o">=</span> <span class="n">additional_metadata</span> <span class="ow">or</span> <span class="p">{}</span>
+    <span class="n">tsv_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">in_tsv</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">additional_metadata</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">tsv_data</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">tsv_data</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">drop_columns</span><span class="p">:</span>
+        <span class="n">tsv_data</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="n">col</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;columns&quot;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">tsv_data</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">index_column</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">enforce_case</span><span class="p">:</span>
+        <span class="n">tsv_data</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">re_to_snake</span><span class="p">,</span> <span class="n">snake</span><span class="p">,</span> <span class="n">less_breakable</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tsv_data</span><span class="o">.</span><span class="n">index</span>
+        <span class="p">]</span>
+        <span class="n">tsv_data</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">re_to_camel</span><span class="p">,</span> <span class="n">camel</span><span class="p">,</span> <span class="n">less_breakable</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">(),</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;Csf&quot;</span><span class="p">,</span> <span class="s2">&quot;CSF&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tsv_data</span><span class="o">.</span><span class="n">columns</span>
+        <span class="p">]</span>
+    <span class="n">json_data</span> <span class="o">=</span> <span class="n">tsv_data</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="n">orient</span><span class="o">=</span><span class="s2">&quot;index&quot;</span><span class="p">)</span>
+    <span class="n">json_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">JSONDecoder</span><span class="p">(</span><span class="n">object_pairs_hook</span><span class="o">=</span><span class="n">OrderedDict</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">json_data</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">json_data</span><span class="p">:</span>
+        <span class="n">json_data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">additional_metadata</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">out_json</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">json_data</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">out_json</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">json_data</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">out_json</span>
+
+
+<span class="k">def</span> <span class="nf">_tpm2roi</span><span class="p">(</span>
+    <span class="n">in_tpm</span><span class="p">,</span>
+    <span class="n">in_mask</span><span class="p">,</span>
+    <span class="n">mask_erosion_mm</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">erosion_mm</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">mask_erosion_prop</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">erosion_prop</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">pthres</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span>
+    <span class="n">newpath</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate a mask from a tissue probability map</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">tpm_img</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">in_tpm</span><span class="p">)</span>
+    <span class="n">roi_mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">tpm_img</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="n">pthres</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+
+    <span class="n">eroded_mask_file</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">erode_in</span> <span class="o">=</span> <span class="p">(</span><span class="n">mask_erosion_mm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">mask_erosion_mm</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span>
+        <span class="n">mask_erosion_prop</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">mask_erosion_prop</span> <span class="o">&lt;</span> <span class="mi">1</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">erode_in</span><span class="p">:</span>
+        <span class="n">eroded_mask_file</span> <span class="o">=</span> <span class="n">fname_presuffix</span><span class="p">(</span><span class="n">in_mask</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;_eroded&quot;</span><span class="p">,</span> <span class="n">newpath</span><span class="o">=</span><span class="n">newpath</span><span class="p">)</span>
+        <span class="n">mask_img</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">in_mask</span><span class="p">)</span>
+        <span class="n">mask_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asanyarray</span><span class="p">(</span><span class="n">mask_img</span><span class="o">.</span><span class="n">dataobj</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">mask_erosion_mm</span><span class="p">:</span>
+            <span class="n">iter_n</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">mask_erosion_mm</span> <span class="o">/</span> <span class="nb">max</span><span class="p">(</span><span class="n">mask_img</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">get_zooms</span><span class="p">())),</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">mask_data</span> <span class="o">=</span> <span class="n">nd</span><span class="o">.</span><span class="n">binary_erosion</span><span class="p">(</span><span class="n">mask_data</span><span class="p">,</span> <span class="n">iterations</span><span class="o">=</span><span class="n">iter_n</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">orig_vol</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">mask_data</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="k">while</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">mask_data</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">/</span> <span class="n">orig_vol</span> <span class="o">&gt;</span> <span class="n">mask_erosion_prop</span><span class="p">:</span>
+                <span class="n">mask_data</span> <span class="o">=</span> <span class="n">nd</span><span class="o">.</span><span class="n">binary_erosion</span><span class="p">(</span><span class="n">mask_data</span><span class="p">,</span> <span class="n">iterations</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># Store mask</span>
+        <span class="n">eroded</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">Nifti1Image</span><span class="p">(</span><span class="n">mask_data</span><span class="p">,</span> <span class="n">mask_img</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span> <span class="n">mask_img</span><span class="o">.</span><span class="n">header</span><span class="p">)</span>
+        <span class="n">eroded</span><span class="o">.</span><span class="n">set_data_dtype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+        <span class="n">eroded</span><span class="o">.</span><span class="n">to_filename</span><span class="p">(</span><span class="n">eroded_mask_file</span><span class="p">)</span>
+
+        <span class="c1"># Mask TPM data (no effect if not eroded)</span>
+        <span class="n">roi_mask</span><span class="p">[</span><span class="o">~</span><span class="n">mask_data</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1"># shrinking</span>
+    <span class="n">erode_out</span> <span class="o">=</span> <span class="p">(</span><span class="n">erosion_mm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">erosion_mm</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span>
+        <span class="n">erosion_prop</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">erosion_prop</span> <span class="o">&lt;</span> <span class="mi">1</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">erode_out</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">erosion_mm</span><span class="p">:</span>
+            <span class="n">iter_n</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">erosion_mm</span> <span class="o">/</span> <span class="nb">max</span><span class="p">(</span><span class="n">tpm_img</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">get_zooms</span><span class="p">())),</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">iter_n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">erosion_mm</span> <span class="o">/</span> <span class="nb">max</span><span class="p">(</span><span class="n">tpm_img</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">get_zooms</span><span class="p">()))</span>
+            <span class="n">roi_mask</span> <span class="o">=</span> <span class="n">nd</span><span class="o">.</span><span class="n">binary_erosion</span><span class="p">(</span><span class="n">roi_mask</span><span class="p">,</span> <span class="n">iterations</span><span class="o">=</span><span class="n">iter_n</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">orig_vol</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">roi_mask</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="k">while</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">roi_mask</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">/</span> <span class="n">orig_vol</span> <span class="o">&gt;</span> <span class="n">erosion_prop</span><span class="p">:</span>
+                <span class="n">roi_mask</span> <span class="o">=</span> <span class="n">nd</span><span class="o">.</span><span class="n">binary_erosion</span><span class="p">(</span><span class="n">roi_mask</span><span class="p">,</span> <span class="n">iterations</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># Create image to resample</span>
+    <span class="n">roi_fname</span> <span class="o">=</span> <span class="n">fname_presuffix</span><span class="p">(</span><span class="n">in_tpm</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;_roi&quot;</span><span class="p">,</span> <span class="n">newpath</span><span class="o">=</span><span class="n">newpath</span><span class="p">)</span>
+    <span class="n">roi_img</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">Nifti1Image</span><span class="p">(</span><span class="n">roi_mask</span><span class="p">,</span> <span class="n">tpm_img</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span> <span class="n">tpm_img</span><span class="o">.</span><span class="n">header</span><span class="p">)</span>
+    <span class="n">roi_img</span><span class="o">.</span><span class="n">set_data_dtype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+    <span class="n">roi_img</span><span class="o">.</span><span class="n">to_filename</span><span class="p">(</span><span class="n">roi_fname</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">roi_fname</span><span class="p">,</span> <span class="n">eroded_mask_file</span> <span class="ow">or</span> <span class="n">in_mask</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright Copyright 2021, Center for Reproducible Neuroscience, Stanford University.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+        <span class="fa fa-book"> Other Versions</span>
+        v: 1.2.7
+        <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+        <dl>
+            <dt>Tags</dt>
+            <dd><a href="../../../../1.0.0/index.html">1.0.0</a></dd>
+            <dd><a href="../../../../1.0.0rc1/index.html">1.0.0rc1</a></dd>
+            <dd><a href="../../../../1.0.0rc2/index.html">1.0.0rc2</a></dd>
+            <dd><a href="../../../../1.0.1/index.html">1.0.1</a></dd>
+            <dd><a href="../../../../1.0.2/index.html">1.0.2</a></dd>
+            <dd><a href="../../../../1.0.3/index.html">1.0.3</a></dd>
+            <dd><a href="../../../../1.0.4/index.html">1.0.4</a></dd>
+            <dd><a href="../../../../1.1.0/index.html">1.1.0</a></dd>
+            <dd><a href="../../../../1.1.1/index.html">1.1.1</a></dd>
+            <dd><a href="../../../../1.1.10/index.html">1.1.10</a></dd>
+            <dd><a href="../../../../1.1.11/index.html">1.1.11</a></dd>
+            <dd><a href="../../../../1.1.12/index.html">1.1.12</a></dd>
+            <dd><a href="../../../../1.1.2/index.html">1.1.2</a></dd>
+            <dd><a href="../../../../1.1.3/index.html">1.1.3</a></dd>
+            <dd><a href="../../../../1.1.4/index.html">1.1.4</a></dd>
+            <dd><a href="../../../../1.1.5/index.html">1.1.5</a></dd>
+            <dd><a href="../../../../1.1.6/index.html">1.1.6</a></dd>
+            <dd><a href="../../../../1.1.7/index.html">1.1.7</a></dd>
+            <dd><a href="../../../../1.1.8/index.html">1.1.8</a></dd>
+            <dd><a href="../../../../1.1.9/index.html">1.1.9</a></dd>
+            <dd><a href="../../../../1.2.0/index.html">1.2.0</a></dd>
+            <dd><a href="../../../../1.2.0rc1/index.html">1.2.0rc1</a></dd>
+            <dd><a href="../../../../1.2.0rc2/index.html">1.2.0rc2</a></dd>
+            <dd><a href="../../../../1.2.0rc3/index.html">1.2.0rc3</a></dd>
+            <dd><a href="../../../../1.2.0rc4/index.html">1.2.0rc4</a></dd>
+            <dd><a href="../../../../1.2.0rc5/index.html">1.2.0rc5</a></dd>
+            <dd><a href="../../../../1.2.1/index.html">1.2.1</a></dd>
+            <dd><a href="../../../../1.2.2/index.html">1.2.2</a></dd>
+            <dd><a href="../../../../1.2.3/index.html">1.2.3</a></dd>
+            <dd><a href="../../../../1.2.4/index.html">1.2.4</a></dd>
+            <dd><a href="../../../../1.2.5/index.html">1.2.5</a></dd>
+            <dd><a href="../../../../1.2.6/index.html">1.2.6</a></dd>
+            <dd><a href="utils.html">1.2.7</a></dd>
+            <dd><a href="../../../../1.2.8/index.html">1.2.8</a></dd>
+            <dd><a href="../../../../1.2.9/index.html">1.2.9</a></dd>
+            <dd><a href="../../../../1.3.0/index.html">1.3.0</a></dd>
+            <dd><a href="../../../../1.3.0rc1/index.html">1.3.0rc1</a></dd>
+            <dd><a href="../../../../1.3.0rc2/index.html">1.3.0rc2</a></dd>
+            <dd><a href="../../../../1.3.0rc3/index.html">1.3.0rc3</a></dd>
+            <dd><a href="../../../../1.3.1/index.html">1.3.1</a></dd>
+            <dd><a href="../../../../1.3.2/index.html">1.3.2</a></dd>
+            <dd><a href="../../../../1.3.3/index.html">1.3.3</a></dd>
+            <dd><a href="../../../../1.4.0rc0/index.html">1.4.0rc0</a></dd>
+            <dd><a href="../../../../1.4.0rc1/index.html">1.4.0rc1</a></dd>
+            <dd><a href="../../../../1.4.0rc2/index.html">1.4.0rc2</a></dd>
+            <dd><a href="../../../../1.4.0rc3/index.html">1.4.0rc3</a></dd>
+            <dd><a href="../../../../1.4.0rc4/index.html">1.4.0rc4</a></dd>
+            <dd><a href="../../../../1.4.0rc5/index.html">1.4.0rc5</a></dd>
+        </dl>
+        <dl>
+            <dt>Branches</dt>
+            <dd><a href="../../../../maint_1.0.x/index.html">maint/1.0.x</a></dd>
+            <dd><a href="../../../../maint_1.1.x/index.html">maint/1.1.x</a></dd>
+            <dd><a href="../../../../maint_1.2.x/index.html">maint/1.2.x</a></dd>
+            <dd><a href="../../../../maint_1.3.x/index.html">maint/1.3.x</a></dd>
+            <dd><a href="../../../../master/index.html">master</a></dd>
+        </dl>
+    </div>
+</div>
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

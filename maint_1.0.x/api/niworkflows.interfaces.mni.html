@@ -4,10 +4,11 @@
 <html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" />
-  
+  <meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>niworkflows.interfaces.mni module &mdash; niworkflows 1.4.0rc5+7.g616d2bca documentation</title>
+  <title>niworkflows.interfaces.mni module &mdash; niworkflows 1.3.3 documentation</title>
   
 
   
@@ -33,6 +34,8 @@
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -64,7 +67,7 @@
             
             
               <div class="version">
-                1.4.0
+                1.3.3
               </div>
             
           
@@ -209,9 +212,81 @@
 
 
     <p class="scv-banner scv-sphinx_rtd_theme"><b>Warning:</b> This document is for the development version of niworkflows.</p>
-<div class="section" id="niworkflows-interfaces-mni-module">
-<h1>niworkflows.interfaces.mni module<a class="headerlink" href="#niworkflows-interfaces-mni-module" title="Permalink to this headline">¶</a></h1>
-</div>
+<section id="module-niworkflows.interfaces.mni">
+<span id="niworkflows-interfaces-mni-module"></span><h1>niworkflows.interfaces.mni module<a class="headerlink" href="#module-niworkflows.interfaces.mni" title="Permalink to this headline">¶</a></h1>
+<p>A robust ANTs T1-to-MNI registration workflow with fallback retry.</p>
+<dl class="class">
+<dt id="niworkflows.interfaces.mni.RobustMNINormalization">
+<em class="property">class </em><code class="sig-prename descclassname">niworkflows.interfaces.mni.</code><code class="sig-name descname">RobustMNINormalization</code><span class="sig-paren">(</span><em class="sig-param">**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/mni.html#RobustMNINormalization"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.interfaces.mni.RobustMNINormalization" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">nipype.interfaces.base.core.BaseInterface</span></code></p>
+<p>An interface to robustly run T1-to-MNI spatial normalization.</p>
+<p>Several settings are sequentially tried until some work.</p>
+<dl class="attribute">
+<dt id="niworkflows.interfaces.mni.RobustMNINormalization.input_spec">
+<code class="sig-name descname">input_spec</code><a class="headerlink" href="#niworkflows.interfaces.mni.RobustMNINormalization.input_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_RobustMNINormalizationInputSpec</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="niworkflows.interfaces.mni.RobustMNINormalization.output_spec">
+<code class="sig-name descname">output_spec</code><a class="headerlink" href="#niworkflows.interfaces.mni.RobustMNINormalization.output_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_RobustMNINormalizationOutputSpec</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="niworkflows.interfaces.mni.create_cfm">
+<code class="sig-prename descclassname">niworkflows.interfaces.mni.</code><code class="sig-name descname">create_cfm</code><span class="sig-paren">(</span><em class="sig-param">in_file</em>, <em class="sig-param">lesion_mask=None</em>, <em class="sig-param">global_mask=True</em>, <em class="sig-param">out_path=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/mni.html#create_cfm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.interfaces.mni.create_cfm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a mask to constrain registration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in_file</strong> (<em>str</em>) – Path to an existing image (usually a mask).
+If global_mask = True, this is used as a size/dimension reference.</p></li>
+<li><p><strong>out_path</strong> (<em>str</em>) – Path/filename for the new cost function mask.</p></li>
+<li><p><strong>lesion_mask</strong> (<em>str, optional</em>) – Path to an existing binary lesion mask.</p></li>
+<li><p><strong>global_mask</strong> (<em>bool</em>) – Create a whole-image mask (True) or limit to reference mask (False)
+A whole image-mask is 1 everywhere</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Absolute path of the new cost function mask.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>in_file and lesion_mask must be in the same
+image space and have the same dimensions</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="niworkflows.interfaces.mni.mask">
+<code class="sig-prename descclassname">niworkflows.interfaces.mni.</code><code class="sig-name descname">mask</code><span class="sig-paren">(</span><em class="sig-param">in_file</em>, <em class="sig-param">mask_file</em>, <em class="sig-param">new_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/mni.html#mask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.interfaces.mni.mask" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply a binary mask to an image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in_file</strong> (<em>str</em>) – Path to a NIfTI file to mask</p></li>
+<li><p><strong>mask_file</strong> (<em>str</em>) – Path to a binary mask</p></li>
+<li><p><strong>new_name</strong> (<em>str</em>) – Path/filename for the masked output image.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Absolute path of the masked output image.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>in_file and mask_file must be in the same
+image space and have the same dimensions.</p>
+</dd></dl>
+
+</section>
 
 
            </div>
@@ -227,7 +302,7 @@
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright Copyright 2021, The NiPreps Developers.
+        &#169; Copyright Copyright 2021, Center for Reproducible Neuroscience, Stanford University.
 
     </p>
   </div>
@@ -298,6 +373,7 @@
             <dd><a href="../../1.3.0rc3/api/niworkflows.interfaces.mni.html">1.3.0rc3</a></dd>
             <dd><a href="../../1.3.1/api/niworkflows.interfaces.mni.html">1.3.1</a></dd>
             <dd><a href="../../1.3.2/api/niworkflows.interfaces.mni.html">1.3.2</a></dd>
+            <dd><a href="../../1.3.3/api/niworkflows.interfaces.mni.html">1.3.3</a></dd>
             <dd><a href="../../1.4.0rc0/api/niworkflows.interfaces.mni.html">1.4.0rc0</a></dd>
             <dd><a href="../../1.4.0rc1/api/niworkflows.interfaces.mni.html">1.4.0rc1</a></dd>
             <dd><a href="../../1.4.0rc2/api/niworkflows.interfaces.mni.html">1.4.0rc2</a></dd>

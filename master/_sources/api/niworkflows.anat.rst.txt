@@ -10,7 +10,6 @@ Submodules
 ----------
 
 .. toctree::
-   :maxdepth: 1
 
    niworkflows.anat.ants
    niworkflows.anat.coregistration

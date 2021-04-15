@@ -4,10 +4,11 @@
 <html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" />
-  
+  <meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>niworkflows.anat.freesurfer module &mdash; niworkflows 1.4.0rc5+7.g616d2bca documentation</title>
+  <title>niworkflows.anat.freesurfer module &mdash; niworkflows 1.3.3 documentation</title>
   
 
   
@@ -33,6 +34,8 @@
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -64,7 +67,7 @@
             
             
               <div class="version">
-                1.4.0
+                1.3.3
               </div>
             
           
@@ -193,12 +196,12 @@
 
 
     <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../master/api/niworkflows.anat.freesurfer.html"><b>Warning:</b> This document is for an old version of niworkflows. The main version is master.</a></p>
-<div class="section" id="module-niworkflows.anat.freesurfer">
+<section id="module-niworkflows.anat.freesurfer">
 <span id="niworkflows-anat-freesurfer-module"></span><h1>niworkflows.anat.freesurfer module<a class="headerlink" href="#module-niworkflows.anat.freesurfer" title="Permalink to this headline">¶</a></h1>
 <p>FreeSurfer-related workflows.</p>
-<dl class="py function">
+<dl class="function">
 <dt id="niworkflows.anat.freesurfer.init_gifti_surface_wf">
-<code class="sig-prename descclassname"><span class="pre">niworkflows.anat.freesurfer.</span></code><code class="sig-name descname"><span class="pre">init_gifti_surface_wf</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'gifti_surface_wf'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subjects_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/tmp/subjects'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/anat/freesurfer.html#init_gifti_surface_wf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#niworkflows.anat.freesurfer.init_gifti_surface_wf" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">niworkflows.anat.freesurfer.</code><code class="sig-name descname">init_gifti_surface_wf</code><span class="sig-paren">(</span><em class="sig-param">name='gifti_surface_wf'</em>, <em class="sig-param">subjects_dir='/tmp/subjects'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/anat/freesurfer.html#init_gifti_surface_wf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.anat.freesurfer.init_gifti_surface_wf" title="Permalink to this definition">¶</a></dt>
 <dd><p>Build a Nipype workflow to prepare GIFTI surfaces from FreeSurfer.</p>
 <p>This workflow prepares GIFTI surfaces from a FreeSurfer subjects directory
 If midthickness (or graymid) surfaces do not exist, they are generated and
@@ -208,9 +211,9 @@ sufaces (<code class="docutils literal notranslate"><span class="pre">lh/rh.pial
 converted to GIFTI files.
 Additionally, the vertex coordinates are <code class="xref py py-class docutils literal notranslate"><span class="pre">recentered</span></code> to align with native T1w space.</p>
 <dl>
-<dt>Workflow Graph</dt><dd><div class="figure align-default">
+<dt>Workflow Graph</dt><dd><figure class="align-default">
 <img alt="../_images/niworkflows-anat-freesurfer-1.png" src="../_images/niworkflows-anat-freesurfer-1.png" />
-</div>
+</figure>
 <p>(<a class="reference external" href="../api/niworkflows-anat-freesurfer-1.py">Source code</a>, <a class="reference external" href="../api/niworkflows-anat-freesurfer-1.png">png</a>, <a class="reference external" href="../api/niworkflows-anat-freesurfer-1.svg">svg</a>, <a class="reference external" href="../api/niworkflows-anat-freesurfer-1.pdf">pdf</a>)</p>
 </dd>
 </dl>
@@ -239,7 +242,7 @@ space, corresponding to the <code class="docutils literal notranslate"><span cla
 </dl>
 </dd></dl>
 
-</div>
+</section>
 
 
            </div>
@@ -255,7 +258,7 @@ space, corresponding to the <code class="docutils literal notranslate"><span cla
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright Copyright 2021, The NiPreps Developers.
+        &#169; Copyright Copyright 2021, Center for Reproducible Neuroscience, Stanford University.
 
     </p>
   </div>
@@ -326,6 +329,7 @@ space, corresponding to the <code class="docutils literal notranslate"><span cla
             <dd><a href="../../1.3.0rc3/api/niworkflows.anat.freesurfer.html">1.3.0rc3</a></dd>
             <dd><a href="../../1.3.1/api/niworkflows.anat.freesurfer.html">1.3.1</a></dd>
             <dd><a href="../../1.3.2/api/niworkflows.anat.freesurfer.html">1.3.2</a></dd>
+            <dd><a href="../../1.3.3/api/niworkflows.anat.freesurfer.html">1.3.3</a></dd>
             <dd><a href="niworkflows.anat.freesurfer.html">1.4.0rc0</a></dd>
             <dd><a href="../../1.4.0rc1/api/niworkflows.anat.freesurfer.html">1.4.0rc1</a></dd>
             <dd><a href="../../1.4.0rc2/api/niworkflows.anat.freesurfer.html">1.4.0rc2</a></dd>

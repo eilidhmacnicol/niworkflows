@@ -4,10 +4,11 @@
 <html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" />
-  
+  <meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>niworkflows.interfaces.bold module &mdash; niworkflows 1.4.0rc5+7.g616d2bca documentation</title>
+  <title>niworkflows.interfaces.bold module &mdash; niworkflows 1.3.3 documentation</title>
   
 
   
@@ -33,6 +34,8 @@
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -64,7 +67,7 @@
             
             
               <div class="version">
-                1.4.0
+                1.3.3
               </div>
             
           
@@ -207,38 +210,9 @@
 
 
 
-<div class="section" id="module-niworkflows.interfaces.bold">
-<span id="niworkflows-interfaces-bold-module"></span><h1>niworkflows.interfaces.bold module<a class="headerlink" href="#module-niworkflows.interfaces.bold" title="Permalink to this headline">¶</a></h1>
-<p>Utilities for BOLD fMRI imaging.</p>
-<dl class="py class">
-<dt id="niworkflows.interfaces.bold.NonsteadyStatesDetector">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">niworkflows.interfaces.bold.</span></code><code class="sig-name descname"><span class="pre">NonsteadyStatesDetector</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_monitor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">inputs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/bold.html#NonsteadyStatesDetector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#niworkflows.interfaces.bold.NonsteadyStatesDetector" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">nipype.interfaces.base.core.SimpleInterface</span></code></p>
-<p>Detect initial non-steady states in BOLD fMRI timeseries.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Mandatory Inputs</dt>
-<dd class="field-odd"><p><strong>in_file</strong> (<em>a pathlike object or string representing an existing file</em>) – BOLD fMRI timeseries.</p>
-</dd>
-<dt class="field-even">Optional Inputs</dt>
-<dd class="field-even"><ul class="simple">
-<li><p><strong>n_volumes</strong> (<em>10 &lt;= an integer &lt;= 200</em>) – Drop volumes in 4D image beyond this timepoint.
-(Nipype <strong>default</strong> value: <code class="docutils literal notranslate"><span class="pre">40</span></code>)</p></li>
-<li><p><strong>nonnegative</strong> (<em>a boolean</em>) – Whether image voxels must be nonnegative.
-(Nipype <strong>default</strong> value: <code class="docutils literal notranslate"><span class="pre">True</span></code>)</p></li>
-<li><p><strong>zero_dummy_masked</strong> (<em>2 &lt;= an integer &lt;= 40</em>) – Number of timepoints to average when the number of dummies is zero.
-(Nipype <strong>default</strong> value: <code class="docutils literal notranslate"><span class="pre">20</span></code>)</p></li>
-</ul>
-</dd>
-<dt class="field-odd">Outputs</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>n_dummy</strong> (<em>an integer</em>) – Number of volumes identified as nonsteady states.</p></li>
-<li><p><strong>t_mask</strong> (<em>a list of items which are a boolean</em>) – List of nonsteady-states (True) and stable (False) volumes.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-</div>
+<section id="niworkflows-interfaces-bold-module">
+<h1>niworkflows.interfaces.bold module<a class="headerlink" href="#niworkflows-interfaces-bold-module" title="Permalink to this headline">¶</a></h1>
+</section>
 
 
            </div>
@@ -254,7 +228,7 @@
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright Copyright 2021, The NiPreps Developers.
+        &#169; Copyright Copyright 2021, Center for Reproducible Neuroscience, Stanford University.
 
     </p>
   </div>
@@ -325,6 +299,7 @@
             <dd><a href="../../1.3.0rc3/index.html">1.3.0rc3</a></dd>
             <dd><a href="../../1.3.1/index.html">1.3.1</a></dd>
             <dd><a href="../../1.3.2/index.html">1.3.2</a></dd>
+            <dd><a href="../../1.3.3/index.html">1.3.3</a></dd>
             <dd><a href="../../1.4.0rc0/index.html">1.4.0rc0</a></dd>
             <dd><a href="../../1.4.0rc1/index.html">1.4.0rc1</a></dd>
             <dd><a href="../../1.4.0rc2/index.html">1.4.0rc2</a></dd>

@@ -4,10 +4,11 @@
 <html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" />
-  
+  <meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>niworkflows.anat.ants module &mdash; niworkflows 1.4.0rc5+7.g616d2bca documentation</title>
+  <title>niworkflows.anat.ants module &mdash; niworkflows 1.3.3 documentation</title>
   
 
   
@@ -33,7 +34,8 @@
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -65,7 +67,7 @@
             
             
               <div class="version">
-                1.4.0
+                1.3.3
               </div>
             
           
@@ -192,12 +194,12 @@
 
 
     <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../master/api/niworkflows.anat.ants.html"><b>Warning:</b> This document is for the development version of niworkflows. The main version is master.</a></p>
-<div class="section" id="module-niworkflows.anat.ants">
+<section id="module-niworkflows.anat.ants">
 <span id="niworkflows-anat-ants-module"></span><h1>niworkflows.anat.ants module<a class="headerlink" href="#module-niworkflows.anat.ants" title="Permalink to this headline">¶</a></h1>
 <p>Nipype translation of ANTs’ workflows.</p>
-<dl class="py function">
+<dl class="function">
 <dt id="niworkflows.anat.ants.init_atropos_wf">
-<code class="sig-prename descclassname"><span class="pre">niworkflows.anat.ants.</span></code><code class="sig-name descname"><span class="pre">init_atropos_wf</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'atropos_wf'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_random_seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">omp_nthreads</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mem_gb</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">padding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_segmentation_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(3,</span> <span class="pre">1,</span> <span class="pre">2,</span> <span class="pre">3)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bspline_fitting_distance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wm_prior</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/anat/ants.html#init_atropos_wf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#niworkflows.anat.ants.init_atropos_wf" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">niworkflows.anat.ants.</code><code class="sig-name descname">init_atropos_wf</code><span class="sig-paren">(</span><em class="sig-param">name='atropos_wf'</em>, <em class="sig-param">use_random_seed=True</em>, <em class="sig-param">omp_nthreads=None</em>, <em class="sig-param">mem_gb=3.0</em>, <em class="sig-param">padding=10</em>, <em class="sig-param">in_segmentation_model=(3</em>, <em class="sig-param">1</em>, <em class="sig-param">2</em>, <em class="sig-param">3)</em>, <em class="sig-param">bspline_fitting_distance=200</em>, <em class="sig-param">wm_prior=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/anat/ants.html#init_atropos_wf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.anat.ants.init_atropos_wf" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create an ANTs’ ATROPOS workflow for brain tissue segmentation.</p>
 <p>Re-interprets supersteps 6 and 7 of <code class="docutils literal notranslate"><span class="pre">antsBrainExtraction.sh</span></code>,
 which refine the mask previously computed with the spatial
@@ -205,9 +207,9 @@ normalization to the template.
 The workflow also executes steps 8 and 9 of the brain extraction
 workflow.</p>
 <dl>
-<dt>Workflow Graph</dt><dd><div class="figure align-default">
+<dt>Workflow Graph</dt><dd><figure class="align-default">
 <img alt="../_images/niworkflows-anat-ants-1.png" src="../_images/niworkflows-anat-ants-1.png" />
-</div>
+</figure>
 <p>(<a class="reference external" href="../api/niworkflows-anat-ants-1.py">Source code</a>, <a class="reference external" href="../api/niworkflows-anat-ants-1.png">png</a>, <a class="reference external" href="../api/niworkflows-anat-ants-1.svg">svg</a>, <a class="reference external" href="../api/niworkflows-anat-ants-1.pdf">pdf</a>)</p>
 </dd>
 </dl>
@@ -261,9 +263,9 @@ field <code class="docutils literal notranslate"><span class="pre">wm_prior</spa
 </dl>
 </dd></dl>
 
-<dl class="py function">
+<dl class="function">
 <dt id="niworkflows.anat.ants.init_brain_extraction_wf">
-<code class="sig-prename descclassname"><span class="pre">niworkflows.anat.ants.</span></code><code class="sig-name descname"><span class="pre">init_brain_extraction_wf</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'brain_extraction_wf'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_template</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'OASIS30ANTs'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">template_spec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_float</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalization_quality</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'precise'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">omp_nthreads</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mem_gb</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bids_suffix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'T1w'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atropos_refine</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atropos_use_random_seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atropos_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_laplacian</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bspline_fitting_distance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">200</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/anat/ants.html#init_brain_extraction_wf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#niworkflows.anat.ants.init_brain_extraction_wf" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">niworkflows.anat.ants.</code><code class="sig-name descname">init_brain_extraction_wf</code><span class="sig-paren">(</span><em class="sig-param">name='brain_extraction_wf'</em>, <em class="sig-param">in_template='OASIS30ANTs'</em>, <em class="sig-param">template_spec=None</em>, <em class="sig-param">use_float=True</em>, <em class="sig-param">normalization_quality='precise'</em>, <em class="sig-param">omp_nthreads=None</em>, <em class="sig-param">mem_gb=3.0</em>, <em class="sig-param">bids_suffix='T1w'</em>, <em class="sig-param">atropos_refine=True</em>, <em class="sig-param">atropos_use_random_seed=True</em>, <em class="sig-param">atropos_model=None</em>, <em class="sig-param">use_laplacian=True</em>, <em class="sig-param">bspline_fitting_distance=200</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/anat/ants.html#init_brain_extraction_wf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.anat.ants.init_brain_extraction_wf" title="Permalink to this definition">¶</a></dt>
 <dd><p>Build a workflow for atlas-based brain extraction on anatomical MRI data.</p>
 <p>This is a Nipype implementation of atlas-based brain extraction inspired by
 the official ANTs’ <code class="docutils literal notranslate"><span class="pre">antsBrainExtraction.sh</span></code> workflow (only for 3D images).</p>
@@ -293,9 +295,9 @@ step 8 if priors were found) as weights map for the algorithm.</p></li>
 </ol>
 </div></blockquote>
 <dl>
-<dt>Workflow Graph</dt><dd><div class="figure align-default">
+<dt>Workflow Graph</dt><dd><figure class="align-default">
 <img alt="../_images/niworkflows-anat-ants-2.png" src="../_images/niworkflows-anat-ants-2.png" />
-</div>
+</figure>
 <p>(<a class="reference external" href="../api/niworkflows-anat-ants-2.py">Source code</a>, <a class="reference external" href="../api/niworkflows-anat-ants-2.png">png</a>, <a class="reference external" href="../api/niworkflows-anat-ants-2.svg">svg</a>, <a class="reference external" href="../api/niworkflows-anat-ants-2.pdf">pdf</a>)</p>
 </dd>
 </dl>
@@ -358,9 +360,9 @@ input in <code class="docutils literal notranslate"><span class="pre">in_files</
 </dl>
 </dd></dl>
 
-<dl class="py function">
+<dl class="function">
 <dt id="niworkflows.anat.ants.init_n4_only_wf">
-<code class="sig-prename descclassname"><span class="pre">niworkflows.anat.ants.</span></code><code class="sig-name descname"><span class="pre">init_n4_only_wf</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atropos_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atropos_refine</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atropos_use_random_seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bids_suffix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'T1w'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mem_gb</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'n4_only_wf'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">omp_nthreads</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/anat/ants.html#init_n4_only_wf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#niworkflows.anat.ants.init_n4_only_wf" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">niworkflows.anat.ants.</code><code class="sig-name descname">init_n4_only_wf</code><span class="sig-paren">(</span><em class="sig-param">atropos_model=None</em>, <em class="sig-param">atropos_refine=True</em>, <em class="sig-param">atropos_use_random_seed=True</em>, <em class="sig-param">bids_suffix='T1w'</em>, <em class="sig-param">mem_gb=3.0</em>, <em class="sig-param">name='n4_only_wf'</em>, <em class="sig-param">omp_nthreads=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/anat/ants.html#init_n4_only_wf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.anat.ants.init_n4_only_wf" title="Permalink to this definition">¶</a></dt>
 <dd><p>Build a workflow to sidetrack brain extraction on skull-stripped datasets.</p>
 <p>An alternative workflow to “init_brain_extraction_wf”, for anatomical
 images which have already been brain extracted.</p>
@@ -373,9 +375,9 @@ images which have already been brain extracted.</p>
 </ol>
 </div></blockquote>
 <dl>
-<dt>Workflow Graph</dt><dd><div class="figure align-default">
+<dt>Workflow Graph</dt><dd><figure class="align-default">
 <img alt="../_images/niworkflows-anat-ants-3.png" src="../_images/niworkflows-anat-ants-3.png" />
-</div>
+</figure>
 <p>(<a class="reference external" href="../api/niworkflows-anat-ants-3.py">Source code</a>, <a class="reference external" href="../api/niworkflows-anat-ants-3.png">png</a>, <a class="reference external" href="../api/niworkflows-anat-ants-3.svg">svg</a>, <a class="reference external" href="../api/niworkflows-anat-ants-3.pdf">pdf</a>)</p>
 </dd>
 </dl>
@@ -417,7 +419,7 @@ input in <code class="docutils literal notranslate"><span class="pre">in_files</
 </dl>
 </dd></dl>
 
-</div>
+</section>
 
 
            </div>
@@ -433,7 +435,7 @@ input in <code class="docutils literal notranslate"><span class="pre">in_files</
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright Copyright 2021, The NiPreps Developers.
+        &#169; Copyright Copyright 2021, Center for Reproducible Neuroscience, Stanford University.
 
     </p>
   </div>
@@ -504,6 +506,7 @@ input in <code class="docutils literal notranslate"><span class="pre">in_files</
             <dd><a href="../../1.3.0rc3/api/niworkflows.anat.ants.html">1.3.0rc3</a></dd>
             <dd><a href="../../1.3.1/api/niworkflows.anat.ants.html">1.3.1</a></dd>
             <dd><a href="../../1.3.2/api/niworkflows.anat.ants.html">1.3.2</a></dd>
+            <dd><a href="../../1.3.3/api/niworkflows.anat.ants.html">1.3.3</a></dd>
             <dd><a href="../../1.4.0rc0/api/niworkflows.anat.ants.html">1.4.0rc0</a></dd>
             <dd><a href="../../1.4.0rc1/api/niworkflows.anat.ants.html">1.4.0rc1</a></dd>
             <dd><a href="../../1.4.0rc2/api/niworkflows.anat.ants.html">1.4.0rc2</a></dd>

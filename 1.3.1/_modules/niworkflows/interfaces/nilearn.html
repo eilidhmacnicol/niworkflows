@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>niworkflows.interfaces.nilearn &mdash; niworkflows 1.4.0rc5+7.g616d2bca documentation</title>
+  <title>niworkflows.interfaces.nilearn &mdash; niworkflows 1.3.3 documentation</title>
   
 
   
@@ -33,6 +33,8 @@
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
@@ -62,7 +64,7 @@
             
             
               <div class="version">
-                1.4.0
+                1.3.3
               </div>
             
           
@@ -169,11 +171,10 @@
 <span></span><span class="c1"># emacs: -*- mode: python; py-indent-offset: 4; indent-tabs-mode: nil -*-</span>
 <span class="c1"># vi: set ft=python sts=4 ts=4 sw=4 et:</span>
 <span class="sd">&quot;&quot;&quot;Utilities based on nilearn.&quot;&quot;&quot;</span>
-<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">nibabel</span> <span class="k">as</span> <span class="nn">nb</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">morphology</span> <span class="k">as</span> <span class="n">sim</span>
-<span class="kn">from</span> <span class="nn">scipy.ndimage.morphology</span> <span class="kn">import</span> <span class="n">binary_fill_holes</span><span class="p">,</span> <span class="n">binary_dilation</span>
+<span class="kn">from</span> <span class="nn">scipy.ndimage.morphology</span> <span class="kn">import</span> <span class="n">binary_fill_holes</span>
 
 <span class="kn">from</span> <span class="nn">nilearn</span> <span class="kn">import</span> <span class="n">__version__</span> <span class="k">as</span> <span class="n">NILEARN_VERSION</span>
 <span class="kn">from</span> <span class="nn">nilearn.masking</span> <span class="kn">import</span> <span class="n">compute_epi_mask</span>
@@ -190,12 +191,9 @@
     <span class="n">InputMultiPath</span><span class="p">,</span>
     <span class="n">SimpleInterface</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">nipype.interfaces.mixins</span> <span class="kn">import</span> <span class="n">reporting</span>
-<span class="kn">from</span> <span class="nn">.reportlets</span> <span class="kn">import</span> <span class="n">base</span> <span class="k">as</span> <span class="n">nrb</span>
-
 
 <span class="n">LOGGER</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;nipype.interface&quot;</span><span class="p">)</span>
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;NILEARN_VERSION&quot;</span><span class="p">,</span> <span class="s2">&quot;MaskEPI&quot;</span><span class="p">,</span> <span class="s2">&quot;Merge&quot;</span><span class="p">,</span> <span class="s2">&quot;ComputeEPIMask&quot;</span><span class="p">]</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;NILEARN_VERSION&quot;</span><span class="p">,</span> <span class="s2">&quot;MaskEPI&quot;</span><span class="p">,</span> <span class="s2">&quot;Merge&quot;</span><span class="p">]</span>
 
 
 <span class="k">class</span> <span class="nc">_MaskEPIInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
@@ -335,77 +333,6 @@
         <span class="k">return</span> <span class="n">runtime</span></div>
 
 
-<span class="k">class</span> <span class="nc">_ComputeEPIMaskInputSpec</span><span class="p">(</span><span class="n">nrb</span><span class="o">.</span><span class="n">_SVGReportCapableInputSpec</span><span class="p">,</span> <span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
-    <span class="n">in_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;3D or 4D EPI file&quot;</span><span class="p">)</span>
-    <span class="n">dilation</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Int</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s2">&quot;binary dilation on the nilearn output&quot;</span><span class="p">)</span>
-
-
-<span class="k">class</span> <span class="nc">_ComputeEPIMaskOutputSpec</span><span class="p">(</span><span class="n">reporting</span><span class="o">.</span><span class="n">ReportCapableOutputSpec</span><span class="p">):</span>
-    <span class="n">mask_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Binary brain mask&quot;</span><span class="p">)</span>
-
-
-<div class="viewcode-block" id="ComputeEPIMask"><a class="viewcode-back" href="../../../api/niworkflows.interfaces.nilearn.html#niworkflows.interfaces.nilearn.ComputeEPIMask">[docs]</a><span class="k">class</span> <span class="nc">ComputeEPIMask</span><span class="p">(</span><span class="n">nrb</span><span class="o">.</span><span class="n">SegmentationRC</span><span class="p">):</span>
-    <span class="n">input_spec</span> <span class="o">=</span> <span class="n">_ComputeEPIMaskInputSpec</span>
-    <span class="n">output_spec</span> <span class="o">=</span> <span class="n">_ComputeEPIMaskOutputSpec</span>
-
-    <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
-        <span class="n">orig_file_nii</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">in_file</span><span class="p">)</span>
-        <span class="n">in_file_data</span> <span class="o">=</span> <span class="n">orig_file_nii</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
-
-        <span class="c1"># pad the data to avoid the mask estimation running into edge effects</span>
-        <span class="n">in_file_data_padded</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span>
-            <span class="n">in_file_data</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="s2">&quot;constant&quot;</span><span class="p">,</span> <span class="n">constant_values</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="p">)</span>
-
-        <span class="n">padded_nii</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">Nifti1Image</span><span class="p">(</span>
-            <span class="n">in_file_data_padded</span><span class="p">,</span> <span class="n">orig_file_nii</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span> <span class="n">orig_file_nii</span><span class="o">.</span><span class="n">header</span>
-        <span class="p">)</span>
-
-        <span class="n">mask_nii</span> <span class="o">=</span> <span class="n">compute_epi_mask</span><span class="p">(</span><span class="n">padded_nii</span><span class="p">,</span> <span class="n">exclude_zeros</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-        <span class="n">mask_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asanyarray</span><span class="p">(</span><span class="n">mask_nii</span><span class="o">.</span><span class="n">dataobj</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">isdefined</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">dilation</span><span class="p">):</span>
-            <span class="n">mask_data</span> <span class="o">=</span> <span class="n">binary_dilation</span><span class="p">(</span><span class="n">mask_data</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
-
-        <span class="c1"># reverse image padding</span>
-        <span class="n">mask_data</span> <span class="o">=</span> <span class="n">mask_data</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-
-        <span class="c1"># exclude zero and NaN voxels</span>
-        <span class="n">mask_data</span><span class="p">[</span><span class="n">in_file_data</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">mask_data</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">in_file_data</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">0</span>
-
-        <span class="n">better_mask</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">Nifti1Image</span><span class="p">(</span>
-            <span class="n">mask_data</span><span class="p">,</span> <span class="n">orig_file_nii</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span> <span class="n">orig_file_nii</span><span class="o">.</span><span class="n">header</span>
-        <span class="p">)</span>
-        <span class="n">better_mask</span><span class="o">.</span><span class="n">set_data_dtype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
-        <span class="n">better_mask</span><span class="o">.</span><span class="n">to_filename</span><span class="p">(</span><span class="s2">&quot;mask_file.nii.gz&quot;</span><span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">_mask_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">runtime</span><span class="o">.</span><span class="n">cwd</span><span class="p">,</span> <span class="s2">&quot;mask_file.nii.gz&quot;</span><span class="p">)</span>
-
-        <span class="n">runtime</span><span class="o">.</span><span class="n">returncode</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">ComputeEPIMask</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_run_interface</span><span class="p">(</span><span class="n">runtime</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">_list_outputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">outputs</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">ComputeEPIMask</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_list_outputs</span><span class="p">()</span>
-        <span class="n">outputs</span><span class="p">[</span><span class="s2">&quot;mask_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mask_file</span>
-        <span class="k">return</span> <span class="n">outputs</span>
-
-    <span class="k">def</span> <span class="nf">_post_run_hook</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Prepare report generation post-hook.&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_anat_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">in_file</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_mask_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">aggregate_outputs</span><span class="p">(</span><span class="n">runtime</span><span class="o">=</span><span class="n">runtime</span><span class="p">)</span><span class="o">.</span><span class="n">mask_file</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_seg_files</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_mask_file</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_masked</span> <span class="o">=</span> <span class="kc">True</span>
-
-        <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-            <span class="s1">&#39;Generating report for nilearn.compute_epi_mask. file &quot;</span><span class="si">%s</span><span class="s1">&quot;, and mask file &quot;</span><span class="si">%s</span><span class="s1">&quot;&#39;</span><span class="p">,</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_anat_file</span><span class="p">,</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_mask_file</span><span class="p">,</span>
-        <span class="p">)</span>
-
-        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">ComputeEPIMask</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_post_run_hook</span><span class="p">(</span><span class="n">runtime</span><span class="p">)</span></div>
-
-
 <span class="k">def</span> <span class="nf">_enhance_t2_contrast</span><span class="p">(</span><span class="n">in_file</span><span class="p">,</span> <span class="n">newpath</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mf">0.5</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Enhance the T2* contrast of an EPI dataset.</span>
@@ -435,7 +362,7 @@
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright Copyright 2021, The NiPreps Developers.
+        &#169; Copyright Copyright 2021, Center for Reproducible Neuroscience, Stanford University.
 
     </p>
   </div>
@@ -506,6 +433,7 @@
             <dd><a href="../../../../1.3.0rc3/index.html">1.3.0rc3</a></dd>
             <dd><a href="nilearn.html">1.3.1</a></dd>
             <dd><a href="../../../../1.3.2/index.html">1.3.2</a></dd>
+            <dd><a href="../../../../1.3.3/index.html">1.3.3</a></dd>
             <dd><a href="../../../../1.4.0rc0/index.html">1.4.0rc0</a></dd>
             <dd><a href="../../../../1.4.0rc1/index.html">1.4.0rc1</a></dd>
             <dd><a href="../../../../1.4.0rc2/index.html">1.4.0rc2</a></dd>

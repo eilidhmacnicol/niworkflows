@@ -10,6 +10,5 @@ Subpackages
 -----------
 
 .. toctree::
-   :maxdepth: 1
 
    niworkflows.workflows.epi

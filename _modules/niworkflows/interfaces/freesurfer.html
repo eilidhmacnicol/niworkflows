@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>niworkflows.interfaces.freesurfer &mdash; niworkflows 1.4.0rc5+7.g616d2bca documentation</title>
+  <title>niworkflows.interfaces.freesurfer &mdash; niworkflows 1.3.3 documentation</title>
   
 
   
@@ -33,6 +33,8 @@
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
@@ -62,7 +64,7 @@
             
             
               <div class="version">
-                1.4.0
+                1.3.3
               </div>
             
           
@@ -159,9 +161,12 @@
   
 
 
+    
+    
 
 
 
+    <p class="scv-banner scv-sphinx_rtd_theme"><b>Warning:</b> This document is for an old version of niworkflows.</p>
 <h1>Source code for niworkflows.interfaces.freesurfer</h1><div class="highlight"><pre>
 <span></span><span class="c1"># emacs: -*- mode: python; py-indent-offset: 4; indent-tabs-mode: nil -*-</span>
 <span class="c1"># vi: set ft=python sts=4 ts=4 sw=4 et:</span>
@@ -171,6 +176,10 @@
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">import</span> <span class="nn">nibabel</span> <span class="k">as</span> <span class="nn">nb</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">morphology</span> <span class="k">as</span> <span class="n">sim</span>
+<span class="kn">from</span> <span class="nn">scipy.ndimage.morphology</span> <span class="kn">import</span> <span class="n">binary_fill_holes</span>
+<span class="kn">from</span> <span class="nn">nilearn.image</span> <span class="kn">import</span> <span class="n">resample_to_img</span><span class="p">,</span> <span class="n">new_img_like</span>
 
 <span class="kn">from</span> <span class="nn">nipype.utils.filemanip</span> <span class="kn">import</span> <span class="n">copyfile</span><span class="p">,</span> <span class="n">filename_to_list</span><span class="p">,</span> <span class="n">fname_presuffix</span>
 <span class="kn">from</span> <span class="nn">nipype.interfaces.base</span> <span class="kn">import</span> <span class="p">(</span>
@@ -186,7 +195,7 @@
 <span class="kn">from</span> <span class="nn">nipype.interfaces.base</span> <span class="kn">import</span> <span class="n">SimpleInterface</span>
 <span class="kn">from</span> <span class="nn">nipype.interfaces.freesurfer.preprocess</span> <span class="kn">import</span> <span class="n">ConcatenateLTA</span><span class="p">,</span> <span class="n">RobustRegister</span>
 <span class="kn">from</span> <span class="nn">nipype.interfaces.freesurfer.utils</span> <span class="kn">import</span> <span class="n">LTAConvert</span>
-<span class="kn">from</span> <span class="nn">.reportlets.registration</span> <span class="kn">import</span> <span class="n">BBRegisterRPT</span><span class="p">,</span> <span class="n">MRICoregRPT</span>
+<span class="kn">from</span> <span class="nn">.registration</span> <span class="kn">import</span> <span class="n">BBRegisterRPT</span><span class="p">,</span> <span class="n">MRICoregRPT</span>
 
 
 <div class="viewcode-block" id="StructuralReference"><a class="viewcode-back" href="../../../api/niworkflows.interfaces.freesurfer.html#niworkflows.interfaces.freesurfer.StructuralReference">[docs]</a><span class="k">class</span> <span class="nc">StructuralReference</span><span class="p">(</span><span class="n">fs</span><span class="o">.</span><span class="n">RobustTemplate</span><span class="p">):</span>
@@ -399,7 +408,7 @@
 <span class="sd">    in FreeSurfer, that was</span>
 <span class="sd">    `fixed here &lt;https://github.com/freesurfer/freesurfer/pull/180&gt;`__.</span>
 
-<span class="sd">    The original fMRIPrep&#39;s issue is found</span>
+<span class="sd">    The original FMRIPREP&#39;s issue is found</span>
 <span class="sd">    `here &lt;https://github.com/nipreps/fmriprep/issues/768&gt;`__.</span>
 
 <span class="sd">    the fix is now done through mixin with TruncateLTA</span>
@@ -490,7 +499,9 @@
 
 
 <div class="viewcode-block" id="MedialNaNs"><a class="viewcode-back" href="../../../api/niworkflows.interfaces.freesurfer.html#niworkflows.interfaces.freesurfer.MedialNaNs">[docs]</a><span class="k">class</span> <span class="nc">MedialNaNs</span><span class="p">(</span><span class="n">SimpleInterface</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Convert values on medial wall to NaNs.&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The MedialNaNs converts from arbitrary units to rad/s</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">input_spec</span> <span class="o">=</span> <span class="n">_MedialNaNsInputSpec</span>
     <span class="n">output_spec</span> <span class="o">=</span> <span class="n">_MedialNaNsOutputSpec</span>
@@ -514,7 +525,6 @@
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 <span class="sd">    No changes are made to a valid transform file:</span>
-
 <span class="sd">    &gt;&gt;&gt; valid_transform = Path(test_data) / &#39;valid_transform.lta&#39;</span>
 <span class="sd">    &gt;&gt;&gt; orig_contents = valid_transform.read_text()</span>
 <span class="sd">    &gt;&gt;&gt; fix_lta_length(valid_transform)</span>
@@ -523,7 +533,6 @@
 <span class="sd">    True</span>
 
 <span class="sd">    Invalid transform files are files with &gt; 255 characters in any line:</span>
-
 <span class="sd">    &gt;&gt;&gt; invalid_transform = Path(test_data) / &#39;long_path_transform.lta&#39;</span>
 <span class="sd">    &gt;&gt;&gt; orig_contents = invalid_transform.read_text()</span>
 <span class="sd">    &gt;&gt;&gt; any(len(line) &gt; 255 for line in orig_contents.splitlines(keepends=True))</span>
@@ -554,8 +563,6 @@
 
 
 <div class="viewcode-block" id="inject_skullstripped"><a class="viewcode-back" href="../../../api/niworkflows.interfaces.freesurfer.html#niworkflows.interfaces.freesurfer.inject_skullstripped">[docs]</a><span class="k">def</span> <span class="nf">inject_skullstripped</span><span class="p">(</span><span class="n">subjects_dir</span><span class="p">,</span> <span class="n">subject_id</span><span class="p">,</span> <span class="n">skullstripped</span><span class="p">):</span>
-    <span class="kn">from</span> <span class="nn">nilearn.image</span> <span class="kn">import</span> <span class="n">resample_to_img</span><span class="p">,</span> <span class="n">new_img_like</span>
-
     <span class="n">mridir</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">subjects_dir</span><span class="p">,</span> <span class="n">subject_id</span><span class="p">,</span> <span class="s2">&quot;mri&quot;</span><span class="p">)</span>
     <span class="n">t1</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">mridir</span><span class="p">,</span> <span class="s2">&quot;T1.mgz&quot;</span><span class="p">)</span>
     <span class="n">bm_auto</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">mridir</span><span class="p">,</span> <span class="s2">&quot;brainmask.auto.mgz&quot;</span><span class="p">)</span>
@@ -617,9 +624,6 @@
 <span class="sd">         cerebral brain is segmented out).</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">morphology</span> <span class="k">as</span> <span class="n">sim</span>
-    <span class="kn">from</span> <span class="nn">scipy.ndimage.morphology</span> <span class="kn">import</span> <span class="n">binary_fill_holes</span>
-
     <span class="c1"># Read aseg data</span>
     <span class="n">bmask</span> <span class="o">=</span> <span class="n">aseg</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="n">bmask</span><span class="p">[</span><span class="n">bmask</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
@@ -642,8 +646,6 @@
 <span class="sd">    https://github.com/nipy/mindboggle/blob/master/mindboggle/guts/segment.py#L1660</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">morphology</span> <span class="k">as</span> <span class="n">sim</span>
-
     <span class="n">selem</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">ball</span><span class="p">(</span><span class="n">bw</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">ants_segs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -736,7 +738,7 @@
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright Copyright 2021, The NiPreps Developers.
+        &#169; Copyright Copyright 2021, Center for Reproducible Neuroscience, Stanford University.
 
     </p>
   </div>
@@ -760,7 +762,7 @@
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: master
+        v: 1.3.3
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -807,6 +809,7 @@
             <dd><a href="../../../1.3.0rc3/index.html">1.3.0rc3</a></dd>
             <dd><a href="../../../1.3.1/index.html">1.3.1</a></dd>
             <dd><a href="../../../1.3.2/index.html">1.3.2</a></dd>
+            <dd><a href="../../../1.3.3/_modules/niworkflows/interfaces/freesurfer.html">1.3.3</a></dd>
             <dd><a href="../../../1.4.0rc0/index.html">1.4.0rc0</a></dd>
             <dd><a href="../../../1.4.0rc1/index.html">1.4.0rc1</a></dd>
             <dd><a href="../../../1.4.0rc2/index.html">1.4.0rc2</a></dd>
@@ -820,7 +823,7 @@
             <dd><a href="../../../maint_1.1.x/index.html">maint/1.1.x</a></dd>
             <dd><a href="../../../maint_1.2.x/index.html">maint/1.2.x</a></dd>
             <dd><a href="../../../maint_1.3.x/index.html">maint/1.3.x</a></dd>
-            <dd><a href="../../../master/_modules/niworkflows/interfaces/freesurfer.html">master</a></dd>
+            <dd><a href="../../../master/index.html">master</a></dd>
         </dl>
     </div>
 </div>

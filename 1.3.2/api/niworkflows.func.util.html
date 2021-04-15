@@ -4,10 +4,11 @@
 <html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" />
-  
+  <meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>niworkflows.func.util module &mdash; niworkflows 1.4.0rc5+7.g616d2bca documentation</title>
+  <title>niworkflows.func.util module &mdash; niworkflows 1.3.3 documentation</title>
   
 
   
@@ -33,6 +34,8 @@
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -64,7 +67,7 @@
             
             
               <div class="version">
-                1.4.0
+                1.3.3
               </div>
             
           
@@ -190,27 +193,20 @@
 
 
     <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../master/api/niworkflows.func.util.html"><b>Warning:</b> This document is for an old version of niworkflows. The main version is master.</a></p>
-<div class="section" id="module-niworkflows.func.util">
+<section id="module-niworkflows.func.util">
 <span id="niworkflows-func-util-module"></span><h1>niworkflows.func.util module<a class="headerlink" href="#module-niworkflows.func.util" title="Permalink to this headline">¶</a></h1>
 <p>Utility workflows.</p>
-<dl class="py function">
+<dl class="function">
 <dt id="niworkflows.func.util.init_bold_reference_wf">
-<code class="sig-prename descclassname"><span class="pre">niworkflows.func.util.</span></code><code class="sig-name descname"><span class="pre">init_bold_reference_wf</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">omp_nthreads</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bold_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sbref_files</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">brainmask_thresh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.85</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pre_mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multiecho</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'bold_reference_wf'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gen_report</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/func/util.html#init_bold_reference_wf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#niworkflows.func.util.init_bold_reference_wf" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">niworkflows.func.util.</code><code class="sig-name descname">init_bold_reference_wf</code><span class="sig-paren">(</span><em class="sig-param">omp_nthreads</em>, <em class="sig-param">bold_file=None</em>, <em class="sig-param">sbref_files=None</em>, <em class="sig-param">brainmask_thresh=0.85</em>, <em class="sig-param">pre_mask=False</em>, <em class="sig-param">multiecho=False</em>, <em class="sig-param">name='bold_reference_wf'</em>, <em class="sig-param">gen_report=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/func/util.html#init_bold_reference_wf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.func.util.init_bold_reference_wf" title="Permalink to this definition">¶</a></dt>
 <dd><p>Build a workflow that generates reference BOLD images for a series.</p>
 <p>The raw reference image is the target of <abbr title="head motion correction">HMC</abbr>, and a
 contrast-enhanced reference is the subject of distortion correction, as well as
 boundary-based registration to T1w and template spaces.</p>
-<p>LIMITATION: If one wants to extract the reference from several SBRefs
-with several echoes each, the first echo should be selected elsewhere
-and run this interface in <code class="docutils literal notranslate"><span class="pre">multiecho</span> <span class="pre">=</span> <span class="pre">False</span></code> mode. In other words,
-SBRef inputs are assumed to be single-echo.</p>
-<p>LIMITATION: If a list of SBRefs is provided, each can be 3D or 4D, but they
-are assumed to be sampled in the exact same 3D-grid and have the same orientation
-information in their headers so that they can directly be merged into a 4D volume.</p>
 <dl>
-<dt>Workflow Graph</dt><dd><div class="figure align-default">
+<dt>Workflow Graph</dt><dd><figure class="align-default">
 <img alt="../_images/niworkflows-func-util-1.png" src="../_images/niworkflows-func-util-1.png" />
-</div>
+</figure>
 <p>(<a class="reference external" href="../api/niworkflows-func-util-1.py">Source code</a>, <a class="reference external" href="../api/niworkflows-func-util-1.png">png</a>, <a class="reference external" href="../api/niworkflows-func-util-1.svg">svg</a>, <a class="reference external" href="../api/niworkflows-func-util-1.pdf">pdf</a>)</p>
 </dd>
 </dl>
@@ -263,9 +259,9 @@ beginning of <code class="docutils literal notranslate"><span class="pre">bold_f
 </dl>
 </dd></dl>
 
-<dl class="py function">
+<dl class="function">
 <dt id="niworkflows.func.util.init_enhance_and_skullstrip_bold_wf">
-<code class="sig-prename descclassname"><span class="pre">niworkflows.func.util.</span></code><code class="sig-name descname"><span class="pre">init_enhance_and_skullstrip_bold_wf</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">brainmask_thresh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'enhance_and_skullstrip_bold_wf'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">omp_nthreads</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pre_mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/func/util.html#init_enhance_and_skullstrip_bold_wf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#niworkflows.func.util.init_enhance_and_skullstrip_bold_wf" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">niworkflows.func.util.</code><code class="sig-name descname">init_enhance_and_skullstrip_bold_wf</code><span class="sig-paren">(</span><em class="sig-param">brainmask_thresh=0.5</em>, <em class="sig-param">name='enhance_and_skullstrip_bold_wf'</em>, <em class="sig-param">omp_nthreads=1</em>, <em class="sig-param">pre_mask=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/func/util.html#init_enhance_and_skullstrip_bold_wf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.func.util.init_enhance_and_skullstrip_bold_wf" title="Permalink to this definition">¶</a></dt>
 <dd><p>Enhance and run brain extraction on a BOLD EPI image.</p>
 <p>This workflow takes in a <abbr title="blood-oxygen level-dependant">BOLD</abbr>
 <abbr title="functional MRI">fMRI</abbr> average/summary (e.g., a reference image
@@ -300,9 +296,9 @@ enhancement of 4).</p></li>
 a tentative mask is passed in to the workflow throught the <code class="docutils literal notranslate"><span class="pre">pre_mask</span></code>
 Nipype input.</p>
 <dl>
-<dt>Workflow graph</dt><dd><div class="figure align-default">
+<dt>Workflow graph</dt><dd><figure class="align-default">
 <img alt="../_images/niworkflows-func-util-2.png" src="../_images/niworkflows-func-util-2.png" />
-</div>
+</figure>
 <p>(<a class="reference external" href="../api/niworkflows-func-util-2.py">Source code</a>, <a class="reference external" href="../api/niworkflows-func-util-2.png">png</a>, <a class="reference external" href="../api/niworkflows-func-util-2.svg">svg</a>, <a class="reference external" href="../api/niworkflows-func-util-2.pdf">pdf</a>)</p>
 </dd>
 </dl>
@@ -335,17 +331,17 @@ parameter set <code class="docutils literal notranslate"><span class="pre">True<
 </dl>
 </dd></dl>
 
-<dl class="py function">
+<dl class="function">
 <dt id="niworkflows.func.util.init_skullstrip_bold_wf">
-<code class="sig-prename descclassname"><span class="pre">niworkflows.func.util.</span></code><code class="sig-name descname"><span class="pre">init_skullstrip_bold_wf</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'skullstrip_bold_wf'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/func/util.html#init_skullstrip_bold_wf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#niworkflows.func.util.init_skullstrip_bold_wf" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">niworkflows.func.util.</code><code class="sig-name descname">init_skullstrip_bold_wf</code><span class="sig-paren">(</span><em class="sig-param">name='skullstrip_bold_wf'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/func/util.html#init_skullstrip_bold_wf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.func.util.init_skullstrip_bold_wf" title="Permalink to this definition">¶</a></dt>
 <dd><p>Apply skull-stripping to a BOLD image.</p>
 <p>It is intended to be used on an image that has previously been
 bias-corrected with
 <a class="reference internal" href="#niworkflows.func.util.init_enhance_and_skullstrip_bold_wf" title="niworkflows.func.util.init_enhance_and_skullstrip_bold_wf"><code class="xref py py-func docutils literal notranslate"><span class="pre">init_enhance_and_skullstrip_bold_wf()</span></code></a></p>
 <dl>
-<dt>Workflow Graph</dt><dd><div class="figure align-default">
+<dt>Workflow Graph</dt><dd><figure class="align-default">
 <img alt="../_images/niworkflows-func-util-3.png" src="../_images/niworkflows-func-util-3.png" />
-</div>
+</figure>
 <p>(<a class="reference external" href="../api/niworkflows-func-util-3.py">Source code</a>, <a class="reference external" href="../api/niworkflows-func-util-3.png">png</a>, <a class="reference external" href="../api/niworkflows-func-util-3.svg">svg</a>, <a class="reference external" href="../api/niworkflows-func-util-3.pdf">pdf</a>)</p>
 </dd>
 </dl>
@@ -363,7 +359,7 @@ bias-corrected with
 </dl>
 </dd></dl>
 
-</div>
+</section>
 
 
            </div>
@@ -379,7 +375,7 @@ bias-corrected with
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright Copyright 2021, The NiPreps Developers.
+        &#169; Copyright Copyright 2021, Center for Reproducible Neuroscience, Stanford University.
 
     </p>
   </div>
@@ -450,6 +446,7 @@ bias-corrected with
             <dd><a href="../../1.3.0rc3/api/niworkflows.func.util.html">1.3.0rc3</a></dd>
             <dd><a href="../../1.3.1/api/niworkflows.func.util.html">1.3.1</a></dd>
             <dd><a href="niworkflows.func.util.html">1.3.2</a></dd>
+            <dd><a href="../../1.3.3/api/niworkflows.func.util.html">1.3.3</a></dd>
             <dd><a href="../../1.4.0rc0/api/niworkflows.func.util.html">1.4.0rc0</a></dd>
             <dd><a href="../../1.4.0rc1/api/niworkflows.func.util.html">1.4.0rc1</a></dd>
             <dd><a href="../../1.4.0rc2/api/niworkflows.func.util.html">1.4.0rc2</a></dd>

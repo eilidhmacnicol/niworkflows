@@ -4,10 +4,11 @@
 <html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" />
-  
+  <meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>niworkflows.anat.skullstrip module &mdash; niworkflows 1.4.0rc5+7.g616d2bca documentation</title>
+  <title>niworkflows.anat.skullstrip module &mdash; niworkflows 1.3.3 documentation</title>
   
 
   
@@ -33,6 +34,8 @@
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -64,7 +67,7 @@
             
             
               <div class="version">
-                1.4.0
+                1.3.3
               </div>
             
           
@@ -192,21 +195,21 @@
 
 
     <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../master/api/niworkflows.anat.skullstrip.html"><b>Warning:</b> This document is for an old version of niworkflows. The main version is master.</a></p>
-<div class="section" id="module-niworkflows.anat.skullstrip">
+<section id="module-niworkflows.anat.skullstrip">
 <span id="niworkflows-anat-skullstrip-module"></span><h1>niworkflows.anat.skullstrip module<a class="headerlink" href="#module-niworkflows.anat.skullstrip" title="Permalink to this headline">¶</a></h1>
 <p>Brain extraction workflows.</p>
-<dl class="py function">
+<dl class="function">
 <dt id="niworkflows.anat.skullstrip.afni_wf">
-<code class="sig-prename descclassname"><span class="pre">niworkflows.anat.skullstrip.</span></code><code class="sig-name descname"><span class="pre">afni_wf</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'AFNISkullStripWorkflow'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unifize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n4_nthreads</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/anat/skullstrip.html#afni_wf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#niworkflows.anat.skullstrip.afni_wf" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">niworkflows.anat.skullstrip.</code><code class="sig-name descname">afni_wf</code><span class="sig-paren">(</span><em class="sig-param">name='AFNISkullStripWorkflow'</em>, <em class="sig-param">unifize=False</em>, <em class="sig-param">n4_nthreads=1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/anat/skullstrip.html#afni_wf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.anat.skullstrip.afni_wf" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a skull-stripping workflow based on AFNI’s tools.</p>
 <p>Originally derived from the <a class="reference external" href="https://github.com/preprocessed-connectomes-project/quality-assessment-protocol/blob/master/qap/anatomical_preproc.py#L105">codebase of the QAP</a>.
 Now, this workflow includes <abbr title="intensity non-uniformity">INU</abbr> correction
 using the N4 algorithm and (optionally) intensity harmonization using
 ANFI’s <code class="docutils literal notranslate"><span class="pre">3dUnifize</span></code>.</p>
 <dl>
-<dt>Workflow Graph</dt><dd><div class="figure align-default">
+<dt>Workflow Graph</dt><dd><figure class="align-default">
 <img alt="../_images/niworkflows-anat-skullstrip-1.png" src="../_images/niworkflows-anat-skullstrip-1.png" />
-</div>
+</figure>
 <p>(<a class="reference external" href="../api/niworkflows-anat-skullstrip-1.py">Source code</a>, <a class="reference external" href="../api/niworkflows-anat-skullstrip-1.png">png</a>, <a class="reference external" href="../api/niworkflows-anat-skullstrip-1.svg">svg</a>, <a class="reference external" href="../api/niworkflows-anat-skullstrip-1.pdf">pdf</a>)</p>
 </dd>
 </dl>
@@ -232,7 +235,7 @@ ANFI’s <code class="docutils literal notranslate"><span class="pre">3dUnifize<
 </dl>
 </dd></dl>
 
-</div>
+</section>
 
 
            </div>
@@ -248,7 +251,7 @@ ANFI’s <code class="docutils literal notranslate"><span class="pre">3dUnifize<
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright Copyright 2021, The NiPreps Developers.
+        &#169; Copyright Copyright 2021, Center for Reproducible Neuroscience, Stanford University.
 
     </p>
   </div>
@@ -319,6 +322,7 @@ ANFI’s <code class="docutils literal notranslate"><span class="pre">3dUnifize<
             <dd><a href="../../1.3.0rc3/api/niworkflows.anat.skullstrip.html">1.3.0rc3</a></dd>
             <dd><a href="niworkflows.anat.skullstrip.html">1.3.1</a></dd>
             <dd><a href="../../1.3.2/api/niworkflows.anat.skullstrip.html">1.3.2</a></dd>
+            <dd><a href="../../1.3.3/api/niworkflows.anat.skullstrip.html">1.3.3</a></dd>
             <dd><a href="../../1.4.0rc0/api/niworkflows.anat.skullstrip.html">1.4.0rc0</a></dd>
             <dd><a href="../../1.4.0rc1/api/niworkflows.anat.skullstrip.html">1.4.0rc1</a></dd>
             <dd><a href="../../1.4.0rc2/api/niworkflows.anat.skullstrip.html">1.4.0rc2</a></dd>

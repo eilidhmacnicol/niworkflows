@@ -6,7 +6,7 @@ atropos_wfdil_brainmask [label="{IN|<inop1> op1}|{ dil_brainmask | ants |  }|{OU
 atropos_wfget_brainmask [label="{IN|<inop1> op1}|{ get_brainmask | ants |  }|{OUT|<outoutputimage> output_image}"];
 atropos_wf01_atropos [label="{IN|<inintensityimages> intensity_images|<inmaskimage> mask_image}|{ 01_atropos | ants |  }|{OUT|<outclassifiedimage> classified_image|<outposteriors> posteriors}"];
 atropos_wfsel_wm [label="{IN|<ininlist> inlist}|{ sel_wm | utility |  }|{OUT|<outout> out}"];
-atropos_wfcopy_xform_wm [label="{IN|<inhdrfile> hdr_file|<inwmmap> wm_map}|{ copy_xform_wm | header |  }|{OUT|<outwmmap> wm_map}"];
+atropos_wfcopy_xform_wm [label="{IN|<inhdrfile> hdr_file|<inwmmap> wm_map}|{ copy_xform_wm | utils |  }|{OUT|<outwmmap> wm_map}"];
 atropos_wfinu_n4_final [label="{IN|<ininputimage> input_image|<inweightimage> weight_image}|{ inu_n4_final | ants |  }|{OUT|<outbiasimage> bias_image|<outoutputimage> output_image}"];
 atropos_wf02_pad_segm [label="{IN|<inop1> op1}|{ 02_pad_segm | ants |  }|{OUT|<outoutputimage> output_image}"];
 atropos_wf04_sel_labels [label="{IN|<ininsegm> in_segm}|{ 04_sel_labels | utility |  }|{OUT|<outoutcsf> out_csf|<outoutgm> out_gm|<outoutwm> out_wm}"];
@@ -35,7 +35,7 @@ atropos_wf21_md_7_2 [label="{IN|<inop1> op1}|{ 21_md_7_2 | ants |  }|{OUT|<outou
 atropos_wf22_me_7_2 [label="{IN|<inop1> op1}|{ 22_me_7_2 | ants |  }|{OUT|<outoutputimage> output_image}"];
 atropos_wf23_depad_mask [label="{IN|<inop1> op1}|{ 23_depad_mask | ants |  }|{OUT|<outoutputimage> output_image}"];
 atropos_wfmsk_conform [label="{IN|<ininmask> in_mask|<ininreference> in_reference}|{ msk_conform | utility |  }|{OUT|<outout> out}"];
-atropos_wfcopy_xform [label="{IN|<inbiascorrected> bias_corrected|<inbiasimage> bias_image|<inhdrfile> hdr_file|<inoutmask> out_mask|<inoutsegm> out_segm|<inouttpms> out_tpms}|{ copy_xform | header |  }|{OUT|<outbiascorrected> bias_corrected|<outbiasimage> bias_image|<outoutmask> out_mask|<outoutsegm> out_segm|<outouttpms> out_tpms}"];
+atropos_wfcopy_xform [label="{IN|<inbiascorrected> bias_corrected|<inbiasimage> bias_image|<inhdrfile> hdr_file|<inoutmask> out_mask|<inoutsegm> out_segm|<inouttpms> out_tpms}|{ copy_xform | utils |  }|{OUT|<outbiascorrected> bias_corrected|<outbiasimage> bias_image|<outoutmask> out_mask|<outoutsegm> out_segm|<outouttpms> out_tpms}"];
 atropos_wfapply_mask [label="{IN|<ininfile> in_file|<ininmask> in_mask}|{ apply_mask | nibabel |  }|{OUT|<outoutfile> out_file}"];
 atropos_wfoutputnode [label="{IN|<inbiascorrected> bias_corrected|<inbiasimage> bias_image|<inoutfile> out_file|<inoutmask> out_mask|<inoutsegm> out_segm|<inouttpms> out_tpms}|{ outputnode | utility |  }|{OUT}"];
 atropos_wf01_atropos:outclassifiedimage:e -> atropos_wf02_pad_segm:inop1:w;

@@ -4,10 +4,11 @@
 <html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" />
-  
+  <meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>niworkflows.interfaces.images module &mdash; niworkflows 1.4.0rc5+7.g616d2bca documentation</title>
+  <title>niworkflows.interfaces.images module &mdash; niworkflows 1.3.3 documentation</title>
   
 
   
@@ -33,6 +34,8 @@
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -64,7 +67,7 @@
             
             
               <div class="version">
-                1.4.0
+                1.3.3
               </div>
             
           
@@ -210,121 +213,154 @@
 
 
     <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../master/api/niworkflows.interfaces.images.html"><b>Warning:</b> This document is for the development version of niworkflows. The main version is master.</a></p>
-<div class="section" id="module-niworkflows.interfaces.images">
+<section id="module-niworkflows.interfaces.images">
 <span id="niworkflows-interfaces-images-module"></span><h1>niworkflows.interfaces.images module<a class="headerlink" href="#module-niworkflows.interfaces.images" title="Permalink to this headline">¶</a></h1>
 <p>Image tools interfaces.</p>
-<dl class="py class">
+<dl class="class">
 <dt id="niworkflows.interfaces.images.Conform">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">niworkflows.interfaces.images.</span></code><code class="sig-name descname"><span class="pre">Conform</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_monitor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">inputs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/images.html#Conform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#niworkflows.interfaces.images.Conform" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">niworkflows.interfaces.images.</code><code class="sig-name descname">Conform</code><span class="sig-paren">(</span><em class="sig-param">from_file=None</em>, <em class="sig-param">resource_monitor=None</em>, <em class="sig-param">**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/images.html#Conform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.interfaces.images.Conform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">nipype.interfaces.base.core.SimpleInterface</span></code></p>
 <p>Conform a series of T1w images to enable merging.</p>
-<p>Performs two basic functions:</p>
-<ol class="arabic simple">
-<li><p>Orient to RAS (left-right, posterior-anterior, inferior-superior)</p></li>
-<li><p>Resample to target zooms (voxel sizes) and shape (number of voxels)</p></li>
-</ol>
+<p>Performs two basic functions:
+#. Orient to RAS (left-right, posterior-anterior, inferior-superior)
+#. Resample to target zooms (voxel sizes) and shape (number of voxels)</p>
 <p>Note that the output transforms are voxel-to-voxel; the RAS-to-RAS
 transform is the identity transform.</p>
-<dl class="py attribute">
+<dl class="attribute">
 <dt id="niworkflows.interfaces.images.Conform.input_spec">
-<code class="sig-name descname"><span class="pre">input_spec</span></code><a class="headerlink" href="#niworkflows.interfaces.images.Conform.input_spec" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">niworkflows.interfaces.images._ConformInputSpec</span></code></p>
+<code class="sig-name descname">input_spec</code><a class="headerlink" href="#niworkflows.interfaces.images.Conform.input_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_ConformInputSpec</span></code></p>
 </dd></dl>
 
-<dl class="py attribute">
+<dl class="attribute">
 <dt id="niworkflows.interfaces.images.Conform.output_spec">
-<code class="sig-name descname"><span class="pre">output_spec</span></code><a class="headerlink" href="#niworkflows.interfaces.images.Conform.output_spec" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">niworkflows.interfaces.images._ConformOutputSpec</span></code></p>
+<code class="sig-name descname">output_spec</code><a class="headerlink" href="#niworkflows.interfaces.images.Conform.output_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_ConformOutputSpec</span></code></p>
 </dd></dl>
 
 </dd></dl>
 
-<dl class="py class">
+<dl class="class">
+<dt id="niworkflows.interfaces.images.DemeanImage">
+<em class="property">class </em><code class="sig-prename descclassname">niworkflows.interfaces.images.</code><code class="sig-name descname">DemeanImage</code><span class="sig-paren">(</span><em class="sig-param">from_file=None</em>, <em class="sig-param">resource_monitor=None</em>, <em class="sig-param">**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/images.html#DemeanImage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.interfaces.images.DemeanImage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">nipype.interfaces.base.core.SimpleInterface</span></code></p>
+<dl class="attribute">
+<dt id="niworkflows.interfaces.images.DemeanImage.input_spec">
+<code class="sig-name descname">input_spec</code><a class="headerlink" href="#niworkflows.interfaces.images.DemeanImage.input_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_DemeanImageInputSpec</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="niworkflows.interfaces.images.DemeanImage.output_spec">
+<code class="sig-name descname">output_spec</code><a class="headerlink" href="#niworkflows.interfaces.images.DemeanImage.output_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_DemeanImageOutputSpec</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="niworkflows.interfaces.images.FilledImageLike">
+<em class="property">class </em><code class="sig-prename descclassname">niworkflows.interfaces.images.</code><code class="sig-name descname">FilledImageLike</code><span class="sig-paren">(</span><em class="sig-param">from_file=None</em>, <em class="sig-param">resource_monitor=None</em>, <em class="sig-param">**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/images.html#FilledImageLike"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.interfaces.images.FilledImageLike" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">nipype.interfaces.base.core.SimpleInterface</span></code></p>
+<dl class="attribute">
+<dt id="niworkflows.interfaces.images.FilledImageLike.input_spec">
+<code class="sig-name descname">input_spec</code><a class="headerlink" href="#niworkflows.interfaces.images.FilledImageLike.input_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_FilledImageLikeInputSpec</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="niworkflows.interfaces.images.FilledImageLike.output_spec">
+<code class="sig-name descname">output_spec</code><a class="headerlink" href="#niworkflows.interfaces.images.FilledImageLike.output_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_FilledImageLikeOutputSpec</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="niworkflows.interfaces.images.IntraModalMerge">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">niworkflows.interfaces.images.</span></code><code class="sig-name descname"><span class="pre">IntraModalMerge</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_monitor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">inputs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/images.html#IntraModalMerge"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#niworkflows.interfaces.images.IntraModalMerge" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">niworkflows.interfaces.images.</code><code class="sig-name descname">IntraModalMerge</code><span class="sig-paren">(</span><em class="sig-param">from_file=None</em>, <em class="sig-param">resource_monitor=None</em>, <em class="sig-param">**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/images.html#IntraModalMerge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.interfaces.images.IntraModalMerge" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">nipype.interfaces.base.core.SimpleInterface</span></code></p>
 <p>Calculate an average of the inputs.</p>
 <p>If the input is 3D, returns the original image.
 Otherwise, splits the images and merges them after
 head-motion correction with FSL <code class="docutils literal notranslate"><span class="pre">mcflirt</span></code>.</p>
-<dl class="py attribute">
+<dl class="attribute">
 <dt id="niworkflows.interfaces.images.IntraModalMerge.input_spec">
-<code class="sig-name descname"><span class="pre">input_spec</span></code><a class="headerlink" href="#niworkflows.interfaces.images.IntraModalMerge.input_spec" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">niworkflows.interfaces.images._IntraModalMergeInputSpec</span></code></p>
+<code class="sig-name descname">input_spec</code><a class="headerlink" href="#niworkflows.interfaces.images.IntraModalMerge.input_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_IntraModalMergeInputSpec</span></code></p>
 </dd></dl>
 
-<dl class="py attribute">
+<dl class="attribute">
 <dt id="niworkflows.interfaces.images.IntraModalMerge.output_spec">
-<code class="sig-name descname"><span class="pre">output_spec</span></code><a class="headerlink" href="#niworkflows.interfaces.images.IntraModalMerge.output_spec" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">niworkflows.interfaces.images._IntraModalMergeOutputSpec</span></code></p>
+<code class="sig-name descname">output_spec</code><a class="headerlink" href="#niworkflows.interfaces.images.IntraModalMerge.output_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_IntraModalMergeOutputSpec</span></code></p>
 </dd></dl>
 
 </dd></dl>
 
-<dl class="py class">
+<dl class="class">
+<dt id="niworkflows.interfaces.images.MatchHeader">
+<em class="property">class </em><code class="sig-prename descclassname">niworkflows.interfaces.images.</code><code class="sig-name descname">MatchHeader</code><span class="sig-paren">(</span><em class="sig-param">from_file=None</em>, <em class="sig-param">resource_monitor=None</em>, <em class="sig-param">**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/images.html#MatchHeader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.interfaces.images.MatchHeader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">nipype.interfaces.base.core.SimpleInterface</span></code></p>
+<dl class="attribute">
+<dt id="niworkflows.interfaces.images.MatchHeader.input_spec">
+<code class="sig-name descname">input_spec</code><a class="headerlink" href="#niworkflows.interfaces.images.MatchHeader.input_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_MatchHeaderInputSpec</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="niworkflows.interfaces.images.MatchHeader.output_spec">
+<code class="sig-name descname">output_spec</code><a class="headerlink" href="#niworkflows.interfaces.images.MatchHeader.output_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_MatchHeaderOutputSpec</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="niworkflows.interfaces.images.RegridToZooms">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">niworkflows.interfaces.images.</span></code><code class="sig-name descname"><span class="pre">RegridToZooms</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_monitor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">inputs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/images.html#RegridToZooms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#niworkflows.interfaces.images.RegridToZooms" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">niworkflows.interfaces.images.</code><code class="sig-name descname">RegridToZooms</code><span class="sig-paren">(</span><em class="sig-param">from_file=None</em>, <em class="sig-param">resource_monitor=None</em>, <em class="sig-param">**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/images.html#RegridToZooms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.interfaces.images.RegridToZooms" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">nipype.interfaces.base.core.SimpleInterface</span></code></p>
 <p>Change the resolution of an image (regrid).</p>
-<dl class="py attribute">
+<dl class="attribute">
 <dt id="niworkflows.interfaces.images.RegridToZooms.input_spec">
-<code class="sig-name descname"><span class="pre">input_spec</span></code><a class="headerlink" href="#niworkflows.interfaces.images.RegridToZooms.input_spec" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">niworkflows.interfaces.images._RegridToZoomsInputSpec</span></code></p>
+<code class="sig-name descname">input_spec</code><a class="headerlink" href="#niworkflows.interfaces.images.RegridToZooms.input_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_RegridToZoomsInputSpec</span></code></p>
 </dd></dl>
 
-<dl class="py attribute">
+<dl class="attribute">
 <dt id="niworkflows.interfaces.images.RegridToZooms.output_spec">
-<code class="sig-name descname"><span class="pre">output_spec</span></code><a class="headerlink" href="#niworkflows.interfaces.images.RegridToZooms.output_spec" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">niworkflows.interfaces.images._RegridToZoomsOutputSpec</span></code></p>
+<code class="sig-name descname">output_spec</code><a class="headerlink" href="#niworkflows.interfaces.images.RegridToZooms.output_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_RegridToZoomsOutputSpec</span></code></p>
 </dd></dl>
 
 </dd></dl>
 
-<dl class="py class">
-<dt id="niworkflows.interfaces.images.RobustAverage">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">niworkflows.interfaces.images.</span></code><code class="sig-name descname"><span class="pre">RobustAverage</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_monitor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">inputs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/images.html#RobustAverage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#niworkflows.interfaces.images.RobustAverage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">nipype.interfaces.base.core.SimpleInterface</span></code></p>
-<p>Robustly estimate an average of the input.</p>
-<dl class="py attribute">
-<dt id="niworkflows.interfaces.images.RobustAverage.input_spec">
-<code class="sig-name descname"><span class="pre">input_spec</span></code><a class="headerlink" href="#niworkflows.interfaces.images.RobustAverage.input_spec" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">niworkflows.interfaces.images._RobustAverageInputSpec</span></code></p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt id="niworkflows.interfaces.images.RobustAverage.output_spec">
-<code class="sig-name descname"><span class="pre">output_spec</span></code><a class="headerlink" href="#niworkflows.interfaces.images.RobustAverage.output_spec" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">niworkflows.interfaces.images._RobustAverageOutputSpec</span></code></p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
+<dl class="class">
 <dt id="niworkflows.interfaces.images.SignalExtraction">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">niworkflows.interfaces.images.</span></code><code class="sig-name descname"><span class="pre">SignalExtraction</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_monitor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">inputs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/images.html#SignalExtraction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#niworkflows.interfaces.images.SignalExtraction" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">niworkflows.interfaces.images.</code><code class="sig-name descname">SignalExtraction</code><span class="sig-paren">(</span><em class="sig-param">from_file=None</em>, <em class="sig-param">resource_monitor=None</em>, <em class="sig-param">**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/images.html#SignalExtraction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.interfaces.images.SignalExtraction" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">nipype.interfaces.base.core.SimpleInterface</span></code></p>
 <p>Extract mean signals from a time series within a set of ROIs.</p>
 <p>This interface is intended to be a memory-efficient alternative to
 nipype.interfaces.nilearn.SignalExtraction.
 Not all features of nilearn.SignalExtraction are implemented at
 this time.</p>
-<dl class="py attribute">
+<dl class="attribute">
 <dt id="niworkflows.interfaces.images.SignalExtraction.input_spec">
-<code class="sig-name descname"><span class="pre">input_spec</span></code><a class="headerlink" href="#niworkflows.interfaces.images.SignalExtraction.input_spec" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">niworkflows.interfaces.images._SignalExtractionInputSpec</span></code></p>
+<code class="sig-name descname">input_spec</code><a class="headerlink" href="#niworkflows.interfaces.images.SignalExtraction.input_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_SignalExtractionInputSpec</span></code></p>
 </dd></dl>
 
-<dl class="py attribute">
+<dl class="attribute">
 <dt id="niworkflows.interfaces.images.SignalExtraction.output_spec">
-<code class="sig-name descname"><span class="pre">output_spec</span></code><a class="headerlink" href="#niworkflows.interfaces.images.SignalExtraction.output_spec" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">niworkflows.interfaces.images._SignalExtractionOutputSpec</span></code></p>
+<code class="sig-name descname">output_spec</code><a class="headerlink" href="#niworkflows.interfaces.images.SignalExtraction.output_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_SignalExtractionOutputSpec</span></code></p>
 </dd></dl>
 
 </dd></dl>
 
-<dl class="py class">
+<dl class="class">
 <dt id="niworkflows.interfaces.images.TemplateDimensions">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">niworkflows.interfaces.images.</span></code><code class="sig-name descname"><span class="pre">TemplateDimensions</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_monitor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">inputs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/images.html#TemplateDimensions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#niworkflows.interfaces.images.TemplateDimensions" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">niworkflows.interfaces.images.</code><code class="sig-name descname">TemplateDimensions</code><span class="sig-paren">(</span><em class="sig-param">from_file=None</em>, <em class="sig-param">resource_monitor=None</em>, <em class="sig-param">**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/images.html#TemplateDimensions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.interfaces.images.TemplateDimensions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">nipype.interfaces.base.core.SimpleInterface</span></code></p>
 <p>Finds template target dimensions for a series of T1w images, filtering low-resolution images,
 if necessary.</p>
@@ -335,23 +371,137 @@ By default, an image with a voxel size greater than 3x the smallest voxel size
 (calculated separately for each dimension) will be discarded.</p>
 <p>To select images that require no scaling (i.e. all have smallest voxel sizes),
 set <code class="docutils literal notranslate"><span class="pre">max_scale=1</span></code>.</p>
-<dl class="py attribute">
+<dl class="attribute">
 <dt id="niworkflows.interfaces.images.TemplateDimensions.input_spec">
-<code class="sig-name descname"><span class="pre">input_spec</span></code><a class="headerlink" href="#niworkflows.interfaces.images.TemplateDimensions.input_spec" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">niworkflows.interfaces.images._TemplateDimensionsInputSpec</span></code></p>
+<code class="sig-name descname">input_spec</code><a class="headerlink" href="#niworkflows.interfaces.images.TemplateDimensions.input_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_TemplateDimensionsInputSpec</span></code></p>
 </dd></dl>
 
-<dl class="py attribute">
+<dl class="attribute">
 <dt id="niworkflows.interfaces.images.TemplateDimensions.output_spec">
-<code class="sig-name descname"><span class="pre">output_spec</span></code><a class="headerlink" href="#niworkflows.interfaces.images.TemplateDimensions.output_spec" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">niworkflows.interfaces.images._TemplateDimensionsOutputSpec</span></code></p>
+<code class="sig-name descname">output_spec</code><a class="headerlink" href="#niworkflows.interfaces.images.TemplateDimensions.output_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_TemplateDimensionsOutputSpec</span></code></p>
 </dd></dl>
 
 </dd></dl>
 
-<dl class="py function">
+<dl class="class">
+<dt id="niworkflows.interfaces.images.ValidateImage">
+<em class="property">class </em><code class="sig-prename descclassname">niworkflows.interfaces.images.</code><code class="sig-name descname">ValidateImage</code><span class="sig-paren">(</span><em class="sig-param">from_file=None</em>, <em class="sig-param">resource_monitor=None</em>, <em class="sig-param">**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/images.html#ValidateImage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.interfaces.images.ValidateImage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">nipype.interfaces.base.core.SimpleInterface</span></code></p>
+<p>Check the correctness of x-form headers (matrix and code).</p>
+<p>This interface implements the <a class="reference external" href="https://github.com/nipreps/fmriprep/issues/873#issuecomment-349394544">following logic</a>:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 15%" />
+<col style="width: 15%" />
+<col style="width: 15%" />
+<col style="width: 40%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>valid quaternions</p></th>
+<th class="head"><p><cite>qform_code &gt; 0</cite></p></th>
+<th class="head"><p><cite>sform_code &gt; 0</cite></p></th>
+<th class="head"><p><cite>qform == sform</cite></p></th>
+<th class="head"><p>actions</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>True</p></td>
+<td><p>True</p></td>
+<td><p>True</p></td>
+<td><p>True</p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-odd"><td><p>True</p></td>
+<td><p>True</p></td>
+<td><p>False</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><p>sform, scode &lt;- qform, qcode</p></td>
+</tr>
+<tr class="row-even"><td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><p>True</p></td>
+<td><p>False</p></td>
+<td><p>qform, qcode &lt;- sform, scode</p></td>
+</tr>
+<tr class="row-odd"><td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><p>False</p></td>
+<td><p>True</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><p>qform, qcode &lt;- sform, scode</p></td>
+</tr>
+<tr class="row-even"><td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><p>False</p></td>
+<td><p>False</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><p>sform, qform &lt;- best affine; scode, qcode &lt;- 1</p></td>
+</tr>
+<tr class="row-odd"><td><p>False</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><p>False</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><p>sform, qform &lt;- best affine; scode, qcode &lt;- 1</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="niworkflows.interfaces.images.ValidateImage.input_spec">
+<code class="sig-name descname">input_spec</code><a class="headerlink" href="#niworkflows.interfaces.images.ValidateImage.input_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_ValidateImageInputSpec</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="niworkflows.interfaces.images.ValidateImage.output_spec">
+<code class="sig-name descname">output_spec</code><a class="headerlink" href="#niworkflows.interfaces.images.ValidateImage.output_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_ValidateImageOutputSpec</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="niworkflows.interfaces.images.demean">
+<code class="sig-prename descclassname">niworkflows.interfaces.images.</code><code class="sig-name descname">demean</code><span class="sig-paren">(</span><em class="sig-param">in_file</em>, <em class="sig-param">in_mask</em>, <em class="sig-param">only_mask=False</em>, <em class="sig-param">newpath=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/images.html#demean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.interfaces.images.demean" title="Permalink to this definition">¶</a></dt>
+<dd><p>Demean <code class="docutils literal notranslate"><span class="pre">in_file</span></code> within the mask defined by <code class="docutils literal notranslate"><span class="pre">in_mask</span></code>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="niworkflows.interfaces.images.nii_ones_like">
+<code class="sig-prename descclassname">niworkflows.interfaces.images.</code><code class="sig-name descname">nii_ones_like</code><span class="sig-paren">(</span><em class="sig-param">in_file</em>, <em class="sig-param">value</em>, <em class="sig-param">dtype</em>, <em class="sig-param">newpath=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/images.html#nii_ones_like"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.interfaces.images.nii_ones_like" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a NIfTI file filled with <code class="docutils literal notranslate"><span class="pre">value</span></code>, matching properties of <code class="docutils literal notranslate"><span class="pre">in_file</span></code>.</p>
+</dd></dl>
+
+<dl class="function">
 <dt id="niworkflows.interfaces.images.normalize_xform">
-<code class="sig-prename descclassname"><span class="pre">niworkflows.interfaces.images.</span></code><code class="sig-name descname"><span class="pre">normalize_xform</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/images.html#normalize_xform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#niworkflows.interfaces.images.normalize_xform" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">niworkflows.interfaces.images.</code><code class="sig-name descname">normalize_xform</code><span class="sig-paren">(</span><em class="sig-param">img</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/images.html#normalize_xform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.interfaces.images.normalize_xform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set identical, valid qform and sform matrices in an image.</p>
 <p>Selects the best available affine (sform &gt; qform &gt; shape-based), and
 coerces it to be qform-compatible (no shears).</p>
@@ -362,13 +512,13 @@ coordinates.</p>
 <p>If header would be unchanged, returns input image.</p>
 </dd></dl>
 
-<dl class="py function">
+<dl class="function">
 <dt id="niworkflows.interfaces.images.reorient">
-<code class="sig-prename descclassname"><span class="pre">niworkflows.interfaces.images.</span></code><code class="sig-name descname"><span class="pre">reorient</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">in_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">newpath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/images.html#reorient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#niworkflows.interfaces.images.reorient" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">niworkflows.interfaces.images.</code><code class="sig-name descname">reorient</code><span class="sig-paren">(</span><em class="sig-param">in_file</em>, <em class="sig-param">newpath=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/images.html#reorient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.interfaces.images.reorient" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reorient Nifti files to RAS.</p>
 </dd></dl>
 
-</div>
+</section>
 
 
            </div>
@@ -384,7 +534,7 @@ coordinates.</p>
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright Copyright 2021, The NiPreps Developers.
+        &#169; Copyright Copyright 2021, Center for Reproducible Neuroscience, Stanford University.
 
     </p>
   </div>
@@ -455,6 +605,7 @@ coordinates.</p>
             <dd><a href="../../1.3.0rc3/api/niworkflows.interfaces.images.html">1.3.0rc3</a></dd>
             <dd><a href="../../1.3.1/api/niworkflows.interfaces.images.html">1.3.1</a></dd>
             <dd><a href="../../1.3.2/api/niworkflows.interfaces.images.html">1.3.2</a></dd>
+            <dd><a href="../../1.3.3/api/niworkflows.interfaces.images.html">1.3.3</a></dd>
             <dd><a href="../../1.4.0rc0/api/niworkflows.interfaces.images.html">1.4.0rc0</a></dd>
             <dd><a href="../../1.4.0rc1/api/niworkflows.interfaces.images.html">1.4.0rc1</a></dd>
             <dd><a href="../../1.4.0rc2/api/niworkflows.interfaces.images.html">1.4.0rc2</a></dd>

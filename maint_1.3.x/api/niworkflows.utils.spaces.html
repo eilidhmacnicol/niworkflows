@@ -4,10 +4,11 @@
 <html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" />
-  
+  <meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>niworkflows.utils.spaces module &mdash; niworkflows 1.4.0rc5+7.g616d2bca documentation</title>
+  <title>niworkflows.utils.spaces module &mdash; niworkflows 1.3.3 documentation</title>
   
 
   
@@ -33,6 +34,8 @@
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -64,7 +67,7 @@
             
             
               <div class="version">
-                1.4.0
+                1.3.3
               </div>
             
           
@@ -194,37 +197,37 @@
 
 
     <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../master/api/niworkflows.utils.spaces.html"><b>Warning:</b> This document is for the development version of niworkflows. The main version is master.</a></p>
-<div class="section" id="module-niworkflows.utils.spaces">
+<section id="module-niworkflows.utils.spaces">
 <span id="niworkflows-utils-spaces-module"></span><h1>niworkflows.utils.spaces module<a class="headerlink" href="#module-niworkflows.utils.spaces" title="Permalink to this headline">¶</a></h1>
 <p>Utilities for tracking and filtering spaces.</p>
-<dl class="py data">
+<dl class="data">
 <dt id="niworkflows.utils.spaces.FSAVERAGE_DENSITY">
-<code class="sig-prename descclassname"><span class="pre">niworkflows.utils.spaces.</span></code><code class="sig-name descname"><span class="pre">FSAVERAGE_DENSITY</span></code><em class="property"> <span class="pre">=</span> <span class="pre">{'fsaverage':</span> <span class="pre">'164k',</span> <span class="pre">'fsaverage3':</span> <span class="pre">'642',</span> <span class="pre">'fsaverage4':</span> <span class="pre">'2562',</span> <span class="pre">'fsaverage5':</span> <span class="pre">'10k',</span> <span class="pre">'fsaverage6':</span> <span class="pre">'41k'}</span></em><a class="headerlink" href="#niworkflows.utils.spaces.FSAVERAGE_DENSITY" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">niworkflows.utils.spaces.</code><code class="sig-name descname">FSAVERAGE_DENSITY</code><em class="property"> = {'fsaverage': '164k', 'fsaverage3': '642', 'fsaverage4': '2562', 'fsaverage5': '10k', 'fsaverage6': '41k'}</em><a class="headerlink" href="#niworkflows.utils.spaces.FSAVERAGE_DENSITY" title="Permalink to this definition">¶</a></dt>
 <dd><p>A map of legacy fsaverageX names to surface densities.</p>
 </dd></dl>
 
-<dl class="py data">
+<dl class="data">
 <dt id="niworkflows.utils.spaces.FSAVERAGE_LEGACY">
-<code class="sig-prename descclassname"><span class="pre">niworkflows.utils.spaces.</span></code><code class="sig-name descname"><span class="pre">FSAVERAGE_LEGACY</span></code><em class="property"> <span class="pre">=</span> <span class="pre">{'10k':</span> <span class="pre">'fsaverage5',</span> <span class="pre">'164k':</span> <span class="pre">'fsaverage',</span> <span class="pre">'2562':</span> <span class="pre">'fsaverage4',</span> <span class="pre">'41k':</span> <span class="pre">'fsaverage6',</span> <span class="pre">'642':</span> <span class="pre">'fsaverage3'}</span></em><a class="headerlink" href="#niworkflows.utils.spaces.FSAVERAGE_LEGACY" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">niworkflows.utils.spaces.</code><code class="sig-name descname">FSAVERAGE_LEGACY</code><em class="property"> = {'10k': 'fsaverage5', '164k': 'fsaverage', '2562': 'fsaverage4', '41k': 'fsaverage6', '642': 'fsaverage3'}</em><a class="headerlink" href="#niworkflows.utils.spaces.FSAVERAGE_LEGACY" title="Permalink to this definition">¶</a></dt>
 <dd><p>A map of surface densities to legacy fsaverageX names.</p>
 </dd></dl>
 
-<dl class="py data">
+<dl class="data">
 <dt id="niworkflows.utils.spaces.NONSTANDARD_REFERENCES">
-<code class="sig-prename descclassname"><span class="pre">niworkflows.utils.spaces.</span></code><code class="sig-name descname"><span class="pre">NONSTANDARD_REFERENCES</span></code><em class="property"> <span class="pre">=</span> <span class="pre">['T1w',</span> <span class="pre">'T2w',</span> <span class="pre">'anat',</span> <span class="pre">'fsnative',</span> <span class="pre">'func',</span> <span class="pre">'run',</span> <span class="pre">'sbref',</span> <span class="pre">'session',</span> <span class="pre">'individual',</span> <span class="pre">'dwi']</span></em><a class="headerlink" href="#niworkflows.utils.spaces.NONSTANDARD_REFERENCES" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">niworkflows.utils.spaces.</code><code class="sig-name descname">NONSTANDARD_REFERENCES</code><em class="property"> = ['T1w', 'T2w', 'anat', 'fsnative', 'func', 'run', 'sbref', 'session', 'individual', 'dwi']</em><a class="headerlink" href="#niworkflows.utils.spaces.NONSTANDARD_REFERENCES" title="Permalink to this definition">¶</a></dt>
 <dd><p>List of supported nonstandard reference spaces.</p>
 </dd></dl>
 
-<dl class="py class">
+<dl class="class">
 <dt id="niworkflows.utils.spaces.OutputReferencesAction">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">niworkflows.utils.spaces.</span></code><code class="sig-name descname"><span class="pre">OutputReferencesAction</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">option_strings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">const</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">choices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">required</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">help</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metavar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/utils/spaces.html#OutputReferencesAction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#niworkflows.utils.spaces.OutputReferencesAction" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">niworkflows.utils.spaces.</code><code class="sig-name descname">OutputReferencesAction</code><span class="sig-paren">(</span><em class="sig-param">option_strings</em>, <em class="sig-param">dest</em>, <em class="sig-param">nargs=None</em>, <em class="sig-param">const=None</em>, <em class="sig-param">default=None</em>, <em class="sig-param">type=None</em>, <em class="sig-param">choices=None</em>, <em class="sig-param">required=False</em>, <em class="sig-param">help=None</em>, <em class="sig-param">metavar=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/utils/spaces.html#OutputReferencesAction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.utils.spaces.OutputReferencesAction" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/argparse.html#argparse.Action" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">argparse.Action</span></code></a></p>
 <p>Parse spatial references.</p>
 </dd></dl>
 
-<dl class="py class">
+<dl class="class">
 <dt id="niworkflows.utils.spaces.Reference">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">niworkflows.utils.spaces.</span></code><code class="sig-name descname"><span class="pre">Reference</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">space</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">NOTHING</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">standard</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/utils/spaces.html#Reference"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#niworkflows.utils.spaces.Reference" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">niworkflows.utils.spaces.</code><code class="sig-name descname">Reference</code><span class="sig-paren">(</span><em class="sig-param">space: str = None</em>, <em class="sig-param">spec=NOTHING</em>, <em class="sig-param">standard: bool = False</em>, <em class="sig-param">dim: int = 3</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/utils/spaces.html#Reference"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.utils.spaces.Reference" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Represent a (non)standard space specification.</p>
 <p class="rubric">Examples</p>
@@ -314,15 +317,15 @@
 <span class="go">True</span>
 </pre></div>
 </div>
-<dl class="py attribute">
+<dl class="attribute">
 <dt id="niworkflows.utils.spaces.Reference.dim">
-<code class="sig-name descname"><span class="pre">dim</span></code><a class="headerlink" href="#niworkflows.utils.spaces.Reference.dim" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">dim</code><a class="headerlink" href="#niworkflows.utils.spaces.Reference.dim" title="Permalink to this definition">¶</a></dt>
 <dd><p>Dimensionality of the sampling manifold.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="niworkflows.utils.spaces.Reference.from_string">
-<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">from_string</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/utils/spaces.html#Reference.from_string"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#niworkflows.utils.spaces.Reference.from_string" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="sig-name descname">from_string</code><span class="sig-paren">(</span><em class="sig-param">value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/utils/spaces.html#Reference.from_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.utils.spaces.Reference.from_string" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parse a string to generate the corresponding list of References.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -386,9 +389,9 @@ language for <code class="docutils literal notranslate"><span class="pre">--outp
 </div>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="niworkflows.utils.spaces.Reference.fullname">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">fullname</span></code><a class="headerlink" href="#niworkflows.utils.spaces.Reference.fullname" title="Permalink to this definition">¶</a></dt>
+<em class="property">property </em><code class="sig-name descname">fullname</code><a class="headerlink" href="#niworkflows.utils.spaces.Reference.fullname" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate a full-name combining cohort.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Reference</span><span class="p">(</span><span class="s1">&#39;MNI152Lin&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">fullname</span>
@@ -401,9 +404,9 @@ language for <code class="docutils literal notranslate"><span class="pre">--outp
 </div>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="niworkflows.utils.spaces.Reference.legacyname">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">legacyname</span></code><a class="headerlink" href="#niworkflows.utils.spaces.Reference.legacyname" title="Permalink to this definition">¶</a></dt>
+<em class="property">property </em><code class="sig-name descname">legacyname</code><a class="headerlink" href="#niworkflows.utils.spaces.Reference.legacyname" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate a legacy name for fsaverageX spaces.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Reference</span><span class="p">(</span><span class="n">space</span><span class="o">=</span><span class="s1">&#39;fsaverage&#39;</span><span class="p">)</span>
@@ -426,29 +429,29 @@ language for <code class="docutils literal notranslate"><span class="pre">--outp
 </div>
 </dd></dl>
 
-<dl class="py attribute">
+<dl class="attribute">
 <dt id="niworkflows.utils.spaces.Reference.space">
-<code class="sig-name descname"><span class="pre">space</span></code><a class="headerlink" href="#niworkflows.utils.spaces.Reference.space" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">space</code><a class="headerlink" href="#niworkflows.utils.spaces.Reference.space" title="Permalink to this definition">¶</a></dt>
 <dd><p>Name designating this space.</p>
 </dd></dl>
 
-<dl class="py attribute">
+<dl class="attribute">
 <dt id="niworkflows.utils.spaces.Reference.spec">
-<code class="sig-name descname"><span class="pre">spec</span></code><a class="headerlink" href="#niworkflows.utils.spaces.Reference.spec" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">spec</code><a class="headerlink" href="#niworkflows.utils.spaces.Reference.spec" title="Permalink to this definition">¶</a></dt>
 <dd><p>The dictionary of specs.</p>
 </dd></dl>
 
-<dl class="py attribute">
+<dl class="attribute">
 <dt id="niworkflows.utils.spaces.Reference.standard">
-<code class="sig-name descname"><span class="pre">standard</span></code><a class="headerlink" href="#niworkflows.utils.spaces.Reference.standard" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">standard</code><a class="headerlink" href="#niworkflows.utils.spaces.Reference.standard" title="Permalink to this definition">¶</a></dt>
 <dd><p>Whether this space is standard or not.</p>
 </dd></dl>
 
 </dd></dl>
 
-<dl class="py class">
+<dl class="class">
 <dt id="niworkflows.utils.spaces.SpatialReferences">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">niworkflows.utils.spaces.</span></code><code class="sig-name descname"><span class="pre">SpatialReferences</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spaces</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">checkpoint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/utils/spaces.html#SpatialReferences"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#niworkflows.utils.spaces.SpatialReferences" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">niworkflows.utils.spaces.</code><code class="sig-name descname">SpatialReferences</code><span class="sig-paren">(</span><em class="sig-param">spaces=None</em>, <em class="sig-param">checkpoint=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/utils/spaces.html#SpatialReferences"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.utils.spaces.SpatialReferences" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Manage specifications of spatial references.</p>
 <p class="rubric">Examples</p>
@@ -568,39 +571,39 @@ language for <code class="docutils literal notranslate"><span class="pre">--outp
 <span class="go"> Reference(space=&#39;MNIPediatricAsym&#39;, spec={&#39;cohort&#39;: &#39;1&#39;})]</span>
 </pre></div>
 </div>
-<dl class="py method">
+<dl class="method">
 <dt id="niworkflows.utils.spaces.SpatialReferences.add">
-<code class="sig-name descname"><span class="pre">add</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/utils/spaces.html#SpatialReferences.add"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#niworkflows.utils.spaces.SpatialReferences.add" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">add</code><span class="sig-paren">(</span><em class="sig-param">value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/utils/spaces.html#SpatialReferences.add"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.utils.spaces.SpatialReferences.add" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add one more space, without erroring if it exists.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="niworkflows.utils.spaces.SpatialReferences.append">
-<code class="sig-name descname"><span class="pre">append</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/utils/spaces.html#SpatialReferences.append"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#niworkflows.utils.spaces.SpatialReferences.append" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">append</code><span class="sig-paren">(</span><em class="sig-param">value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/utils/spaces.html#SpatialReferences.append"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.utils.spaces.SpatialReferences.append" title="Permalink to this definition">¶</a></dt>
 <dd><p>Concatenate one more space.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="niworkflows.utils.spaces.SpatialReferences.cached">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">cached</span></code><a class="headerlink" href="#niworkflows.utils.spaces.SpatialReferences.cached" title="Permalink to this definition">¶</a></dt>
+<em class="property">property </em><code class="sig-name descname">cached</code><a class="headerlink" href="#niworkflows.utils.spaces.SpatialReferences.cached" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get cached spaces, raise error if not cached.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="niworkflows.utils.spaces.SpatialReferences.check_space">
-<em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">check_space</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">space</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/utils/spaces.html#SpatialReferences.check_space"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#niworkflows.utils.spaces.SpatialReferences.check_space" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">check_space</code><span class="sig-paren">(</span><em class="sig-param">space</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/utils/spaces.html#SpatialReferences.check_space"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.utils.spaces.SpatialReferences.check_space" title="Permalink to this definition">¶</a></dt>
 <dd><p>Build a <a class="reference internal" href="#niworkflows.utils.spaces.Reference" title="niworkflows.utils.spaces.Reference"><code class="xref py py-class docutils literal notranslate"><span class="pre">Reference</span></code></a> object.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="niworkflows.utils.spaces.SpatialReferences.checkpoint">
-<code class="sig-name descname"><span class="pre">checkpoint</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/utils/spaces.html#SpatialReferences.checkpoint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#niworkflows.utils.spaces.SpatialReferences.checkpoint" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">checkpoint</code><span class="sig-paren">(</span><em class="sig-param">force=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/utils/spaces.html#SpatialReferences.checkpoint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.utils.spaces.SpatialReferences.checkpoint" title="Permalink to this definition">¶</a></dt>
 <dd><p>Cache and freeze current spaces to separate attribute.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="niworkflows.utils.spaces.SpatialReferences.get_fs_spaces">
-<code class="sig-name descname"><span class="pre">get_fs_spaces</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/utils/spaces.html#SpatialReferences.get_fs_spaces"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#niworkflows.utils.spaces.SpatialReferences.get_fs_spaces" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_fs_spaces</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/utils/spaces.html#SpatialReferences.get_fs_spaces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.utils.spaces.SpatialReferences.get_fs_spaces" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return FreeSurfer spaces.</p>
 <p>Discards nonlegacy fsaverage values (i.e., with nonstandard density value).</p>
 <p class="rubric">Examples</p>
@@ -623,15 +626,15 @@ language for <code class="docutils literal notranslate"><span class="pre">--outp
 </div>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="niworkflows.utils.spaces.SpatialReferences.get_nonstandard">
-<code class="sig-name descname"><span class="pre">get_nonstandard</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">full_spec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(2,</span> <span class="pre">3)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/utils/spaces.html#SpatialReferences.get_nonstandard"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#niworkflows.utils.spaces.SpatialReferences.get_nonstandard" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_nonstandard</code><span class="sig-paren">(</span><em class="sig-param">full_spec=False</em>, <em class="sig-param">dim=(2</em>, <em class="sig-param">3)</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/utils/spaces.html#SpatialReferences.get_nonstandard"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.utils.spaces.SpatialReferences.get_nonstandard" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return nonstandard spaces.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="niworkflows.utils.spaces.SpatialReferences.get_spaces">
-<code class="sig-name descname"><span class="pre">get_spaces</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">standard</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nonstandard</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(2,</span> <span class="pre">3)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/utils/spaces.html#SpatialReferences.get_spaces"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#niworkflows.utils.spaces.SpatialReferences.get_spaces" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_spaces</code><span class="sig-paren">(</span><em class="sig-param">standard=True</em>, <em class="sig-param">nonstandard=True</em>, <em class="sig-param">dim=(2</em>, <em class="sig-param">3)</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/utils/spaces.html#SpatialReferences.get_spaces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.utils.spaces.SpatialReferences.get_spaces" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return space names.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -676,9 +679,9 @@ language for <code class="docutils literal notranslate"><span class="pre">--outp
 </div>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="niworkflows.utils.spaces.SpatialReferences.get_standard">
-<code class="sig-name descname"><span class="pre">get_standard</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">full_spec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(2,</span> <span class="pre">3)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/utils/spaces.html#SpatialReferences.get_standard"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#niworkflows.utils.spaces.SpatialReferences.get_standard" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_standard</code><span class="sig-paren">(</span><em class="sig-param">full_spec=False</em>, <em class="sig-param">dim=(2</em>, <em class="sig-param">3)</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/utils/spaces.html#SpatialReferences.get_standard"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.utils.spaces.SpatialReferences.get_standard" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return output spaces.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -691,34 +694,34 @@ have density or resolution set).</p></li>
 </dl>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="niworkflows.utils.spaces.SpatialReferences.insert">
-<code class="sig-name descname"><span class="pre">insert</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/utils/spaces.html#SpatialReferences.insert"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#niworkflows.utils.spaces.SpatialReferences.insert" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">insert</code><span class="sig-paren">(</span><em class="sig-param">index</em>, <em class="sig-param">value</em>, <em class="sig-param">error=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/utils/spaces.html#SpatialReferences.insert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.utils.spaces.SpatialReferences.insert" title="Permalink to this definition">¶</a></dt>
 <dd><p>Concatenate one more space.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="niworkflows.utils.spaces.SpatialReferences.is_cached">
-<code class="sig-name descname"><span class="pre">is_cached</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/utils/spaces.html#SpatialReferences.is_cached"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#niworkflows.utils.spaces.SpatialReferences.is_cached" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">is_cached</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/utils/spaces.html#SpatialReferences.is_cached"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.utils.spaces.SpatialReferences.is_cached" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="niworkflows.utils.spaces.SpatialReferences.references">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">references</span></code><a class="headerlink" href="#niworkflows.utils.spaces.SpatialReferences.references" title="Permalink to this definition">¶</a></dt>
+<em class="property">property </em><code class="sig-name descname">references</code><a class="headerlink" href="#niworkflows.utils.spaces.SpatialReferences.references" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get all specified references.</p>
 </dd></dl>
 
-<dl class="py attribute">
+<dl class="attribute">
 <dt id="niworkflows.utils.spaces.SpatialReferences.standard_spaces">
-<code class="sig-name descname"><span class="pre">standard_spaces</span></code><em class="property"> <span class="pre">=</span> <span class="pre">('Fischer344',</span> <span class="pre">'MNI152Lin',</span> <span class="pre">'MNI152NLin2009cAsym',</span> <span class="pre">'MNI152NLin2009cSym',</span> <span class="pre">'MNI152NLin6Asym',</span> <span class="pre">'MNI152NLin6Sym',</span> <span class="pre">'MNIInfant',</span> <span class="pre">'MNIPediatricAsym',</span> <span class="pre">'NKI',</span> <span class="pre">'OASIS30ANTs',</span> <span class="pre">'PNC',</span> <span class="pre">'UNCInfant',</span> <span class="pre">'WHS',</span> <span class="pre">'fsLR',</span> <span class="pre">'fsaverage')</span></em><a class="headerlink" href="#niworkflows.utils.spaces.SpatialReferences.standard_spaces" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">standard_spaces</code><em class="property"> = ('Fischer344', 'MNI152Lin', 'MNI152NLin2009cAsym', 'MNI152NLin2009cSym', 'MNI152NLin6Asym', 'MNI152NLin6Sym', 'MNIInfant', 'MNIPediatricAsym', 'NKI', 'OASIS30ANTs', 'PNC', 'UNCInfant', 'WHS', 'fsLR', 'fsaverage')</em><a class="headerlink" href="#niworkflows.utils.spaces.SpatialReferences.standard_spaces" title="Permalink to this definition">¶</a></dt>
 <dd><p>List of supported standard reference spaces.</p>
 </dd></dl>
 
 </dd></dl>
 
-<dl class="py function">
+<dl class="function">
 <dt id="niworkflows.utils.spaces.format_reference">
-<code class="sig-prename descclassname"><span class="pre">niworkflows.utils.spaces.</span></code><code class="sig-name descname"><span class="pre">format_reference</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">in_tuple</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/utils/spaces.html#format_reference"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#niworkflows.utils.spaces.format_reference" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">niworkflows.utils.spaces.</code><code class="sig-name descname">format_reference</code><span class="sig-paren">(</span><em class="sig-param">in_tuple</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/utils/spaces.html#format_reference"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.utils.spaces.format_reference" title="Permalink to this definition">¶</a></dt>
 <dd><p>Format a spatial reference given as a tuple.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">format_reference</span><span class="p">((</span><span class="s1">&#39;MNI152Lin&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;res&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}))</span>
@@ -729,15 +732,15 @@ have density or resolution set).</p></li>
 </div>
 </dd></dl>
 
-<dl class="py function">
+<dl class="function">
 <dt id="niworkflows.utils.spaces.hasspec">
-<code class="sig-prename descclassname"><span class="pre">niworkflows.utils.spaces.</span></code><code class="sig-name descname"><span class="pre">hasspec</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">specs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/utils/spaces.html#hasspec"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#niworkflows.utils.spaces.hasspec" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">niworkflows.utils.spaces.</code><code class="sig-name descname">hasspec</code><span class="sig-paren">(</span><em class="sig-param">value</em>, <em class="sig-param">specs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/utils/spaces.html#hasspec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.utils.spaces.hasspec" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check whether any of the keys are in a dict.</p>
 </dd></dl>
 
-<dl class="py function">
+<dl class="function">
 <dt id="niworkflows.utils.spaces.reference2dict">
-<code class="sig-prename descclassname"><span class="pre">niworkflows.utils.spaces.</span></code><code class="sig-name descname"><span class="pre">reference2dict</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">in_tuple</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/utils/spaces.html#reference2dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#niworkflows.utils.spaces.reference2dict" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">niworkflows.utils.spaces.</code><code class="sig-name descname">reference2dict</code><span class="sig-paren">(</span><em class="sig-param">in_tuple</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/utils/spaces.html#reference2dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.utils.spaces.reference2dict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Split a spatial reference given as a tuple into a dictionary.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">reference2dict</span><span class="p">((</span><span class="s1">&#39;MNIPediatricAsym:cohort-2&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;res&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}))</span>
@@ -754,7 +757,7 @@ have density or resolution set).</p></li>
 </div>
 </dd></dl>
 
-</div>
+</section>
 
 
            </div>
@@ -770,7 +773,7 @@ have density or resolution set).</p></li>
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright Copyright 2021, The NiPreps Developers.
+        &#169; Copyright Copyright 2021, Center for Reproducible Neuroscience, Stanford University.
 
     </p>
   </div>
@@ -841,6 +844,7 @@ have density or resolution set).</p></li>
             <dd><a href="../../1.3.0rc3/api/niworkflows.utils.spaces.html">1.3.0rc3</a></dd>
             <dd><a href="../../1.3.1/api/niworkflows.utils.spaces.html">1.3.1</a></dd>
             <dd><a href="../../1.3.2/api/niworkflows.utils.spaces.html">1.3.2</a></dd>
+            <dd><a href="../../1.3.3/api/niworkflows.utils.spaces.html">1.3.3</a></dd>
             <dd><a href="../../1.4.0rc0/api/niworkflows.utils.spaces.html">1.4.0rc0</a></dd>
             <dd><a href="../../1.4.0rc1/api/niworkflows.utils.spaces.html">1.4.0rc1</a></dd>
             <dd><a href="../../1.4.0rc2/api/niworkflows.utils.spaces.html">1.4.0rc2</a></dd>

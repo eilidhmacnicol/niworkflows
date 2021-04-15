@@ -4,10 +4,11 @@
 <html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" />
-  
+  <meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>niworkflows.utils.connections module &mdash; niworkflows 1.4.0rc5+7.g616d2bca documentation</title>
+  <title>niworkflows.utils.connections module &mdash; niworkflows 1.3.3 documentation</title>
   
 
   
@@ -33,6 +34,8 @@
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -64,7 +67,7 @@
             
             
               <div class="version">
-                1.4.0
+                1.3.3
               </div>
             
           
@@ -194,14 +197,14 @@
 
 
     <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../master/api/niworkflows.utils.connections.html"><b>Warning:</b> This document is for an old version of niworkflows. The main version is master.</a></p>
-<div class="section" id="module-niworkflows.utils.connections">
+<section id="module-niworkflows.utils.connections">
 <span id="niworkflows-utils-connections-module"></span><h1>niworkflows.utils.connections module<a class="headerlink" href="#module-niworkflows.utils.connections" title="Permalink to this headline">¶</a></h1>
 <p>Utilities for the creation of nipype workflows.</p>
 <p>Because these functions are meant to be inlined in nipype’s <code class="docutils literal notranslate"><span class="pre">connect</span></code> invocations,
 all the imports MUST be done in each function’s context.</p>
-<dl class="py function">
+<dl class="function">
 <dt id="niworkflows.utils.connections.listify">
-<code class="sig-prename descclassname"><span class="pre">niworkflows.utils.connections.</span></code><code class="sig-name descname"><span class="pre">listify</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/utils/connections.html#listify"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#niworkflows.utils.connections.listify" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">niworkflows.utils.connections.</code><code class="sig-name descname">listify</code><span class="sig-paren">(</span><em class="sig-param">value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/utils/connections.html#listify"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.utils.connections.listify" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert to a list (inspired by bids.utils.listify).</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">listify</span><span class="p">(</span><span class="s1">&#39;some/file.nii.gz&#39;</span><span class="p">)</span>
@@ -214,9 +217,9 @@ all the imports MUST be done in each function’s context.</p>
 </div>
 </dd></dl>
 
-<dl class="py function">
+<dl class="function">
 <dt id="niworkflows.utils.connections.pop_file">
-<code class="sig-prename descclassname"><span class="pre">niworkflows.utils.connections.</span></code><code class="sig-name descname"><span class="pre">pop_file</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">in_files</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/utils/connections.html#pop_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#niworkflows.utils.connections.pop_file" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">niworkflows.utils.connections.</code><code class="sig-name descname">pop_file</code><span class="sig-paren">(</span><em class="sig-param">in_files</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/utils/connections.html#pop_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.utils.connections.pop_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Select the first file from a list of filenames.</p>
 <p>Used to grab the first echo’s file when processing
 multi-echo data through workflows that only accept
@@ -230,7 +233,7 @@ a single file.</p>
 </div>
 </dd></dl>
 
-</div>
+</section>
 
 
            </div>
@@ -246,7 +249,7 @@ a single file.</p>
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright Copyright 2021, The NiPreps Developers.
+        &#169; Copyright Copyright 2021, Center for Reproducible Neuroscience, Stanford University.
 
     </p>
   </div>
@@ -317,6 +320,7 @@ a single file.</p>
             <dd><a href="../../1.3.0rc3/api/niworkflows.utils.connections.html">1.3.0rc3</a></dd>
             <dd><a href="../../1.3.1/api/niworkflows.utils.connections.html">1.3.1</a></dd>
             <dd><a href="../../1.3.2/api/niworkflows.utils.connections.html">1.3.2</a></dd>
+            <dd><a href="../../1.3.3/api/niworkflows.utils.connections.html">1.3.3</a></dd>
             <dd><a href="../../1.4.0rc0/api/niworkflows.utils.connections.html">1.4.0rc0</a></dd>
             <dd><a href="../../1.4.0rc1/api/niworkflows.utils.connections.html">1.4.0rc1</a></dd>
             <dd><a href="../../1.4.0rc2/api/niworkflows.utils.connections.html">1.4.0rc2</a></dd>

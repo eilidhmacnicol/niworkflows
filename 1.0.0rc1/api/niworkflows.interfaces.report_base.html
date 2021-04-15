@@ -4,10 +4,11 @@
 <html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" />
-  
+  <meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>niworkflows.interfaces.report_base module &mdash; niworkflows 1.4.0rc5+7.g616d2bca documentation</title>
+  <title>niworkflows.interfaces.report_base module &mdash; niworkflows 1.3.3 documentation</title>
   
 
   
@@ -33,6 +34,8 @@
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -64,7 +67,7 @@
             
             
               <div class="version">
-                1.4.0
+                1.3.3
               </div>
             
           
@@ -188,9 +191,45 @@
 
 
     <p class="scv-banner scv-sphinx_rtd_theme"><b>Warning:</b> This document is for an old version of niworkflows.</p>
-<div class="section" id="niworkflows-interfaces-report-base-module">
-<h1>niworkflows.interfaces.report_base module<a class="headerlink" href="#niworkflows-interfaces-report-base-module" title="Permalink to this headline">¶</a></h1>
-</div>
+<section id="module-niworkflows.interfaces.report_base">
+<span id="niworkflows-interfaces-report-base-module"></span><h1>niworkflows.interfaces.report_base module<a class="headerlink" href="#module-niworkflows.interfaces.report_base" title="Permalink to this headline">¶</a></h1>
+<p>class mixin and utilities for enabling reports for nipype interfaces.</p>
+<dl class="class">
+<dt id="niworkflows.interfaces.report_base.RegistrationRC">
+<em class="property">class </em><code class="sig-prename descclassname">niworkflows.interfaces.report_base.</code><code class="sig-name descname">RegistrationRC</code><span class="sig-paren">(</span><em class="sig-param">generate_report=False</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/report_base.html#RegistrationRC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.interfaces.report_base.RegistrationRC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">nipype.interfaces.mixins.reporting.ReportCapableInterface</span></code></p>
+<p>An abstract mixin to registration nipype interfaces.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="niworkflows.interfaces.report_base.ReportingInterface">
+<em class="property">class </em><code class="sig-prename descclassname">niworkflows.interfaces.report_base.</code><code class="sig-name descname">ReportingInterface</code><span class="sig-paren">(</span><em class="sig-param">generate_report=True</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/report_base.html#ReportingInterface"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.interfaces.report_base.ReportingInterface" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">nipype.interfaces.mixins.reporting.ReportCapableInterface</span></code></p>
+<p>Interface that always generates a report.</p>
+<p>A subclass must define an <code class="docutils literal notranslate"><span class="pre">input_spec</span></code> and override <code class="docutils literal notranslate"><span class="pre">_generate_report</span></code>.</p>
+<dl class="attribute">
+<dt id="niworkflows.interfaces.report_base.ReportingInterface.output_spec">
+<code class="sig-name descname">output_spec</code><a class="headerlink" href="#niworkflows.interfaces.report_base.ReportingInterface.output_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">nipype.interfaces.mixins.reporting.ReportCapableOutputSpec</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="niworkflows.interfaces.report_base.SegmentationRC">
+<em class="property">class </em><code class="sig-prename descclassname">niworkflows.interfaces.report_base.</code><code class="sig-name descname">SegmentationRC</code><span class="sig-paren">(</span><em class="sig-param">generate_report=False</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/report_base.html#SegmentationRC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.interfaces.report_base.SegmentationRC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">nipype.interfaces.mixins.reporting.ReportCapableInterface</span></code></p>
+<p>An abstract mixin to segmentation nipype interfaces.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="niworkflows.interfaces.report_base.SurfaceSegmentationRC">
+<em class="property">class </em><code class="sig-prename descclassname">niworkflows.interfaces.report_base.</code><code class="sig-name descname">SurfaceSegmentationRC</code><span class="sig-paren">(</span><em class="sig-param">generate_report=False</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/report_base.html#SurfaceSegmentationRC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.interfaces.report_base.SurfaceSegmentationRC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">nipype.interfaces.mixins.reporting.ReportCapableInterface</span></code></p>
+<p>An abstract mixin to registration nipype interfaces.</p>
+</dd></dl>
+
+</section>
 
 
            </div>
@@ -206,7 +245,7 @@
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright Copyright 2021, The NiPreps Developers.
+        &#169; Copyright Copyright 2021, Center for Reproducible Neuroscience, Stanford University.
 
     </p>
   </div>
@@ -277,6 +316,7 @@
             <dd><a href="../../1.3.0rc3/api/niworkflows.interfaces.report_base.html">1.3.0rc3</a></dd>
             <dd><a href="../../1.3.1/api/niworkflows.interfaces.report_base.html">1.3.1</a></dd>
             <dd><a href="../../1.3.2/api/niworkflows.interfaces.report_base.html">1.3.2</a></dd>
+            <dd><a href="../../1.3.3/api/niworkflows.interfaces.report_base.html">1.3.3</a></dd>
             <dd><a href="../../1.4.0rc0/api/niworkflows.interfaces.report_base.html">1.4.0rc0</a></dd>
             <dd><a href="../../1.4.0rc1/api/niworkflows.interfaces.report_base.html">1.4.0rc1</a></dd>
             <dd><a href="../../1.4.0rc2/api/niworkflows.interfaces.report_base.html">1.4.0rc2</a></dd>

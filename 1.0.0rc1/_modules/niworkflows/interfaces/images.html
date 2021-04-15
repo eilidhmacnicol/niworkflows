@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>niworkflows.interfaces.images &mdash; niworkflows 1.4.0rc5+7.g616d2bca documentation</title>
+  <title>niworkflows.interfaces.images &mdash; niworkflows 1.3.3 documentation</title>
   
 
   
@@ -33,6 +33,8 @@
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
@@ -62,7 +64,7 @@
             
             
               <div class="version">
-                1.4.0
+                1.3.3
               </div>
             
           
@@ -168,10 +170,11 @@
 <span class="c1"># vi: set ft=python sts=4 ts=4 sw=4 et:</span>
 <span class="sd">&quot;&quot;&quot;Image tools interfaces.&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">nibabel</span> <span class="k">as</span> <span class="nn">nb</span>
 <span class="kn">import</span> <span class="nn">nilearn.image</span> <span class="k">as</span> <span class="nn">nli</span>
+<span class="kn">from</span> <span class="nn">textwrap</span> <span class="kn">import</span> <span class="n">indent</span>
+<span class="kn">import</span> <span class="nn">transforms3d</span>
 
 <span class="kn">from</span> <span class="nn">nipype</span> <span class="kn">import</span> <span class="n">logging</span>
 <span class="kn">from</span> <span class="nn">nipype.utils.filemanip</span> <span class="kn">import</span> <span class="n">fname_presuffix</span>
@@ -181,11 +184,11 @@
     <span class="n">BaseInterfaceInputSpec</span><span class="p">,</span>
     <span class="n">SimpleInterface</span><span class="p">,</span>
     <span class="n">File</span><span class="p">,</span>
-    <span class="n">InputMultiObject</span><span class="p">,</span>
-    <span class="n">OutputMultiObject</span><span class="p">,</span>
+    <span class="n">InputMultiPath</span><span class="p">,</span>
+    <span class="n">OutputMultiPath</span><span class="p">,</span>
     <span class="n">isdefined</span><span class="p">,</span>
 <span class="p">)</span>
-
+<span class="kn">from</span> <span class="nn">nipype.interfaces</span> <span class="kn">import</span> <span class="n">fsl</span>
 
 <span class="n">LOGGER</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;nipype.interface&quot;</span><span class="p">)</span>
 
@@ -212,7 +215,7 @@
         <span class="n">traits</span><span class="o">.</span><span class="n">Float</span><span class="p">(),</span>
         <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">usedefault</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;apply gaussian smoothing before resampling&quot;</span><span class="p">,</span>
+        <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;apply gaussian smoothing before resampling&quot;</span>
     <span class="p">)</span>
 
 
@@ -243,7 +246,7 @@
 
 
 <span class="k">class</span> <span class="nc">_IntraModalMergeInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
-    <span class="n">in_files</span> <span class="o">=</span> <span class="n">InputMultiObject</span><span class="p">(</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">mandatory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;input files&quot;</span><span class="p">)</span>
+    <span class="n">in_files</span> <span class="o">=</span> <span class="n">InputMultiPath</span><span class="p">(</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">mandatory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;input files&quot;</span><span class="p">)</span>
     <span class="n">in_mask</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;input mask for grand mean scaling&quot;</span><span class="p">)</span>
     <span class="n">hmc</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Bool</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">usedefault</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">zero_based_avg</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Bool</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">usedefault</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -254,8 +257,8 @@
 <span class="k">class</span> <span class="nc">_IntraModalMergeOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
     <span class="n">out_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;merged image&quot;</span><span class="p">)</span>
     <span class="n">out_avg</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;average image&quot;</span><span class="p">)</span>
-    <span class="n">out_mats</span> <span class="o">=</span> <span class="n">OutputMultiObject</span><span class="p">(</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;output matrices&quot;</span><span class="p">)</span>
-    <span class="n">out_movpar</span> <span class="o">=</span> <span class="n">OutputMultiObject</span><span class="p">(</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;output movement parameters&quot;</span><span class="p">)</span>
+    <span class="n">out_mats</span> <span class="o">=</span> <span class="n">OutputMultiPath</span><span class="p">(</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;output matrices&quot;</span><span class="p">)</span>
+    <span class="n">out_movpar</span> <span class="o">=</span> <span class="n">OutputMultiPath</span><span class="p">(</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;output movement parameters&quot;</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="IntraModalMerge"><a class="viewcode-back" href="../../../api/niworkflows.interfaces.images.html#niworkflows.interfaces.images.IntraModalMerge">[docs]</a><span class="k">class</span> <span class="nc">IntraModalMerge</span><span class="p">(</span><span class="n">SimpleInterface</span><span class="p">):</span>
@@ -309,9 +312,7 @@
             <span class="k">return</span> <span class="n">runtime</span>
 
         <span class="k">if</span> <span class="n">run_hmc</span><span class="p">:</span>
-            <span class="kn">from</span> <span class="nn">nipype.interfaces.fsl</span> <span class="kn">import</span> <span class="n">MCFLIRT</span>
-
-            <span class="n">mcflirt</span> <span class="o">=</span> <span class="n">MCFLIRT</span><span class="p">(</span>
+            <span class="n">mcflirt</span> <span class="o">=</span> <span class="n">fsl</span><span class="o">.</span><span class="n">MCFLIRT</span><span class="p">(</span>
                 <span class="n">cost</span><span class="o">=</span><span class="s2">&quot;normcorr&quot;</span><span class="p">,</span>
                 <span class="n">save_mats</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                 <span class="n">save_plots</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -355,150 +356,6 @@
         <span class="k">return</span> <span class="n">runtime</span></div>
 
 
-<span class="k">class</span> <span class="nc">_RobustAverageInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
-    <span class="n">in_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span>
-        <span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">mandatory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Either a 3D reference or 4D file to average through the last axis&quot;</span>
-    <span class="p">)</span>
-    <span class="n">t_mask</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">traits</span><span class="o">.</span><span class="n">Bool</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;List of selected timepoints to be averaged&quot;</span><span class="p">)</span>
-    <span class="n">mc_method</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Enum</span><span class="p">(</span>
-        <span class="s2">&quot;AFNI&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;FSL&quot;</span><span class="p">,</span>
-        <span class="kc">None</span><span class="p">,</span>
-        <span class="n">usedefault</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Which software to use to perform motion correction&quot;</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="n">nonnegative</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Bool</span><span class="p">(</span>
-        <span class="kc">True</span><span class="p">,</span> <span class="n">usedefault</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;whether the output should be clipped below zero&quot;</span>
-    <span class="p">)</span>
-
-
-<span class="k">class</span> <span class="nc">_RobustAverageOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
-    <span class="n">out_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;the averaged image&quot;</span><span class="p">)</span>
-    <span class="n">out_volumes</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;the volumes selected that have been averaged&quot;</span><span class="p">)</span>
-    <span class="n">out_drift</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">List</span><span class="p">(</span>
-        <span class="n">traits</span><span class="o">.</span><span class="n">Float</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;the ratio to the grand mean or global signal drift&quot;</span>
-    <span class="p">)</span>
-    <span class="n">out_hmc</span> <span class="o">=</span> <span class="n">OutputMultiObject</span><span class="p">(</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;head-motion correction matrices&quot;</span><span class="p">)</span>
-
-
-<div class="viewcode-block" id="RobustAverage"><a class="viewcode-back" href="../../../api/niworkflows.interfaces.images.html#niworkflows.interfaces.images.RobustAverage">[docs]</a><span class="k">class</span> <span class="nc">RobustAverage</span><span class="p">(</span><span class="n">SimpleInterface</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Robustly estimate an average of the input.&quot;&quot;&quot;</span>
-
-    <span class="n">input_spec</span> <span class="o">=</span> <span class="n">_RobustAverageInputSpec</span>
-    <span class="n">output_spec</span> <span class="o">=</span> <span class="n">_RobustAverageOutputSpec</span>
-
-    <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
-        <span class="n">img</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">in_file</span><span class="p">)</span>
-
-        <span class="c1"># If reference is 3D, return it directly</span>
-        <span class="k">if</span> <span class="n">img</span><span class="o">.</span><span class="n">dataobj</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="s2">&quot;out_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">in_file</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="s2">&quot;out_volumes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">in_file</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="s2">&quot;out_drift&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">]</span>
-            <span class="k">return</span> <span class="n">runtime</span>
-
-        <span class="n">fname</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">fname_presuffix</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">in_file</span><span class="p">,</span> <span class="n">newpath</span><span class="o">=</span><span class="n">runtime</span><span class="o">.</span><span class="n">cwd</span><span class="p">)</span>
-
-        <span class="c1"># Slicing may induce inconsistencies with shape-dependent values in extensions.</span>
-        <span class="c1"># For now, remove all. If this turns out to be a mistake, we can select extensions</span>
-        <span class="c1"># that don&#39;t break pipeline stages.</span>
-        <span class="n">img</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">extensions</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
-        <span class="n">img</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">squeeze_image</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
-
-        <span class="c1"># If reference was 4D, but single-volume - write out squeezed and return.</span>
-        <span class="k">if</span> <span class="n">img</span><span class="o">.</span><span class="n">dataobj</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="s2">&quot;out_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fname</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;_squeezed&quot;</span><span class="p">)</span>
-            <span class="n">img</span><span class="o">.</span><span class="n">to_filename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="s2">&quot;out_file&quot;</span><span class="p">])</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="s2">&quot;out_volumes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">in_file</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="s2">&quot;out_drift&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">]</span>
-            <span class="k">return</span> <span class="n">runtime</span>
-
-        <span class="n">img_len</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
-        <span class="n">t_mask</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">t_mask</span> <span class="k">if</span> <span class="n">isdefined</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">t_mask</span><span class="p">)</span> <span class="k">else</span> <span class="p">[</span><span class="kc">True</span><span class="p">]</span> <span class="o">*</span> <span class="n">img_len</span>
-        <span class="p">)</span>
-
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">t_mask</span><span class="p">)</span> <span class="o">!=</span> <span class="n">img_len</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Image length (</span><span class="si">{</span><span class="n">img_len</span><span class="si">}</span><span class="s2"> timepoints) unmatched by mask (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">t_mask</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span>
-            <span class="p">)</span>
-
-        <span class="n">n_volumes</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">t_mask</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">n_volumes</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;At least one volume should be selected for slicing&quot;</span><span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="s2">&quot;out_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fname</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;_average&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="s2">&quot;out_volumes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fname</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;_sliced&quot;</span><span class="p">)</span>
-
-        <span class="n">sliced</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">concat_images</span><span class="p">(</span>
-            <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">nb</span><span class="o">.</span><span class="n">four_to_three</span><span class="p">(</span><span class="n">img</span><span class="p">),</span> <span class="n">t_mask</span><span class="p">)</span> <span class="k">if</span> <span class="n">t</span>
-        <span class="p">)</span>
-
-        <span class="n">data</span> <span class="o">=</span> <span class="n">sliced</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
-        <span class="c1"># Data can come with outliers showing very high numbers - preemptively prune</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span>
-            <span class="n">data</span><span class="p">,</span>
-            <span class="n">a_min</span><span class="o">=</span><span class="mf">0.0</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">nonnegative</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">),</span>
-            <span class="n">a_max</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="mf">99.8</span><span class="p">),</span>
-        <span class="p">)</span>
-
-        <span class="n">gs_drift</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
-        <span class="n">gs_drift</span> <span class="o">/=</span> <span class="n">gs_drift</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="s2">&quot;out_drift&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">gs_drift</span><span class="p">]</span>
-
-        <span class="n">data</span> <span class="o">/=</span> <span class="n">gs_drift</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span>
-            <span class="n">data</span><span class="p">,</span>
-            <span class="n">a_min</span><span class="o">=</span><span class="mf">0.0</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">nonnegative</span> <span class="k">else</span> <span class="n">data</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span>
-            <span class="n">a_max</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span>
-        <span class="p">)</span>
-        <span class="n">sliced</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">sliced</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span> <span class="n">sliced</span><span class="o">.</span><span class="n">header</span><span class="p">)</span><span class="o">.</span><span class="n">to_filename</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="s2">&quot;out_volumes&quot;</span><span class="p">]</span>
-        <span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">n_volumes</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">nb</span><span class="o">.</span><span class="n">squeeze_image</span><span class="p">(</span><span class="n">sliced</span><span class="p">)</span><span class="o">.</span><span class="n">to_filename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="s2">&quot;out_file&quot;</span><span class="p">])</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="s2">&quot;out_drift&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">]</span>
-            <span class="k">return</span> <span class="n">runtime</span>
-
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mc_method</span> <span class="o">==</span> <span class="s2">&quot;AFNI&quot;</span><span class="p">:</span>
-            <span class="kn">from</span> <span class="nn">nipype.interfaces.afni</span> <span class="kn">import</span> <span class="n">Volreg</span>
-
-            <span class="n">res</span> <span class="o">=</span> <span class="n">Volreg</span><span class="p">(</span>
-                <span class="n">in_file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="s2">&quot;out_volumes&quot;</span><span class="p">],</span>
-                <span class="n">args</span><span class="o">=</span><span class="s2">&quot;-Fourier -twopass&quot;</span><span class="p">,</span>
-                <span class="n">zpad</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
-                <span class="n">outputtype</span><span class="o">=</span><span class="s2">&quot;NIFTI_GZ&quot;</span><span class="p">,</span>
-            <span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
-            <span class="c1"># self._results[&quot;out_hmc&quot;] = res.outputs.oned_matrix_save</span>
-
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mc_method</span> <span class="o">==</span> <span class="s2">&quot;FSL&quot;</span><span class="p">:</span>
-            <span class="kn">from</span> <span class="nn">nipype.interfaces.fsl</span> <span class="kn">import</span> <span class="n">MCFLIRT</span>
-
-            <span class="n">res</span> <span class="o">=</span> <span class="n">MCFLIRT</span><span class="p">(</span>
-                <span class="n">in_file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="s2">&quot;out_volumes&quot;</span><span class="p">],</span>
-                <span class="n">ref_vol</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;sinc&quot;</span><span class="p">,</span>
-            <span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="s2">&quot;out_hmc&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">mat_file</span>
-
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mc_method</span><span class="p">:</span>
-            <span class="n">data</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">out_file</span><span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
-
-        <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span>
-            <span class="n">data</span><span class="p">,</span>
-            <span class="n">a_min</span><span class="o">=</span><span class="mf">0.0</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">nonnegative</span> <span class="k">else</span> <span class="n">data</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span>
-            <span class="n">a_max</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span>
-        <span class="p">)</span>
-
-        <span class="n">sliced</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span> <span class="n">sliced</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span> <span class="n">sliced</span><span class="o">.</span><span class="n">header</span>
-        <span class="p">)</span><span class="o">.</span><span class="n">to_filename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="s2">&quot;out_file&quot;</span><span class="p">])</span>
-        <span class="k">return</span> <span class="n">runtime</span></div>
-
-
 <span class="n">CONFORMATION_TEMPLATE</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\t\t</span><span class="s2">&lt;h3 class=&quot;elem-title&quot;&gt;Anatomical Conformation&lt;/h3&gt;</span>
 <span class="se">\t\t</span><span class="s2">&lt;ul class=&quot;elem-desc&quot;&gt;</span>
 <span class="se">\t\t\t</span><span class="s2">&lt;li&gt;Input T1w images: </span><span class="si">{n_t1w}</span><span class="s2">&lt;/li&gt;</span>
@@ -514,7 +371,7 @@
 
 
 <span class="k">class</span> <span class="nc">_TemplateDimensionsInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
-    <span class="n">t1w_list</span> <span class="o">=</span> <span class="n">InputMultiObject</span><span class="p">(</span>
+    <span class="n">t1w_list</span> <span class="o">=</span> <span class="n">InputMultiPath</span><span class="p">(</span>
         <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">mandatory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;input T1w images&quot;</span>
     <span class="p">)</span>
     <span class="n">max_scale</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span>
@@ -523,7 +380,7 @@
 
 
 <span class="k">class</span> <span class="nc">_TemplateDimensionsOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
-    <span class="n">t1w_valid_list</span> <span class="o">=</span> <span class="n">OutputMultiObject</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;valid T1w images&quot;</span><span class="p">)</span>
+    <span class="n">t1w_valid_list</span> <span class="o">=</span> <span class="n">OutputMultiPath</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;valid T1w images&quot;</span><span class="p">)</span>
     <span class="n">target_zooms</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Tuple</span><span class="p">(</span>
         <span class="n">traits</span><span class="o">.</span><span class="n">Float</span><span class="p">,</span> <span class="n">traits</span><span class="o">.</span><span class="n">Float</span><span class="p">,</span> <span class="n">traits</span><span class="o">.</span><span class="n">Float</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Target zoom information&quot;</span>
     <span class="p">)</span>
@@ -629,7 +486,6 @@
 <span class="sd">    Conform a series of T1w images to enable merging.</span>
 
 <span class="sd">    Performs two basic functions:</span>
-
 <span class="sd">    #. Orient to RAS (left-right, posterior-anterior, inferior-superior)</span>
 <span class="sd">    #. Resample to target zooms (voxel sizes) and shape (number of voxels)</span>
 
@@ -684,18 +540,14 @@
             <span class="c1"># Use an affine with the corrected zooms, whether or not we resample</span>
             <span class="k">if</span> <span class="n">update_zooms</span><span class="p">:</span>
                 <span class="n">scale_factor</span> <span class="o">=</span> <span class="n">target_zooms</span> <span class="o">/</span> <span class="n">zooms</span>
-                <span class="n">target_affine</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">reoriented</span><span class="o">.</span><span class="n">affine</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span>
-                    <span class="n">scale_factor</span>
-                <span class="p">)</span>
+                <span class="n">target_affine</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">reoriented</span><span class="o">.</span><span class="n">affine</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">scale_factor</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">resize</span><span class="p">:</span>
                 <span class="c1"># The shift is applied after scaling.</span>
                 <span class="c1"># Use a proportional shift to maintain relative position in dataset</span>
                 <span class="n">size_factor</span> <span class="o">=</span> <span class="n">target_span</span> <span class="o">/</span> <span class="p">(</span><span class="n">zooms</span> <span class="o">*</span> <span class="n">shape</span><span class="p">)</span>
                 <span class="c1"># Use integer shifts to avoid unnecessary interpolation</span>
-                <span class="n">offset</span> <span class="o">=</span> <span class="p">(</span>
-                    <span class="n">reoriented</span><span class="o">.</span><span class="n">affine</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">size_factor</span> <span class="o">-</span> <span class="n">reoriented</span><span class="o">.</span><span class="n">affine</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
-                <span class="p">)</span>
+                <span class="n">offset</span> <span class="o">=</span> <span class="n">reoriented</span><span class="o">.</span><span class="n">affine</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">size_factor</span> <span class="o">-</span> <span class="n">reoriented</span><span class="o">.</span><span class="n">affine</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
                 <span class="n">target_affine</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">reoriented</span><span class="o">.</span><span class="n">affine</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="n">offset</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
 
             <span class="n">conform_xfm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">reoriented</span><span class="o">.</span><span class="n">affine</span><span class="p">)</span> <span class="o">@</span> <span class="n">target_affine</span>
@@ -725,6 +577,279 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="s2">&quot;out_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">out_name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="s2">&quot;transform&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mat_name</span>
 
+        <span class="k">return</span> <span class="n">runtime</span></div>
+
+
+<span class="k">class</span> <span class="nc">_ValidateImageInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
+    <span class="n">in_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;input image&quot;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_ValidateImageOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
+    <span class="n">out_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;validated image&quot;</span><span class="p">)</span>
+    <span class="n">out_report</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;HTML segment containing warning&quot;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="ValidateImage"><a class="viewcode-back" href="../../../api/niworkflows.interfaces.images.html#niworkflows.interfaces.images.ValidateImage">[docs]</a><span class="k">class</span> <span class="nc">ValidateImage</span><span class="p">(</span><span class="n">SimpleInterface</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check the correctness of x-form headers (matrix and code).</span>
+
+<span class="sd">    This interface implements the `following logic</span>
+<span class="sd">    &lt;https://github.com/nipreps/fmriprep/issues/873#issuecomment-349394544&gt;`_:</span>
+
+<span class="sd">    +-------------------+------------------+------------------+------------------\</span>
+<span class="sd">+------------------------------------------------+</span>
+<span class="sd">    | valid quaternions | `qform_code &gt; 0` | `sform_code &gt; 0` | `qform == sform` \</span>
+<span class="sd">| actions                                        |</span>
+<span class="sd">    +===================+==================+==================+==================\</span>
+<span class="sd">+================================================+</span>
+<span class="sd">    | True              | True             | True             | True             \</span>
+<span class="sd">| None                                           |</span>
+<span class="sd">    +-------------------+------------------+------------------+------------------\</span>
+<span class="sd">+------------------------------------------------+</span>
+<span class="sd">    | True              | True             | False            | *                \</span>
+<span class="sd">| sform, scode &lt;- qform, qcode                   |</span>
+<span class="sd">    +-------------------+------------------+------------------+------------------\</span>
+<span class="sd">+------------------------------------------------+</span>
+<span class="sd">    | *                 | *                | True             | False            \</span>
+<span class="sd">| qform, qcode &lt;- sform, scode                   |</span>
+<span class="sd">    +-------------------+------------------+------------------+------------------\</span>
+<span class="sd">+------------------------------------------------+</span>
+<span class="sd">    | *                 | False            | True             | *                \</span>
+<span class="sd">| qform, qcode &lt;- sform, scode                   |</span>
+<span class="sd">    +-------------------+------------------+------------------+------------------\</span>
+<span class="sd">+------------------------------------------------+</span>
+<span class="sd">    | *                 | False            | False            | *                \</span>
+<span class="sd">| sform, qform &lt;- best affine; scode, qcode &lt;- 1 |</span>
+<span class="sd">    +-------------------+------------------+------------------+------------------\</span>
+<span class="sd">+------------------------------------------------+</span>
+<span class="sd">    | False             | *                | False            | *                \</span>
+<span class="sd">| sform, qform &lt;- best affine; scode, qcode &lt;- 1 |</span>
+<span class="sd">    +-------------------+------------------+------------------+------------------\</span>
+<span class="sd">+------------------------------------------------+</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">input_spec</span> <span class="o">=</span> <span class="n">_ValidateImageInputSpec</span>
+    <span class="n">output_spec</span> <span class="o">=</span> <span class="n">_ValidateImageOutputSpec</span>
+
+    <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">in_file</span><span class="p">)</span>
+        <span class="n">out_report</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">runtime</span><span class="o">.</span><span class="n">cwd</span><span class="p">,</span> <span class="s2">&quot;report.html&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Retrieve xform codes</span>
+        <span class="n">sform_code</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">_structarr</span><span class="p">[</span><span class="s2">&quot;sform_code&quot;</span><span class="p">])</span>
+        <span class="n">qform_code</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">_structarr</span><span class="p">[</span><span class="s2">&quot;qform_code&quot;</span><span class="p">])</span>
+
+        <span class="c1"># Check qform is valid</span>
+        <span class="n">valid_qform</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">qform</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_qform</span><span class="p">()</span>
+            <span class="n">valid_qform</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+        <span class="n">sform</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_sform</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">det</span><span class="p">(</span><span class="n">sform</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">valid_sform</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">RZS</span> <span class="o">=</span> <span class="n">sform</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+            <span class="n">zooms</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">RZS</span> <span class="o">*</span> <span class="n">RZS</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+            <span class="n">valid_sform</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">zooms</span><span class="p">,</span> <span class="n">img</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">get_zooms</span><span class="p">()[:</span><span class="mi">3</span><span class="p">])</span>
+
+        <span class="c1"># Matching affines</span>
+        <span class="n">matching_affines</span> <span class="o">=</span> <span class="n">valid_qform</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">qform</span><span class="p">,</span> <span class="n">sform</span><span class="p">)</span>
+
+        <span class="c1"># Both match, qform valid (implicit with match), codes okay -&gt; do nothing, empty report</span>
+        <span class="k">if</span> <span class="n">matching_affines</span> <span class="ow">and</span> <span class="n">qform_code</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">sform_code</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="s2">&quot;out_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">in_file</span>
+            <span class="nb">open</span><span class="p">(</span><span class="n">out_report</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="s2">&quot;out_report&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">out_report</span>
+            <span class="k">return</span> <span class="n">runtime</span>
+
+        <span class="c1"># A new file will be written</span>
+        <span class="n">out_fname</span> <span class="o">=</span> <span class="n">fname_presuffix</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">in_file</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;_valid&quot;</span><span class="p">,</span> <span class="n">newpath</span><span class="o">=</span><span class="n">runtime</span><span class="o">.</span><span class="n">cwd</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="s2">&quot;out_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">out_fname</span>
+
+        <span class="c1"># Row 2:</span>
+        <span class="k">if</span> <span class="n">valid_qform</span> <span class="ow">and</span> <span class="n">qform_code</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="p">(</span><span class="n">sform_code</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">valid_sform</span><span class="p">):</span>
+            <span class="n">img</span><span class="o">.</span><span class="n">set_sform</span><span class="p">(</span><span class="n">qform</span><span class="p">,</span> <span class="n">qform_code</span><span class="p">)</span>
+            <span class="n">warning_txt</span> <span class="o">=</span> <span class="s2">&quot;Note on orientation: sform matrix set&quot;</span>
+            <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">&lt;p class=&quot;elem-desc&quot;&gt;The sform has been copied from qform.&lt;/p&gt;</span>
+<span class="s2">&quot;&quot;&quot;</span>
+        <span class="c1"># Rows 3-4:</span>
+        <span class="c1"># Note: if qform is not valid, matching_affines is False</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">valid_sform</span> <span class="ow">and</span> <span class="n">sform_code</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span>
+            <span class="ow">not</span> <span class="n">matching_affines</span> <span class="ow">or</span> <span class="n">qform_code</span> <span class="o">==</span> <span class="mi">0</span>
+        <span class="p">):</span>
+            <span class="n">img</span><span class="o">.</span><span class="n">set_qform</span><span class="p">(</span><span class="n">sform</span><span class="p">,</span> <span class="n">sform_code</span><span class="p">)</span>
+            <span class="n">new_qform</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_qform</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">valid_qform</span><span class="p">:</span>
+                <span class="c1"># False alarm - the difference is due to precision loss of qform</span>
+                <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">new_qform</span><span class="p">,</span> <span class="n">qform</span><span class="p">)</span> <span class="ow">and</span> <span class="n">qform_code</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="s2">&quot;out_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">in_file</span>
+                    <span class="nb">open</span><span class="p">(</span><span class="n">out_report</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="s2">&quot;out_report&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">out_report</span>
+                    <span class="k">return</span> <span class="n">runtime</span>
+                <span class="c1"># Replacing an existing, valid qform. Report magnitude of change.</span>
+                <span class="n">diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">qform</span><span class="p">)</span> <span class="o">@</span> <span class="n">new_qform</span>
+                <span class="n">trans</span><span class="p">,</span> <span class="n">rot</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">transforms3d</span><span class="o">.</span><span class="n">affines</span><span class="o">.</span><span class="n">decompose44</span><span class="p">(</span><span class="n">diff</span><span class="p">)</span>
+                <span class="n">angle</span> <span class="o">=</span> <span class="n">transforms3d</span><span class="o">.</span><span class="n">axangles</span><span class="o">.</span><span class="n">mat2axangle</span><span class="p">(</span><span class="n">rot</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">xyz_unit</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">get_xyzt_units</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">xyz_unit</span> <span class="o">==</span> <span class="s2">&quot;unknown&quot;</span><span class="p">:</span>
+                    <span class="n">xyz_unit</span> <span class="o">=</span> <span class="s2">&quot;mm&quot;</span>
+
+                <span class="n">total_trans</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">trans</span> <span class="o">*</span> <span class="n">trans</span><span class="p">)</span>
+                <span class="p">)</span>  <span class="c1"># Add angle and total_trans to report</span>
+                <span class="n">warning_txt</span> <span class="o">=</span> <span class="s2">&quot;Note on orientation: qform matrix overwritten&quot;</span>
+                <span class="n">description</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">    &lt;p class=&quot;elem-desc&quot;&gt;</span>
+<span class="s2">    The qform has been copied from sform.</span>
+<span class="s2">    The difference in angle is </span><span class="si">{</span><span class="n">angle</span><span class="si">:</span><span class="s2">.02g</span><span class="si">}</span><span class="s2"> radians.</span>
+<span class="s2">    The difference in translation is </span><span class="si">{</span><span class="n">total_trans</span><span class="si">:</span><span class="s2">.02g</span><span class="si">}{</span><span class="n">xyz_unit</span><span class="si">}</span><span class="s2">.</span>
+<span class="s2">    &lt;/p&gt;</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+            <span class="k">elif</span> <span class="n">qform_code</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="c1"># qform code indicates the qform is supposed to be valid. Use more stridency.</span>
+                <span class="n">warning_txt</span> <span class="o">=</span> <span class="s2">&quot;WARNING - Invalid qform information&quot;</span>
+                <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">&lt;p class=&quot;elem-desc&quot;&gt;</span>
+<span class="s2">    The qform matrix found in the file header is invalid.</span>
+<span class="s2">    The qform has been copied from sform.</span>
+<span class="s2">    Checking the original qform information from the data produced</span>
+<span class="s2">    by the scanner is advised.</span>
+<span class="s2">&lt;/p&gt;</span>
+<span class="s2">&quot;&quot;&quot;</span>
+            <span class="k">else</span><span class="p">:</span>  <span class="c1"># qform_code == 0</span>
+                <span class="c1"># qform is not expected to be valids. Simple note.</span>
+                <span class="n">warning_txt</span> <span class="o">=</span> <span class="s2">&quot;Note on orientation: qform matrix overwritten&quot;</span>
+                <span class="n">description</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="s1">&#39;&lt;p class=&quot;elem-desc&quot;&gt;The qform has been copied from sform.&lt;/p&gt;&#39;</span>
+                <span class="p">)</span>
+        <span class="c1"># Rows 5-6:</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">affine</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">get_base_affine</span><span class="p">()</span>
+            <span class="n">img</span><span class="o">.</span><span class="n">set_sform</span><span class="p">(</span><span class="n">affine</span><span class="p">,</span> <span class="n">nb</span><span class="o">.</span><span class="n">nifti1</span><span class="o">.</span><span class="n">xform_codes</span><span class="p">[</span><span class="s2">&quot;scanner&quot;</span><span class="p">])</span>
+            <span class="n">img</span><span class="o">.</span><span class="n">set_qform</span><span class="p">(</span><span class="n">affine</span><span class="p">,</span> <span class="n">nb</span><span class="o">.</span><span class="n">nifti1</span><span class="o">.</span><span class="n">xform_codes</span><span class="p">[</span><span class="s2">&quot;scanner&quot;</span><span class="p">])</span>
+            <span class="n">warning_txt</span> <span class="o">=</span> <span class="s2">&quot;WARNING - Missing orientation information&quot;</span>
+            <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">&lt;p class=&quot;elem-desc&quot;&gt;</span>
+<span class="s2">    FMRIPREP could not retrieve orientation information from the image header.</span>
+<span class="s2">    The qform and sform matrices have been set to a default, LAS-oriented affine.</span>
+<span class="s2">    Analyses of this dataset MAY BE INVALID.</span>
+<span class="s2">&lt;/p&gt;</span>
+<span class="s2">&quot;&quot;&quot;</span>
+        <span class="n">snippet</span> <span class="o">=</span> <span class="s1">&#39;&lt;h3 class=&quot;elem-title&quot;&gt;</span><span class="si">%s</span><span class="s1">&lt;/h3&gt;</span><span class="se">\n</span><span class="si">%s</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">warning_txt</span><span class="p">,</span> <span class="n">description</span><span class="p">)</span>
+        <span class="c1"># Store new file and report</span>
+        <span class="n">img</span><span class="o">.</span><span class="n">to_filename</span><span class="p">(</span><span class="n">out_fname</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">out_report</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fobj</span><span class="p">:</span>
+            <span class="n">fobj</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">indent</span><span class="p">(</span><span class="n">snippet</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span> <span class="o">*</span> <span class="mi">3</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="s2">&quot;out_report&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">out_report</span>
+        <span class="k">return</span> <span class="n">runtime</span></div>
+
+
+<span class="k">class</span> <span class="nc">_DemeanImageInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
+    <span class="n">in_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;image to be demeaned&quot;</span><span class="p">)</span>
+    <span class="n">in_mask</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span>
+        <span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;mask where median will be calculated&quot;</span>
+    <span class="p">)</span>
+    <span class="n">only_mask</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Bool</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">usedefault</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;demean only within mask&quot;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_DemeanImageOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
+    <span class="n">out_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;demeaned image&quot;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="DemeanImage"><a class="viewcode-back" href="../../../api/niworkflows.interfaces.images.html#niworkflows.interfaces.images.DemeanImage">[docs]</a><span class="k">class</span> <span class="nc">DemeanImage</span><span class="p">(</span><span class="n">SimpleInterface</span><span class="p">):</span>
+    <span class="n">input_spec</span> <span class="o">=</span> <span class="n">_DemeanImageInputSpec</span>
+    <span class="n">output_spec</span> <span class="o">=</span> <span class="n">_DemeanImageOutputSpec</span>
+
+    <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="s2">&quot;out_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">demean</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">in_file</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">in_mask</span><span class="p">,</span>
+            <span class="n">only_mask</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">only_mask</span><span class="p">,</span>
+            <span class="n">newpath</span><span class="o">=</span><span class="n">runtime</span><span class="o">.</span><span class="n">cwd</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">runtime</span></div>
+
+
+<span class="k">class</span> <span class="nc">_FilledImageLikeInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
+    <span class="n">in_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;image to be demeaned&quot;</span><span class="p">)</span>
+    <span class="n">fill_value</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">usedefault</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;value to fill&quot;</span><span class="p">)</span>
+    <span class="n">dtype</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Enum</span><span class="p">(</span>
+        <span class="s2">&quot;float32&quot;</span><span class="p">,</span> <span class="s2">&quot;uint8&quot;</span><span class="p">,</span> <span class="n">usedefault</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;force output data type&quot;</span>
+    <span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_FilledImageLikeOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
+    <span class="n">out_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;demeaned image&quot;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="FilledImageLike"><a class="viewcode-back" href="../../../api/niworkflows.interfaces.images.html#niworkflows.interfaces.images.FilledImageLike">[docs]</a><span class="k">class</span> <span class="nc">FilledImageLike</span><span class="p">(</span><span class="n">SimpleInterface</span><span class="p">):</span>
+    <span class="n">input_spec</span> <span class="o">=</span> <span class="n">_FilledImageLikeInputSpec</span>
+    <span class="n">output_spec</span> <span class="o">=</span> <span class="n">_FilledImageLikeOutputSpec</span>
+
+    <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="s2">&quot;out_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">nii_ones_like</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">in_file</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">fill_value</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span>
+            <span class="n">newpath</span><span class="o">=</span><span class="n">runtime</span><span class="o">.</span><span class="n">cwd</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">runtime</span></div>
+
+
+<span class="k">class</span> <span class="nc">_MatchHeaderInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
+    <span class="n">reference</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span>
+        <span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;NIfTI file with reference header&quot;</span>
+    <span class="p">)</span>
+    <span class="n">in_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span>
+        <span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;NIfTI file which header will be checked&quot;</span>
+    <span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_MatchHeaderOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
+    <span class="n">out_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;NIfTI file with fixed header&quot;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="MatchHeader"><a class="viewcode-back" href="../../../api/niworkflows.interfaces.images.html#niworkflows.interfaces.images.MatchHeader">[docs]</a><span class="k">class</span> <span class="nc">MatchHeader</span><span class="p">(</span><span class="n">SimpleInterface</span><span class="p">):</span>
+    <span class="n">input_spec</span> <span class="o">=</span> <span class="n">_MatchHeaderInputSpec</span>
+    <span class="n">output_spec</span> <span class="o">=</span> <span class="n">_MatchHeaderOutputSpec</span>
+
+    <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
+        <span class="n">refhdr</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">reference</span><span class="p">)</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">imgnii</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">in_file</span><span class="p">)</span>
+        <span class="n">imghdr</span> <span class="o">=</span> <span class="n">imgnii</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="n">imghdr</span><span class="p">[</span><span class="s2">&quot;dim_info&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">refhdr</span><span class="p">[</span><span class="s2">&quot;dim_info&quot;</span><span class="p">]</span>  <span class="c1"># dim_info is lost sometimes</span>
+
+        <span class="c1"># Set qform</span>
+        <span class="n">qform</span> <span class="o">=</span> <span class="n">refhdr</span><span class="o">.</span><span class="n">get_qform</span><span class="p">()</span>
+        <span class="n">qcode</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">refhdr</span><span class="p">[</span><span class="s2">&quot;qform_code&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">qform</span><span class="p">,</span> <span class="n">imghdr</span><span class="o">.</span><span class="n">get_qform</span><span class="p">()):</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;q-forms of reference and mask are substantially different&quot;</span><span class="p">)</span>
+        <span class="n">imghdr</span><span class="o">.</span><span class="n">set_qform</span><span class="p">(</span><span class="n">qform</span><span class="p">,</span> <span class="n">qcode</span><span class="p">)</span>
+
+        <span class="c1"># Set sform</span>
+        <span class="n">sform</span> <span class="o">=</span> <span class="n">refhdr</span><span class="o">.</span><span class="n">get_sform</span><span class="p">()</span>
+        <span class="n">scode</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">refhdr</span><span class="p">[</span><span class="s2">&quot;sform_code&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">sform</span><span class="p">,</span> <span class="n">imghdr</span><span class="o">.</span><span class="n">get_sform</span><span class="p">()):</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;s-forms of reference and mask are substantially different&quot;</span><span class="p">)</span>
+        <span class="n">imghdr</span><span class="o">.</span><span class="n">set_sform</span><span class="p">(</span><span class="n">sform</span><span class="p">,</span> <span class="n">scode</span><span class="p">)</span>
+
+        <span class="n">out_file</span> <span class="o">=</span> <span class="n">fname_presuffix</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">in_file</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;_hdr&quot;</span><span class="p">,</span> <span class="n">newpath</span><span class="o">=</span><span class="n">runtime</span><span class="o">.</span><span class="n">cwd</span>
+        <span class="p">)</span>
+
+        <span class="n">imgnii</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">imgnii</span><span class="o">.</span><span class="n">dataobj</span><span class="p">,</span> <span class="n">imghdr</span><span class="o">.</span><span class="n">get_best_affine</span><span class="p">(),</span> <span class="n">imghdr</span><span class="p">)</span><span class="o">.</span><span class="n">to_filename</span><span class="p">(</span>
+            <span class="n">out_file</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="s2">&quot;out_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">out_file</span>
         <span class="k">return</span> <span class="n">runtime</span></div>
 
 
@@ -775,9 +900,45 @@
     <span class="k">return</span> <span class="n">new_img</span></div>
 
 
+<div class="viewcode-block" id="demean"><a class="viewcode-back" href="../../../api/niworkflows.interfaces.images.html#niworkflows.interfaces.images.demean">[docs]</a><span class="k">def</span> <span class="nf">demean</span><span class="p">(</span><span class="n">in_file</span><span class="p">,</span> <span class="n">in_mask</span><span class="p">,</span> <span class="n">only_mask</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">newpath</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Demean ``in_file`` within the mask defined by ``in_mask``.&quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">os</span>
+    <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+    <span class="kn">import</span> <span class="nn">nibabel</span> <span class="k">as</span> <span class="nn">nb</span>
+    <span class="kn">from</span> <span class="nn">nipype.utils.filemanip</span> <span class="kn">import</span> <span class="n">fname_presuffix</span>
+
+    <span class="n">out_file</span> <span class="o">=</span> <span class="n">fname_presuffix</span><span class="p">(</span><span class="n">in_file</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;_demeaned&quot;</span><span class="p">,</span> <span class="n">newpath</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span>
+    <span class="n">nii</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">in_file</span><span class="p">)</span>
+    <span class="n">msk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asanyarray</span><span class="p">(</span><span class="n">nb</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">in_mask</span><span class="p">)</span><span class="o">.</span><span class="n">dataobj</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">nii</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">only_mask</span><span class="p">:</span>
+        <span class="n">data</span><span class="p">[</span><span class="n">msk</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">msk</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">-=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">msk</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">])</span>
+    <span class="n">nb</span><span class="o">.</span><span class="n">Nifti1Image</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">nii</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span> <span class="n">nii</span><span class="o">.</span><span class="n">header</span><span class="p">)</span><span class="o">.</span><span class="n">to_filename</span><span class="p">(</span><span class="n">out_file</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">out_file</span></div>
+
+
+<div class="viewcode-block" id="nii_ones_like"><a class="viewcode-back" href="../../../api/niworkflows.interfaces.images.html#niworkflows.interfaces.images.nii_ones_like">[docs]</a><span class="k">def</span> <span class="nf">nii_ones_like</span><span class="p">(</span><span class="n">in_file</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">newpath</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create a NIfTI file filled with ``value``, matching properties of ``in_file``.&quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">os</span>
+    <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+    <span class="kn">import</span> <span class="nn">nibabel</span> <span class="k">as</span> <span class="nn">nb</span>
+
+    <span class="n">nii</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">in_file</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">nii</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span> <span class="o">*</span> <span class="n">value</span>
+
+    <span class="n">out_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">newpath</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="s2">&quot;filled.nii.gz&quot;</span><span class="p">)</span>
+    <span class="n">nii</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">Nifti1Image</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">nii</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span> <span class="n">nii</span><span class="o">.</span><span class="n">header</span><span class="p">)</span>
+    <span class="n">nii</span><span class="o">.</span><span class="n">set_data_dtype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="n">nii</span><span class="o">.</span><span class="n">to_filename</span><span class="p">(</span><span class="n">out_file</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">out_file</span></div>
+
+
 <span class="k">class</span> <span class="nc">_SignalExtractionInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
     <span class="n">in_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;4-D fMRI nii file&quot;</span><span class="p">)</span>
-    <span class="n">label_files</span> <span class="o">=</span> <span class="n">InputMultiObject</span><span class="p">(</span>
+    <span class="n">label_files</span> <span class="o">=</span> <span class="n">InputMultiPath</span><span class="p">(</span>
         <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
         <span class="n">mandatory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;a 3D label image, with 0 denoting &quot;</span>
@@ -884,7 +1045,7 @@
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright Copyright 2021, The NiPreps Developers.
+        &#169; Copyright Copyright 2021, Center for Reproducible Neuroscience, Stanford University.
 
     </p>
   </div>
@@ -955,6 +1116,7 @@
             <dd><a href="../../../../1.3.0rc3/index.html">1.3.0rc3</a></dd>
             <dd><a href="../../../../1.3.1/index.html">1.3.1</a></dd>
             <dd><a href="../../../../1.3.2/index.html">1.3.2</a></dd>
+            <dd><a href="../../../../1.3.3/index.html">1.3.3</a></dd>
             <dd><a href="../../../../1.4.0rc0/index.html">1.4.0rc0</a></dd>
             <dd><a href="../../../../1.4.0rc1/index.html">1.4.0rc1</a></dd>
             <dd><a href="../../../../1.4.0rc2/index.html">1.4.0rc2</a></dd>

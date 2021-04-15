@@ -10,7 +10,6 @@ Submodules
 ----------
 
 .. toctree::
-   :maxdepth: 1
 
    niworkflows.interfaces.reportlets.base
    niworkflows.interfaces.reportlets.masks

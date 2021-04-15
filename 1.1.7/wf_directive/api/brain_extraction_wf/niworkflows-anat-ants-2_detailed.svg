@@ -135,7 +135,7 @@
 <polyline fill="none" stroke="#000000" points="386.5,-935.5 386.5,-1004.5 "/>
 <text text-anchor="middle" x="426.5" y="-989.3" font-family="Times,serif" font-size="14.00" fill="#000000">res_tmpl</text>
 <polyline fill="none" stroke="#000000" points="386.5,-981.5 466.5,-981.5 "/>
-<text text-anchor="middle" x="426.5" y="-966.3" font-family="Times,serif" font-size="14.00" fill="#000000">nibabel</text>
+<text text-anchor="middle" x="426.5" y="-966.3" font-family="Times,serif" font-size="14.00" fill="#000000">images</text>
 <polyline fill="none" stroke="#000000" points="386.5,-958.5 466.5,-958.5 "/>
 <text text-anchor="middle" x="426.5" y="-943.3" font-family="Times,serif" font-size="14.00" fill="#000000"> </text>
 <polyline fill="none" stroke="#000000" points="466.5,-935.5 466.5,-1004.5 "/>
@@ -409,7 +409,7 @@
 <polyline fill="none" stroke="#000000" points="652.5,-935.5 652.5,-1004.5 "/>
 <text text-anchor="middle" x="698" y="-989.3" font-family="Times,serif" font-size="14.00" fill="#000000">res_target</text>
 <polyline fill="none" stroke="#000000" points="652.5,-981.5 743.5,-981.5 "/>
-<text text-anchor="middle" x="698" y="-966.3" font-family="Times,serif" font-size="14.00" fill="#000000">nibabel</text>
+<text text-anchor="middle" x="698" y="-966.3" font-family="Times,serif" font-size="14.00" fill="#000000">images</text>
 <polyline fill="none" stroke="#000000" points="652.5,-958.5 743.5,-958.5 "/>
 <text text-anchor="middle" x="698" y="-943.3" font-family="Times,serif" font-size="14.00" fill="#000000"> </text>
 <polyline fill="none" stroke="#000000" points="743.5,-935.5 743.5,-1004.5 "/>

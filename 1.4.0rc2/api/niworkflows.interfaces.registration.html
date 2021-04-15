@@ -4,10 +4,11 @@
 <html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" />
-  
+  <meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>niworkflows.interfaces.registration module &mdash; niworkflows 1.4.0rc5+7.g616d2bca documentation</title>
+  <title>niworkflows.interfaces.registration module &mdash; niworkflows 1.3.3 documentation</title>
   
 
   
@@ -33,6 +34,8 @@
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -64,7 +67,7 @@
             
             
               <div class="version">
-                1.4.0
+                1.3.3
               </div>
             
           
@@ -210,9 +213,227 @@
 
 
     <p class="scv-banner scv-sphinx_rtd_theme"><b>Warning:</b> This document is for an old version of niworkflows.</p>
-<div class="section" id="niworkflows-interfaces-registration-module">
-<h1>niworkflows.interfaces.registration module<a class="headerlink" href="#niworkflows-interfaces-registration-module" title="Permalink to this headline">¶</a></h1>
-</div>
+<section id="module-niworkflows.interfaces.registration">
+<span id="niworkflows-interfaces-registration-module"></span><h1>niworkflows.interfaces.registration module<a class="headerlink" href="#module-niworkflows.interfaces.registration" title="Permalink to this headline">¶</a></h1>
+<p>ReportCapableInterfaces for registration tools.</p>
+<dl class="class">
+<dt id="niworkflows.interfaces.registration.ANTSApplyTransformsRPT">
+<em class="property">class </em><code class="sig-prename descclassname">niworkflows.interfaces.registration.</code><code class="sig-name descname">ANTSApplyTransformsRPT</code><span class="sig-paren">(</span><em class="sig-param">generate_report=False</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/registration.html#ANTSApplyTransformsRPT"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.interfaces.registration.ANTSApplyTransformsRPT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="niworkflows.interfaces.report_base.html#niworkflows.interfaces.report_base.RegistrationRC" title="niworkflows.interfaces.report_base.RegistrationRC"><code class="xref py py-class docutils literal notranslate"><span class="pre">niworkflows.interfaces.report_base.RegistrationRC</span></code></a>, <a class="reference internal" href="niworkflows.interfaces.fixes.html#niworkflows.interfaces.fixes.FixHeaderApplyTransforms" title="niworkflows.interfaces.fixes.FixHeaderApplyTransforms"><code class="xref py py-class docutils literal notranslate"><span class="pre">niworkflows.interfaces.fixes.FixHeaderApplyTransforms</span></code></a></p>
+<dl class="attribute">
+<dt id="niworkflows.interfaces.registration.ANTSApplyTransformsRPT.input_spec">
+<code class="sig-name descname">input_spec</code><a class="headerlink" href="#niworkflows.interfaces.registration.ANTSApplyTransformsRPT.input_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_ANTSApplyTransformsInputSpecRPT</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="niworkflows.interfaces.registration.ANTSApplyTransformsRPT.output_spec">
+<code class="sig-name descname">output_spec</code><a class="headerlink" href="#niworkflows.interfaces.registration.ANTSApplyTransformsRPT.output_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_ANTSApplyTransformsOutputSpecRPT</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="niworkflows.interfaces.registration.ANTSRegistrationRPT">
+<em class="property">class </em><code class="sig-prename descclassname">niworkflows.interfaces.registration.</code><code class="sig-name descname">ANTSRegistrationRPT</code><span class="sig-paren">(</span><em class="sig-param">generate_report=False</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/registration.html#ANTSRegistrationRPT"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.interfaces.registration.ANTSRegistrationRPT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="niworkflows.interfaces.report_base.html#niworkflows.interfaces.report_base.RegistrationRC" title="niworkflows.interfaces.report_base.RegistrationRC"><code class="xref py py-class docutils literal notranslate"><span class="pre">niworkflows.interfaces.report_base.RegistrationRC</span></code></a>, <a class="reference internal" href="niworkflows.interfaces.fixes.html#niworkflows.interfaces.fixes.FixHeaderRegistration" title="niworkflows.interfaces.fixes.FixHeaderRegistration"><code class="xref py py-class docutils literal notranslate"><span class="pre">niworkflows.interfaces.fixes.FixHeaderRegistration</span></code></a></p>
+<dl class="attribute">
+<dt id="niworkflows.interfaces.registration.ANTSRegistrationRPT.input_spec">
+<code class="sig-name descname">input_spec</code><a class="headerlink" href="#niworkflows.interfaces.registration.ANTSRegistrationRPT.input_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_ANTSRegistrationInputSpecRPT</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="niworkflows.interfaces.registration.ANTSRegistrationRPT.output_spec">
+<code class="sig-name descname">output_spec</code><a class="headerlink" href="#niworkflows.interfaces.registration.ANTSRegistrationRPT.output_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_ANTSRegistrationOutputSpecRPT</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="niworkflows.interfaces.registration.ApplyTOPUPRPT">
+<em class="property">class </em><code class="sig-prename descclassname">niworkflows.interfaces.registration.</code><code class="sig-name descname">ApplyTOPUPRPT</code><span class="sig-paren">(</span><em class="sig-param">generate_report=False</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/registration.html#ApplyTOPUPRPT"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.interfaces.registration.ApplyTOPUPRPT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="niworkflows.interfaces.report_base.html#niworkflows.interfaces.report_base.RegistrationRC" title="niworkflows.interfaces.report_base.RegistrationRC"><code class="xref py py-class docutils literal notranslate"><span class="pre">niworkflows.interfaces.report_base.RegistrationRC</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">nipype.interfaces.fsl.epi.ApplyTOPUP</span></code></p>
+<dl class="attribute">
+<dt id="niworkflows.interfaces.registration.ApplyTOPUPRPT.input_spec">
+<code class="sig-name descname">input_spec</code><a class="headerlink" href="#niworkflows.interfaces.registration.ApplyTOPUPRPT.input_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_ApplyTOPUPInputSpecRPT</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="niworkflows.interfaces.registration.ApplyTOPUPRPT.output_spec">
+<code class="sig-name descname">output_spec</code><a class="headerlink" href="#niworkflows.interfaces.registration.ApplyTOPUPRPT.output_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_ApplyTOPUPOutputSpecRPT</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="niworkflows.interfaces.registration.ApplyXFMRPT">
+<em class="property">class </em><code class="sig-prename descclassname">niworkflows.interfaces.registration.</code><code class="sig-name descname">ApplyXFMRPT</code><span class="sig-paren">(</span><em class="sig-param">generate_report=False</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/registration.html#ApplyXFMRPT"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.interfaces.registration.ApplyXFMRPT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#niworkflows.interfaces.registration.FLIRTRPT" title="niworkflows.interfaces.registration.FLIRTRPT"><code class="xref py py-class docutils literal notranslate"><span class="pre">niworkflows.interfaces.registration.FLIRTRPT</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">nipype.interfaces.fsl.preprocess.ApplyXFM</span></code></p>
+<dl class="attribute">
+<dt id="niworkflows.interfaces.registration.ApplyXFMRPT.input_spec">
+<code class="sig-name descname">input_spec</code><a class="headerlink" href="#niworkflows.interfaces.registration.ApplyXFMRPT.input_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_ApplyXFMInputSpecRPT</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="niworkflows.interfaces.registration.ApplyXFMRPT.output_spec">
+<code class="sig-name descname">output_spec</code><a class="headerlink" href="#niworkflows.interfaces.registration.ApplyXFMRPT.output_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_FLIRTOutputSpecRPT</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="niworkflows.interfaces.registration.BBRegisterRPT">
+<em class="property">class </em><code class="sig-prename descclassname">niworkflows.interfaces.registration.</code><code class="sig-name descname">BBRegisterRPT</code><span class="sig-paren">(</span><em class="sig-param">generate_report=False</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/registration.html#BBRegisterRPT"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.interfaces.registration.BBRegisterRPT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="niworkflows.interfaces.report_base.html#niworkflows.interfaces.report_base.RegistrationRC" title="niworkflows.interfaces.report_base.RegistrationRC"><code class="xref py py-class docutils literal notranslate"><span class="pre">niworkflows.interfaces.report_base.RegistrationRC</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">nipype.interfaces.freesurfer.preprocess.BBRegister</span></code></p>
+<dl class="attribute">
+<dt id="niworkflows.interfaces.registration.BBRegisterRPT.input_spec">
+<code class="sig-name descname">input_spec</code><a class="headerlink" href="#niworkflows.interfaces.registration.BBRegisterRPT.input_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_BBRegisterInputSpecRPT</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="niworkflows.interfaces.registration.BBRegisterRPT.output_spec">
+<code class="sig-name descname">output_spec</code><a class="headerlink" href="#niworkflows.interfaces.registration.BBRegisterRPT.output_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_BBRegisterOutputSpecRPT</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="niworkflows.interfaces.registration.EstimateReferenceImage">
+<em class="property">class </em><code class="sig-prename descclassname">niworkflows.interfaces.registration.</code><code class="sig-name descname">EstimateReferenceImage</code><span class="sig-paren">(</span><em class="sig-param">from_file=None</em>, <em class="sig-param">resource_monitor=None</em>, <em class="sig-param">**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/registration.html#EstimateReferenceImage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.interfaces.registration.EstimateReferenceImage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">nipype.interfaces.base.core.SimpleInterface</span></code></p>
+<p>Generate a reference 3D map from BOLD and SBRef EPI images for BOLD datasets.</p>
+<p>Given a 4D BOLD file or one or more 3/4D SBRefs, estimate a reference
+image for subsequent motion estimation and coregistration steps.
+For the case of BOLD datasets, it estimates a number of T1w saturated volumes
+(non-steady state at the beginning of the scan) and calculates the median
+across them.
+Otherwise (SBRefs or detected zero non-steady state frames), a median of
+of a subset of motion corrected volumes is used.
+If the input reference (BOLD or SBRef) is 3D already, it just returns a
+copy of the image with the NIfTI header extensions removed.</p>
+<p>LIMITATION: If one wants to extract the reference from several SBRefs
+with several echoes each, the first echo should be selected elsewhere
+and run this interface in <code class="docutils literal notranslate"><span class="pre">multiecho</span> <span class="pre">=</span> <span class="pre">False</span></code> mode.</p>
+<dl class="attribute">
+<dt id="niworkflows.interfaces.registration.EstimateReferenceImage.input_spec">
+<code class="sig-name descname">input_spec</code><a class="headerlink" href="#niworkflows.interfaces.registration.EstimateReferenceImage.input_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_EstimateReferenceImageInputSpec</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="niworkflows.interfaces.registration.EstimateReferenceImage.output_spec">
+<code class="sig-name descname">output_spec</code><a class="headerlink" href="#niworkflows.interfaces.registration.EstimateReferenceImage.output_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_EstimateReferenceImageOutputSpec</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="niworkflows.interfaces.registration.FLIRTRPT">
+<em class="property">class </em><code class="sig-prename descclassname">niworkflows.interfaces.registration.</code><code class="sig-name descname">FLIRTRPT</code><span class="sig-paren">(</span><em class="sig-param">generate_report=False</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/registration.html#FLIRTRPT"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.interfaces.registration.FLIRTRPT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="niworkflows.interfaces.report_base.html#niworkflows.interfaces.report_base.RegistrationRC" title="niworkflows.interfaces.report_base.RegistrationRC"><code class="xref py py-class docutils literal notranslate"><span class="pre">niworkflows.interfaces.report_base.RegistrationRC</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">nipype.interfaces.fsl.preprocess.FLIRT</span></code></p>
+<dl class="attribute">
+<dt id="niworkflows.interfaces.registration.FLIRTRPT.input_spec">
+<code class="sig-name descname">input_spec</code><a class="headerlink" href="#niworkflows.interfaces.registration.FLIRTRPT.input_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_FLIRTInputSpecRPT</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="niworkflows.interfaces.registration.FLIRTRPT.output_spec">
+<code class="sig-name descname">output_spec</code><a class="headerlink" href="#niworkflows.interfaces.registration.FLIRTRPT.output_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_FLIRTOutputSpecRPT</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="niworkflows.interfaces.registration.FUGUERPT">
+<em class="property">class </em><code class="sig-prename descclassname">niworkflows.interfaces.registration.</code><code class="sig-name descname">FUGUERPT</code><span class="sig-paren">(</span><em class="sig-param">generate_report=False</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/registration.html#FUGUERPT"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.interfaces.registration.FUGUERPT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="niworkflows.interfaces.report_base.html#niworkflows.interfaces.report_base.RegistrationRC" title="niworkflows.interfaces.report_base.RegistrationRC"><code class="xref py py-class docutils literal notranslate"><span class="pre">niworkflows.interfaces.report_base.RegistrationRC</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">nipype.interfaces.fsl.preprocess.FUGUE</span></code></p>
+<dl class="attribute">
+<dt id="niworkflows.interfaces.registration.FUGUERPT.input_spec">
+<code class="sig-name descname">input_spec</code><a class="headerlink" href="#niworkflows.interfaces.registration.FUGUERPT.input_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_FUGUEInputSpecRPT</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="niworkflows.interfaces.registration.FUGUERPT.output_spec">
+<code class="sig-name descname">output_spec</code><a class="headerlink" href="#niworkflows.interfaces.registration.FUGUERPT.output_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_FUGUEOutputSpecRPT</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="niworkflows.interfaces.registration.MRICoregRPT">
+<em class="property">class </em><code class="sig-prename descclassname">niworkflows.interfaces.registration.</code><code class="sig-name descname">MRICoregRPT</code><span class="sig-paren">(</span><em class="sig-param">generate_report=False</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/registration.html#MRICoregRPT"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.interfaces.registration.MRICoregRPT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="niworkflows.interfaces.report_base.html#niworkflows.interfaces.report_base.RegistrationRC" title="niworkflows.interfaces.report_base.RegistrationRC"><code class="xref py py-class docutils literal notranslate"><span class="pre">niworkflows.interfaces.report_base.RegistrationRC</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">nipype.interfaces.freesurfer.registration.MRICoreg</span></code></p>
+<dl class="attribute">
+<dt id="niworkflows.interfaces.registration.MRICoregRPT.input_spec">
+<code class="sig-name descname">input_spec</code><a class="headerlink" href="#niworkflows.interfaces.registration.MRICoregRPT.input_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_MRICoregInputSpecRPT</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="niworkflows.interfaces.registration.MRICoregRPT.output_spec">
+<code class="sig-name descname">output_spec</code><a class="headerlink" href="#niworkflows.interfaces.registration.MRICoregRPT.output_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_MRICoregOutputSpecRPT</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="niworkflows.interfaces.registration.ResampleBeforeAfterRPT">
+<em class="property">class </em><code class="sig-prename descclassname">niworkflows.interfaces.registration.</code><code class="sig-name descname">ResampleBeforeAfterRPT</code><span class="sig-paren">(</span><em class="sig-param">generate_report=True</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/registration.html#ResampleBeforeAfterRPT"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.interfaces.registration.ResampleBeforeAfterRPT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#niworkflows.interfaces.registration.SimpleBeforeAfterRPT" title="niworkflows.interfaces.registration.SimpleBeforeAfterRPT"><code class="xref py py-class docutils literal notranslate"><span class="pre">niworkflows.interfaces.registration.SimpleBeforeAfterRPT</span></code></a></p>
+<dl class="attribute">
+<dt id="niworkflows.interfaces.registration.ResampleBeforeAfterRPT.input_spec">
+<code class="sig-name descname">input_spec</code><a class="headerlink" href="#niworkflows.interfaces.registration.ResampleBeforeAfterRPT.input_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_ResampleBeforeAfterInputSpecRPT</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="niworkflows.interfaces.registration.RobustMNINormalizationRPT">
+<em class="property">class </em><code class="sig-prename descclassname">niworkflows.interfaces.registration.</code><code class="sig-name descname">RobustMNINormalizationRPT</code><span class="sig-paren">(</span><em class="sig-param">generate_report=False</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/registration.html#RobustMNINormalizationRPT"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.interfaces.registration.RobustMNINormalizationRPT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="niworkflows.interfaces.report_base.html#niworkflows.interfaces.report_base.RegistrationRC" title="niworkflows.interfaces.report_base.RegistrationRC"><code class="xref py py-class docutils literal notranslate"><span class="pre">niworkflows.interfaces.report_base.RegistrationRC</span></code></a>, <a class="reference internal" href="niworkflows.interfaces.mni.html#niworkflows.interfaces.mni.RobustMNINormalization" title="niworkflows.interfaces.mni.RobustMNINormalization"><code class="xref py py-class docutils literal notranslate"><span class="pre">niworkflows.interfaces.mni.RobustMNINormalization</span></code></a></p>
+<dl class="attribute">
+<dt id="niworkflows.interfaces.registration.RobustMNINormalizationRPT.input_spec">
+<code class="sig-name descname">input_spec</code><a class="headerlink" href="#niworkflows.interfaces.registration.RobustMNINormalizationRPT.input_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_RobustMNINormalizationInputSpecRPT</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="niworkflows.interfaces.registration.RobustMNINormalizationRPT.output_spec">
+<code class="sig-name descname">output_spec</code><a class="headerlink" href="#niworkflows.interfaces.registration.RobustMNINormalizationRPT.output_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_RobustMNINormalizationOutputSpecRPT</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="niworkflows.interfaces.registration.SimpleBeforeAfterRPT">
+<em class="property">class </em><code class="sig-prename descclassname">niworkflows.interfaces.registration.</code><code class="sig-name descname">SimpleBeforeAfterRPT</code><span class="sig-paren">(</span><em class="sig-param">generate_report=True</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/registration.html#SimpleBeforeAfterRPT"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.interfaces.registration.SimpleBeforeAfterRPT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="niworkflows.interfaces.report_base.html#niworkflows.interfaces.report_base.RegistrationRC" title="niworkflows.interfaces.report_base.RegistrationRC"><code class="xref py py-class docutils literal notranslate"><span class="pre">niworkflows.interfaces.report_base.RegistrationRC</span></code></a>, <a class="reference internal" href="niworkflows.interfaces.report_base.html#niworkflows.interfaces.report_base.ReportingInterface" title="niworkflows.interfaces.report_base.ReportingInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">niworkflows.interfaces.report_base.ReportingInterface</span></code></a></p>
+<dl class="attribute">
+<dt id="niworkflows.interfaces.registration.SimpleBeforeAfterRPT.input_spec">
+<code class="sig-name descname">input_spec</code><a class="headerlink" href="#niworkflows.interfaces.registration.SimpleBeforeAfterRPT.input_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_SimpleBeforeAfterInputSpecRPT</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
 
 
            </div>
@@ -228,7 +449,7 @@
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright Copyright 2021, The NiPreps Developers.
+        &#169; Copyright Copyright 2021, Center for Reproducible Neuroscience, Stanford University.
 
     </p>
   </div>
@@ -299,6 +520,7 @@
             <dd><a href="../../1.3.0rc3/api/niworkflows.interfaces.registration.html">1.3.0rc3</a></dd>
             <dd><a href="../../1.3.1/api/niworkflows.interfaces.registration.html">1.3.1</a></dd>
             <dd><a href="../../1.3.2/api/niworkflows.interfaces.registration.html">1.3.2</a></dd>
+            <dd><a href="../../1.3.3/api/niworkflows.interfaces.registration.html">1.3.3</a></dd>
             <dd><a href="../../1.4.0rc0/api/niworkflows.interfaces.registration.html">1.4.0rc0</a></dd>
             <dd><a href="../../1.4.0rc1/api/niworkflows.interfaces.registration.html">1.4.0rc1</a></dd>
             <dd><a href="niworkflows.interfaces.registration.html">1.4.0rc2</a></dd>

@@ -63,7 +63,7 @@
 <polyline fill="none" stroke="#000000" points="297,-129.5 297,-198.5 "/>
 <text text-anchor="middle" x="360" y="-183.3" font-family="Times,serif" font-size="14.00" fill="#000000">mask_reportlet</text>
 <polyline fill="none" stroke="#000000" points="297,-175.5 423,-175.5 "/>
-<text text-anchor="middle" x="360" y="-160.3" font-family="Times,serif" font-size="14.00" fill="#000000">reportlets</text>
+<text text-anchor="middle" x="360" y="-160.3" font-family="Times,serif" font-size="14.00" fill="#000000">masks</text>
 <polyline fill="none" stroke="#000000" points="297,-152.5 423,-152.5 "/>
 <text text-anchor="middle" x="360" y="-137.3" font-family="Times,serif" font-size="14.00" fill="#000000"> </text>
 <polyline fill="none" stroke="#000000" points="423,-129.5 423,-198.5 "/>

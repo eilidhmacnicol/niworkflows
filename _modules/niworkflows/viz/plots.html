@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>niworkflows.viz.plots &mdash; niworkflows 1.4.0rc5+7.g616d2bca documentation</title>
+  <title>niworkflows.viz.plots &mdash; niworkflows 1.3.3 documentation</title>
   
 
   
@@ -33,6 +33,8 @@
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
@@ -62,7 +64,7 @@
             
             
               <div class="version">
-                1.4.0
+                1.3.3
               </div>
             
           
@@ -159,9 +161,12 @@
   
 
 
+    
+    
 
 
 
+    <p class="scv-banner scv-sphinx_rtd_theme"><b>Warning:</b> This document is for an old version of niworkflows.</p>
 <h1>Source code for niworkflows.viz.plots</h1><div class="highlight"><pre>
 <span></span><span class="c1"># emacs: -*- mode: python; py-indent-offset: 4; indent-tabs-mode: nil -*-</span>
 <span class="c1"># vi: set ft=python sts=4 ts=4 sw=4 et:</span>
@@ -182,6 +187,8 @@
 <span class="kn">from</span> <span class="nn">nilearn._utils</span> <span class="kn">import</span> <span class="n">check_niimg_4d</span>
 <span class="kn">from</span> <span class="nn">nilearn._utils.niimg</span> <span class="kn">import</span> <span class="n">_safe_get_data</span>
 
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">from</span> <span class="nn">seaborn</span> <span class="kn">import</span> <span class="n">color_palette</span>
 
 <span class="n">DINA4_LANDSCAPE</span> <span class="o">=</span> <span class="p">(</span><span class="mf">11.69</span><span class="p">,</span> <span class="mf">8.27</span><span class="p">)</span>
 
@@ -246,8 +253,6 @@
 
 <div class="viewcode-block" id="fMRIPlot.plot"><a class="viewcode-back" href="../../../api/niworkflows.viz.plots.html#niworkflows.viz.fMRIPlot.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">figure</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Main plotter&quot;&quot;&quot;</span>
-        <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
-
         <span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">)</span>
         <span class="n">sns</span><span class="o">.</span><span class="n">set_context</span><span class="p">(</span><span class="s2">&quot;paper&quot;</span><span class="p">,</span> <span class="n">font_scale</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
 
@@ -271,8 +276,6 @@
             <span class="n">grid_id</span> <span class="o">+=</span> <span class="mi">1</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">confounds</span><span class="p">:</span>
-            <span class="kn">from</span> <span class="nn">seaborn</span> <span class="kn">import</span> <span class="n">color_palette</span>
-
             <span class="n">palette</span> <span class="o">=</span> <span class="n">color_palette</span><span class="p">(</span><span class="s2">&quot;husl&quot;</span><span class="p">,</span> <span class="n">nconfounds</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">confounds</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
@@ -749,7 +752,6 @@
     <span class="n">cutoff</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">ylims</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
-    <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 
     <span class="c1"># Define TR and number of frames</span>
     <span class="n">notr</span> <span class="o">=</span> <span class="kc">False</span>
@@ -1113,8 +1115,6 @@
 <span class="sd">    output_file: :obj:`str`</span>
 <span class="sd">        The file where the figure is saved.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
-
     <span class="n">confounds_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="n">confounds_file</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">columns</span><span class="p">:</span>
@@ -1240,7 +1240,7 @@
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright Copyright 2021, The NiPreps Developers.
+        &#169; Copyright Copyright 2021, Center for Reproducible Neuroscience, Stanford University.
 
     </p>
   </div>
@@ -1264,7 +1264,7 @@
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: master
+        v: 1.3.3
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -1311,6 +1311,7 @@
             <dd><a href="../../../1.3.0rc3/index.html">1.3.0rc3</a></dd>
             <dd><a href="../../../1.3.1/index.html">1.3.1</a></dd>
             <dd><a href="../../../1.3.2/index.html">1.3.2</a></dd>
+            <dd><a href="../../../1.3.3/_modules/niworkflows/viz/plots.html">1.3.3</a></dd>
             <dd><a href="../../../1.4.0rc0/index.html">1.4.0rc0</a></dd>
             <dd><a href="../../../1.4.0rc1/index.html">1.4.0rc1</a></dd>
             <dd><a href="../../../1.4.0rc2/index.html">1.4.0rc2</a></dd>
@@ -1324,7 +1325,7 @@
             <dd><a href="../../../maint_1.1.x/index.html">maint/1.1.x</a></dd>
             <dd><a href="../../../maint_1.2.x/index.html">maint/1.2.x</a></dd>
             <dd><a href="../../../maint_1.3.x/index.html">maint/1.3.x</a></dd>
-            <dd><a href="../../../master/_modules/niworkflows/viz/plots.html">master</a></dd>
+            <dd><a href="../../../master/index.html">master</a></dd>
         </dl>
     </div>
 </div>

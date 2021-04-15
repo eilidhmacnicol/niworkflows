@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>niworkflows.utils.bids &mdash; niworkflows 1.4.0rc5+7.g616d2bca documentation</title>
+  <title>niworkflows.utils.bids &mdash; niworkflows 1.3.3 documentation</title>
   
 
   
@@ -33,6 +33,8 @@
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
@@ -62,7 +64,7 @@
             
             
               <div class="version">
-                1.4.0
+                1.3.3
               </div>
             
           
@@ -167,7 +169,12 @@
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="c1"># emacs: -*- mode: python; py-indent-offset: 4; indent-tabs-mode: nil -*-</span>
 <span class="c1"># vi: set ft=python sts=4 ts=4 sw=4 et:</span>
-<span class="sd">&quot;&quot;&quot;Helpers for handling BIDS-like neuroimaging structures.&quot;&quot;&quot;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Helpers for handling BIDS-like neuroimaging structures</span>
+<span class="sd">^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
+
+
+<span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">re</span>
@@ -204,26 +211,20 @@
 <span class="sd">    designated with the participant_label argument exist in that folder.</span>
 <span class="sd">    Returns the list of participants to be finally processed.</span>
 <span class="sd">    Requesting all subjects in a BIDS directory root:</span>
-
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; collect_participants(str(datadir / &#39;ds114&#39;), bids_validate=False)</span>
 <span class="sd">    [&#39;01&#39;, &#39;02&#39;, &#39;03&#39;, &#39;04&#39;, &#39;05&#39;, &#39;06&#39;, &#39;07&#39;, &#39;08&#39;, &#39;09&#39;, &#39;10&#39;]</span>
 
 <span class="sd">    Requesting two subjects, given their IDs:</span>
-
 <span class="sd">    &gt;&gt;&gt; collect_participants(str(datadir / &#39;ds114&#39;), participant_label=[&#39;02&#39;, &#39;04&#39;],</span>
 <span class="sd">    ...                      bids_validate=False)</span>
 <span class="sd">    [&#39;02&#39;, &#39;04&#39;]</span>
 
 <span class="sd">    Requesting two subjects, given their IDs (works with &#39;sub-&#39; prefixes):</span>
-
 <span class="sd">    &gt;&gt;&gt; collect_participants(str(datadir / &#39;ds114&#39;), participant_label=[&#39;sub-02&#39;, &#39;sub-04&#39;],</span>
 <span class="sd">    ...                      bids_validate=False)</span>
 <span class="sd">    [&#39;02&#39;, &#39;04&#39;]</span>
 
 <span class="sd">    Requesting two subjects, but one does not exist:</span>
-
 <span class="sd">    &gt;&gt;&gt; collect_participants(str(datadir / &#39;ds114&#39;), participant_label=[&#39;02&#39;, &#39;14&#39;],</span>
 <span class="sd">    ...                      bids_validate=False)</span>
 <span class="sd">    [&#39;02&#39;]</span>
@@ -233,7 +234,6 @@
 <span class="sd">    Traceback (most recent call last):</span>
 <span class="sd">    BIDSError:</span>
 <span class="sd">    ...</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bids_dir</span><span class="p">,</span> <span class="n">BIDSLayout</span><span class="p">):</span>
@@ -299,9 +299,6 @@
 <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Uses pybids to retrieve the input data for a given participant</span>
-
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; bids_root, _ = collect_data(str(datadir / &#39;ds054&#39;), &#39;100185&#39;,</span>
 <span class="sd">    ...                             bids_validate=False)</span>
 <span class="sd">    &gt;&gt;&gt; bids_root[&#39;fmap&#39;]  # doctest: +ELLIPSIS</span>
@@ -330,7 +327,6 @@
 <span class="sd">    ...                             bids_validate=False, bids_filters={&#39;t1w&#39;:{&#39;run&#39;: 1}})</span>
 <span class="sd">    &gt;&gt;&gt; bids_root[&#39;t1w&#39;]  # doctest: +ELLIPSIS</span>
 <span class="sd">    [&#39;.../ds051/sub-01/anat/sub-01_run-01_T1w.nii.gz&#39;]</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bids_dir</span><span class="p">,</span> <span class="n">BIDSLayout</span><span class="p">):</span>
         <span class="n">layout</span> <span class="o">=</span> <span class="n">bids_dir</span>
@@ -376,16 +372,15 @@
 
 
 <div class="viewcode-block" id="get_metadata_for_nifti"><a class="viewcode-back" href="../../../api/niworkflows.utils.bids.html#niworkflows.utils.bids.get_metadata_for_nifti">[docs]</a><span class="k">def</span> <span class="nf">get_metadata_for_nifti</span><span class="p">(</span><span class="n">in_file</span><span class="p">,</span> <span class="n">bids_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">validate</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Fetch metadata for a given NIfTI file.</span>
+    <span class="sd">&quot;&quot;&quot;Fetch metadata for a given nifti file</span>
 
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; metadata = get_metadata_for_nifti(</span>
 <span class="sd">    ...     datadir / &#39;ds054&#39; / &#39;sub-100185&#39; / &#39;fmap&#39; / &#39;sub-100185_phasediff.nii.gz&#39;,</span>
 <span class="sd">    ...     validate=False)</span>
 <span class="sd">    &gt;&gt;&gt; metadata[&#39;Manufacturer&#39;]</span>
 <span class="sd">    &#39;SIEMENS&#39;</span>
+
+<span class="sd">    &gt;&gt;&gt;</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">_init_layout</span><span class="p">(</span><span class="n">in_file</span><span class="p">,</span> <span class="n">bids_dir</span><span class="p">,</span> <span class="n">validate</span><span class="p">)</span><span class="o">.</span><span class="n">get_metadata</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">in_file</span><span class="p">))</span></div>
@@ -411,12 +406,9 @@
 
 <div class="viewcode-block" id="group_multiecho"><a class="viewcode-back" href="../../../api/niworkflows.utils.bids.html#niworkflows.utils.bids.group_multiecho">[docs]</a><span class="k">def</span> <span class="nf">group_multiecho</span><span class="p">(</span><span class="n">bold_sess</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Multiplex multi-echo EPIs into arrays.</span>
+<span class="sd">    Multiplexes multi-echo EPIs into arrays. Dual-echo is a special</span>
+<span class="sd">    case of multi-echo, which is treated as single-echo data.</span>
 
-<span class="sd">    Dual-echo is a special case of multi-echo, which is treated as single-echo data.</span>
-
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; bold_sess = [&quot;sub-01_task-rest_echo-1_run-01_bold.nii.gz&quot;,</span>
 <span class="sd">    ...              &quot;sub-01_task-rest_echo-2_run-01_bold.nii.gz&quot;,</span>
 <span class="sd">    ...              &quot;sub-01_task-rest_echo-1_run-02_bold.nii.gz&quot;,</span>
@@ -462,7 +454,8 @@
 <span class="sd">      &#39;sub-01_task-beh_echo-3_run-02_bold.nii.gz&#39;],</span>
 <span class="sd">      &#39;sub-01_task-beh_run-03_bold.nii.gz&#39;]</span>
 
-<span class="sd">    Some tests from https://neurostars.org/t/fmriprep-from-singularity-unboundlocalerror/3299/7</span>
+<span class="sd">    Some tests from https://neurostars.org/t/fmriprep-from\</span>
+<span class="sd">-singularity-unboundlocalerror/3299/7</span>
 
 <span class="sd">    &gt;&gt;&gt; bold_sess = [&#39;sub-01_task-AudLoc_echo-1_bold.nii&#39;,</span>
 <span class="sd">    ...              &#39;sub-01_task-AudLoc_echo-2_bold.nii&#39;,</span>
@@ -483,6 +476,7 @@
 <span class="sd">    [False, False, False, False, False, False, True]</span>
 <span class="sd">    &gt;&gt;&gt; len(groups[-1])</span>
 <span class="sd">    3</span>
+
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">groupby</span>
@@ -506,8 +500,8 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculate the BIDS root folder given one file path&#39;s.</span>
 
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
+<span class="sd">    Example</span>
+<span class="sd">    -------</span>
 <span class="sd">    &gt;&gt;&gt; str(relative_to_root(</span>
 <span class="sd">    ...     &quot;/sub-03/sourcedata/sub-01/anat/sub-01_T1.nii.gz&quot;</span>
 <span class="sd">    ... ))</span>
@@ -544,7 +538,7 @@
 
 <div class="viewcode-block" id="check_pipeline_version"><a class="viewcode-back" href="../../../api/niworkflows.utils.bids.html#niworkflows.utils.bids.check_pipeline_version">[docs]</a><span class="k">def</span> <span class="nf">check_pipeline_version</span><span class="p">(</span><span class="n">cvers</span><span class="p">,</span> <span class="n">data_desc</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Search for existing BIDS pipeline output and compares against current pipeline version.</span>
+<span class="sd">    Searches for existing BIDS pipeline output and compares against current pipeline version.</span>
 
 <span class="sd">    .. testsetup::</span>
 
@@ -557,8 +551,8 @@
 <span class="sd">    ----------</span>
 <span class="sd">    cvers : :obj:`str`</span>
 <span class="sd">        Current pipeline version</span>
-<span class="sd">    data_desc : :obj:`str` or :obj:`os.PathLike`</span>
-<span class="sd">        Path to pipeline output&#39;s ``dataset_description.json``</span>
+<span class="sd">    data_desc : :obj:`str` or :class:`os.Pathlike`</span>
+<span class="sd">        Path to pipeline output&#39;s dataset_description.json</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -594,7 +588,7 @@
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright Copyright 2021, The NiPreps Developers.
+        &#169; Copyright Copyright 2021, Center for Reproducible Neuroscience, Stanford University.
 
     </p>
   </div>
@@ -665,6 +659,7 @@
             <dd><a href="../../../../1.3.0rc3/index.html">1.3.0rc3</a></dd>
             <dd><a href="../../../../1.3.1/index.html">1.3.1</a></dd>
             <dd><a href="../../../../1.3.2/index.html">1.3.2</a></dd>
+            <dd><a href="../../../../1.3.3/index.html">1.3.3</a></dd>
             <dd><a href="../../../../1.4.0rc0/index.html">1.4.0rc0</a></dd>
             <dd><a href="../../../../1.4.0rc1/index.html">1.4.0rc1</a></dd>
             <dd><a href="../../../../1.4.0rc2/index.html">1.4.0rc2</a></dd>

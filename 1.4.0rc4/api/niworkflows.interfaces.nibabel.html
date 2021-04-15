@@ -4,10 +4,11 @@
 <html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" />
-  
+  <meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>niworkflows.interfaces.nibabel module &mdash; niworkflows 1.4.0rc5+7.g616d2bca documentation</title>
+  <title>niworkflows.interfaces.nibabel module &mdash; niworkflows 1.3.3 documentation</title>
   
 
   
@@ -33,6 +34,8 @@
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -64,7 +67,7 @@
             
             
               <div class="version">
-                1.4.0
+                1.3.3
               </div>
             
           
@@ -210,12 +213,12 @@
 
 
     <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../master/api/niworkflows.interfaces.nibabel.html"><b>Warning:</b> This document is for an old version of niworkflows. The main version is master.</a></p>
-<div class="section" id="module-niworkflows.interfaces.nibabel">
+<section id="module-niworkflows.interfaces.nibabel">
 <span id="niworkflows-interfaces-nibabel-module"></span><h1>niworkflows.interfaces.nibabel module<a class="headerlink" href="#module-niworkflows.interfaces.nibabel" title="Permalink to this headline">¶</a></h1>
 <p>Nibabel-based interfaces.</p>
-<dl class="py class">
+<dl class="class">
 <dt id="niworkflows.interfaces.nibabel.ApplyMask">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">niworkflows.interfaces.nibabel.</span></code><code class="sig-name descname"><span class="pre">ApplyMask</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_monitor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">inputs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/nibabel.html#ApplyMask"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#niworkflows.interfaces.nibabel.ApplyMask" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">niworkflows.interfaces.nibabel.</code><code class="sig-name descname">ApplyMask</code><span class="sig-paren">(</span><em class="sig-param">from_file=None</em>, <em class="sig-param">resource_monitor=None</em>, <em class="sig-param">**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/nibabel.html#ApplyMask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.interfaces.nibabel.ApplyMask" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">nipype.interfaces.base.core.SimpleInterface</span></code></p>
 <p>Mask the input given a mask.</p>
 <dl class="field-list simple">
@@ -235,9 +238,9 @@
 </dl>
 </dd></dl>
 
-<dl class="py class">
+<dl class="class">
 <dt id="niworkflows.interfaces.nibabel.Binarize">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">niworkflows.interfaces.nibabel.</span></code><code class="sig-name descname"><span class="pre">Binarize</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_monitor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">inputs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/nibabel.html#Binarize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#niworkflows.interfaces.nibabel.Binarize" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">niworkflows.interfaces.nibabel.</code><code class="sig-name descname">Binarize</code><span class="sig-paren">(</span><em class="sig-param">from_file=None</em>, <em class="sig-param">resource_monitor=None</em>, <em class="sig-param">**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/nibabel.html#Binarize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.interfaces.nibabel.Binarize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">nipype.interfaces.base.core.SimpleInterface</span></code></p>
 <p>Binarizes the input image applying the given thresholds.</p>
 <dl class="field-list simple">
@@ -256,116 +259,9 @@
 </dl>
 </dd></dl>
 
-<dl class="py class">
-<dt id="niworkflows.interfaces.nibabel.DemeanImage">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">niworkflows.interfaces.nibabel.</span></code><code class="sig-name descname"><span class="pre">DemeanImage</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_monitor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">inputs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/nibabel.html#DemeanImage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#niworkflows.interfaces.nibabel.DemeanImage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">nipype.interfaces.base.core.SimpleInterface</span></code></p>
-<dl class="field-list simple">
-<dt class="field-odd">Mandatory Inputs</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>in_file</strong> (<em>a pathlike object or string representing an existing file</em>) – Image to be demeaned.</p></li>
-<li><p><strong>in_mask</strong> (<em>a pathlike object or string representing an existing file</em>) – Mask where median will be calculated.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Optional Inputs</dt>
-<dd class="field-even"><p><strong>only_mask</strong> (<em>a boolean</em>) – Demean only within mask.
-(Nipype <strong>default</strong> value: <code class="docutils literal notranslate"><span class="pre">False</span></code>)</p>
-</dd>
-<dt class="field-odd">Outputs</dt>
-<dd class="field-odd"><p><strong>out_file</strong> (<em>a pathlike object or string representing an existing file</em>) – Demeaned image.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py class">
-<dt id="niworkflows.interfaces.nibabel.FilledImageLike">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">niworkflows.interfaces.nibabel.</span></code><code class="sig-name descname"><span class="pre">FilledImageLike</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_monitor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">inputs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/nibabel.html#FilledImageLike"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#niworkflows.interfaces.nibabel.FilledImageLike" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">nipype.interfaces.base.core.SimpleInterface</span></code></p>
-<dl class="field-list simple">
-<dt class="field-odd">Mandatory Inputs</dt>
-<dd class="field-odd"><p><strong>in_file</strong> (<em>a pathlike object or string representing an existing file</em>) – Image to be demeaned.</p>
-</dd>
-<dt class="field-even">Optional Inputs</dt>
-<dd class="field-even"><ul class="simple">
-<li><p><strong>dtype</strong> (<em>‘float32’ or ‘uint8’</em>) – Force output data type.
-(Nipype <strong>default</strong> value: <code class="docutils literal notranslate"><span class="pre">float32</span></code>)</p></li>
-<li><p><strong>fill_value</strong> (<em>a float</em>) – Value to fill.
-(Nipype <strong>default</strong> value: <code class="docutils literal notranslate"><span class="pre">1.0</span></code>)</p></li>
-</ul>
-</dd>
-<dt class="field-odd">Outputs</dt>
-<dd class="field-odd"><p><strong>out_file</strong> (<em>a pathlike object or string representing an existing file</em>) – Demeaned image.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py class">
-<dt id="niworkflows.interfaces.nibabel.GenerateSamplingReference">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">niworkflows.interfaces.nibabel.</span></code><code class="sig-name descname"><span class="pre">GenerateSamplingReference</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_monitor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">inputs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/nibabel.html#GenerateSamplingReference"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#niworkflows.interfaces.nibabel.GenerateSamplingReference" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">nipype.interfaces.base.core.SimpleInterface</span></code></p>
-<p>Generates a reference grid for resampling one image keeping original resolution,
-but moving data to a different space (e.g. MNI).</p>
-<p>If the <cite>fov_mask</cite> optional input is provided, then the abbr:<cite>FoV (field-of-view)</cite>
-is cropped to a bounding box containing the brain mask plus an offest of two
-voxels along all dimensions. The <cite>fov_mask</cite> should be to the brain mask calculated
-from the T1w, and should not contain the brain stem. The mask is resampled into
-target space, and then the bounding box is calculated. Finally, the FoV is adjusted
-to that bounding box.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Mandatory Inputs</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>fixed_image</strong> (<em>a pathlike object or string representing an existing file</em>) – The reference file, defines the FoV.</p></li>
-<li><p><strong>moving_image</strong> (<em>a pathlike object or string representing an existing file</em>) – The pixel size reference.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Optional Inputs</dt>
-<dd class="field-even"><ul class="simple">
-<li><p><strong>fov_mask</strong> (<em>a pathlike object or string representing an existing file or None</em>) – Mask to clip field of view (in fixed_image space).
-(Nipype <strong>default</strong> value: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
-<li><p><strong>keep_native</strong> (<em>a boolean</em>) – Calculate a grid with native resolution covering the volume extent given by fixed_image, fast forward fixed_image otherwise.
-(Nipype <strong>default</strong> value: <code class="docutils literal notranslate"><span class="pre">True</span></code>)</p></li>
-<li><p><strong>xform_code</strong> (<em>None or 2 or 4</em>) – Force xform code.
-(Nipype <strong>default</strong> value: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
-</ul>
-</dd>
-<dt class="field-odd">Outputs</dt>
-<dd class="field-odd"><p><strong>out_file</strong> (<em>a pathlike object or string representing an existing file</em>) – One file with all inputs flattened.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py class">
-<dt id="niworkflows.interfaces.nibabel.IntensityClip">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">niworkflows.interfaces.nibabel.</span></code><code class="sig-name descname"><span class="pre">IntensityClip</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_monitor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">inputs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/nibabel.html#IntensityClip"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#niworkflows.interfaces.nibabel.IntensityClip" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">nipype.interfaces.base.core.SimpleInterface</span></code></p>
-<p>Clip the intensity range as prescribed by the percentiles.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Mandatory Inputs</dt>
-<dd class="field-odd"><p><strong>in_file</strong> (<em>a pathlike object or string representing an existing file</em>) – File which intensity will be clipped.</p>
-</dd>
-<dt class="field-even">Optional Inputs</dt>
-<dd class="field-even"><ul class="simple">
-<li><p><strong>dtype</strong> (<em>‘int16’ or ‘float32’ or ‘uint8’</em>) – Output datatype.
-(Nipype <strong>default</strong> value: <code class="docutils literal notranslate"><span class="pre">int16</span></code>)</p></li>
-<li><p><strong>invert</strong> (<em>a boolean</em>) – Finalize by inverting contrast.
-(Nipype <strong>default</strong> value: <code class="docutils literal notranslate"><span class="pre">False</span></code>)</p></li>
-<li><p><strong>nonnegative</strong> (<em>a boolean</em>) – Whether input intensities must be positive.
-(Nipype <strong>default</strong> value: <code class="docutils literal notranslate"><span class="pre">True</span></code>)</p></li>
-<li><p><strong>p_max</strong> (<em>a float</em>) – Percentile for the upper bound.
-(Nipype <strong>default</strong> value: <code class="docutils literal notranslate"><span class="pre">99.98</span></code>)</p></li>
-<li><p><strong>p_min</strong> (<em>a float</em>) – Percentile for the lower bound.
-(Nipype <strong>default</strong> value: <code class="docutils literal notranslate"><span class="pre">35.0</span></code>)</p></li>
-</ul>
-</dd>
-<dt class="field-odd">Outputs</dt>
-<dd class="field-odd"><p><strong>out_file</strong> (<em>a pathlike object or string representing an existing file</em>) – File after clipping.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py class">
+<dl class="class">
 <dt id="niworkflows.interfaces.nibabel.MergeSeries">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">niworkflows.interfaces.nibabel.</span></code><code class="sig-name descname"><span class="pre">MergeSeries</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_monitor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">inputs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/nibabel.html#MergeSeries"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#niworkflows.interfaces.nibabel.MergeSeries" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">niworkflows.interfaces.nibabel.</code><code class="sig-name descname">MergeSeries</code><span class="sig-paren">(</span><em class="sig-param">from_file=None</em>, <em class="sig-param">resource_monitor=None</em>, <em class="sig-param">**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/nibabel.html#MergeSeries"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.interfaces.nibabel.MergeSeries" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">nipype.interfaces.base.core.SimpleInterface</span></code></p>
 <p>Merge a series of 3D volumes along the last dimension into a single 4D image.</p>
 <dl class="field-list simple">
@@ -382,37 +278,9 @@ to that bounding box.</p>
 </dl>
 </dd></dl>
 
-<dl class="py class">
-<dt id="niworkflows.interfaces.nibabel.RegridToZooms">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">niworkflows.interfaces.nibabel.</span></code><code class="sig-name descname"><span class="pre">RegridToZooms</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_monitor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">inputs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/nibabel.html#RegridToZooms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#niworkflows.interfaces.nibabel.RegridToZooms" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">nipype.interfaces.base.core.SimpleInterface</span></code></p>
-<p>Change the resolution of an image (regrid).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Mandatory Inputs</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>in_file</strong> (<em>a pathlike object or string representing an existing file</em>) – A file whose resolution is to change.</p></li>
-<li><p><strong>zooms</strong> (<em>a tuple of the form: (a float, a float, a float)</em>) – The new resolution.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Optional Inputs</dt>
-<dd class="field-even"><ul class="simple">
-<li><p><strong>clip</strong> (<em>a boolean</em>) – Clip the data array within the original image’s range.
-(Nipype <strong>default</strong> value: <code class="docutils literal notranslate"><span class="pre">True</span></code>)</p></li>
-<li><p><strong>order</strong> (<em>an integer</em>) – Order of interpolator.
-(Nipype <strong>default</strong> value: <code class="docutils literal notranslate"><span class="pre">3</span></code>)</p></li>
-<li><p><strong>smooth</strong> (<em>a boolean or a float</em>) – Apply gaussian smoothing before resampling.
-(Nipype <strong>default</strong> value: <code class="docutils literal notranslate"><span class="pre">False</span></code>)</p></li>
-</ul>
-</dd>
-<dt class="field-odd">Outputs</dt>
-<dd class="field-odd"><p><strong>out_file</strong> (<em>a pathlike object or string representing an existing file</em>)</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py class">
+<dl class="class">
 <dt id="niworkflows.interfaces.nibabel.SplitSeries">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">niworkflows.interfaces.nibabel.</span></code><code class="sig-name descname"><span class="pre">SplitSeries</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_monitor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">inputs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/nibabel.html#SplitSeries"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#niworkflows.interfaces.nibabel.SplitSeries" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">niworkflows.interfaces.nibabel.</code><code class="sig-name descname">SplitSeries</code><span class="sig-paren">(</span><em class="sig-param">from_file=None</em>, <em class="sig-param">resource_monitor=None</em>, <em class="sig-param">**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/niworkflows/interfaces/nibabel.html#SplitSeries"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#niworkflows.interfaces.nibabel.SplitSeries" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">nipype.interfaces.base.core.SimpleInterface</span></code></p>
 <p>Split a 4D dataset along the last dimension into a series of 3D volumes.</p>
 <dl class="field-list simple">
@@ -425,7 +293,7 @@ to that bounding box.</p>
 </dl>
 </dd></dl>
 
-</div>
+</section>
 
 
            </div>
@@ -441,7 +309,7 @@ to that bounding box.</p>
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright Copyright 2021, The NiPreps Developers.
+        &#169; Copyright Copyright 2021, Center for Reproducible Neuroscience, Stanford University.
 
     </p>
   </div>
@@ -512,6 +380,7 @@ to that bounding box.</p>
             <dd><a href="../../1.3.0rc3/api/niworkflows.interfaces.nibabel.html">1.3.0rc3</a></dd>
             <dd><a href="../../1.3.1/api/niworkflows.interfaces.nibabel.html">1.3.1</a></dd>
             <dd><a href="../../1.3.2/api/niworkflows.interfaces.nibabel.html">1.3.2</a></dd>
+            <dd><a href="../../1.3.3/api/niworkflows.interfaces.nibabel.html">1.3.3</a></dd>
             <dd><a href="../../1.4.0rc0/api/niworkflows.interfaces.nibabel.html">1.4.0rc0</a></dd>
             <dd><a href="../../1.4.0rc1/api/niworkflows.interfaces.nibabel.html">1.4.0rc1</a></dd>
             <dd><a href="../../1.4.0rc2/api/niworkflows.interfaces.nibabel.html">1.4.0rc2</a></dd>

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>niworkflows.interfaces.confounds &mdash; niworkflows 1.4.0rc5+7.g616d2bca documentation</title>
+  <title>niworkflows.interfaces.confounds &mdash; niworkflows 1.3.3 documentation</title>
   
 
   
@@ -33,6 +33,8 @@
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
@@ -62,7 +64,7 @@
             
             
               <div class="version">
-                1.4.0
+                1.3.3
               </div>
             
           
@@ -169,14 +171,13 @@
 <span></span><span class="c1"># emacs: -*- mode: python; py-indent-offset: 4; indent-tabs-mode: nil -*-</span>
 <span class="c1"># vi: set ft=python sts=4 ts=4 sw=4 et:</span>
 <span class="sd">&quot;&quot;&quot;Select terms for a confound model, and compute any requisite expansions.&quot;&quot;&quot;</span>
-<span class="kn">import</span> <span class="nn">os</span>
+
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">reduce</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">deque</span><span class="p">,</span> <span class="n">OrderedDict</span>
 <span class="kn">from</span> <span class="nn">nipype.utils.filemanip</span> <span class="kn">import</span> <span class="n">fname_presuffix</span>
-<span class="kn">from</span> <span class="nn">nipype.utils.misc</span> <span class="kn">import</span> <span class="n">normalize_mc_params</span>
 <span class="kn">from</span> <span class="nn">nipype.interfaces.base</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">traits</span><span class="p">,</span>
     <span class="n">TraitedSpec</span><span class="p">,</span>
@@ -185,33 +186,6 @@
     <span class="n">isdefined</span><span class="p">,</span>
     <span class="n">SimpleInterface</span><span class="p">,</span>
 <span class="p">)</span>
-
-
-<span class="k">class</span> <span class="nc">_NormalizeMotionParamsInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
-    <span class="n">in_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;the input parameters file&quot;</span><span class="p">)</span>
-    <span class="nb">format</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Enum</span><span class="p">(</span>
-        <span class="s2">&quot;FSL&quot;</span><span class="p">,</span> <span class="s2">&quot;AFNI&quot;</span><span class="p">,</span> <span class="s2">&quot;FSFAST&quot;</span><span class="p">,</span> <span class="s2">&quot;NIPY&quot;</span><span class="p">,</span> <span class="n">usedefault</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;output format&quot;</span>
-    <span class="p">)</span>
-
-
-<span class="k">class</span> <span class="nc">_NormalizeMotionParamsOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
-    <span class="n">out_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;written file path&quot;</span><span class="p">)</span>
-
-
-<div class="viewcode-block" id="NormalizeMotionParams"><a class="viewcode-back" href="../../../api/niworkflows.interfaces.confounds.html#niworkflows.interfaces.confounds.NormalizeMotionParams">[docs]</a><span class="k">class</span> <span class="nc">NormalizeMotionParams</span><span class="p">(</span><span class="n">SimpleInterface</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Convert input motion parameters into the designated convention.&quot;&quot;&quot;</span>
-
-    <span class="n">input_spec</span> <span class="o">=</span> <span class="n">_NormalizeMotionParamsInputSpec</span>
-    <span class="n">output_spec</span> <span class="o">=</span> <span class="n">_NormalizeMotionParamsOutputSpec</span>
-
-    <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
-        <span class="n">mpars</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">in_file</span><span class="p">)</span>  <span class="c1"># mpars is N_t x 6</span>
-        <span class="n">mpars</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">apply_along_axis</span><span class="p">(</span>
-            <span class="n">func1d</span><span class="o">=</span><span class="n">normalize_mc_params</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">arr</span><span class="o">=</span><span class="n">mpars</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">format</span>
-        <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="s2">&quot;out_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">runtime</span><span class="o">.</span><span class="n">cwd</span><span class="p">,</span> <span class="s2">&quot;motion_params.txt&quot;</span><span class="p">)</span>
-        <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="s2">&quot;out_file&quot;</span><span class="p">],</span> <span class="n">mpars</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">runtime</span></div>
 
 
 <span class="k">class</span> <span class="nc">_ExpandModelInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
@@ -228,26 +202,25 @@
 <span class="s2">Formula for generating model expansions. By default, the</span>
 <span class="s2">32-parameter expansion will be generated. Note that any expressions</span>
 <span class="s2">to be expanded *must* be in parentheses, even if they include only</span>
-<span class="s2">a single variable (e.g., ``(x)^2``, not ``x^2``). Examples:</span>
+<span class="s2">a single variable (e.g., (x)^2, not x^2).</span>
 
-<span class="s2">* ``rps + wm + csf + gsr`` : 9-parameter model. ``rps`` denotes realignment</span>
-<span class="s2">  parameters, ``wm`` denotes mean white matter signal, ``csf`` denotes mean</span>
-<span class="s2">  cerebrospinal fluid signal, and ``gsr`` denotes mean global signal.</span>
-<span class="s2">* ``(dd1(rps + wm + csf + gsr))^^2`` : 36-parameter expansion.</span>
-<span class="s2">  ``rps + wm + csf + gsr`` denotes that realignment parameters and mean</span>
-<span class="s2">  WM, CSF, and global signals should be included. ``dd1`` denotes that</span>
+<span class="s2">Examples:</span>
+<span class="s2">* rps + wm + csf + gsr : 9-parameter model. rps denotes realignment</span>
+<span class="s2">  parameters, wm denotes mean white matter signal, csf denotes mean</span>
+<span class="s2">  cerebrospinal fluid signal, and gsr denotes mean global signal.</span>
+<span class="s2">* (dd1(rps + wm + csf + gsr))^^2 : 36-parameter expansion.</span>
+<span class="s2">  rps + wm + csf + gsr denotes that realignment parameters and mean</span>
+<span class="s2">  WM, CSF, and global signals should be included. dd1 denotes that</span>
 <span class="s2">  these signals should be augmented with their first temporal</span>
-<span class="s2">  derivatives. ``^^2`` denotes that the original signals and temporal</span>
+<span class="s2">  derivatives. ^^2 denotes that the original signals and temporal</span>
 <span class="s2">  derivatives should be augmented with quadratic expansions.</span>
-<span class="s2">* ``(dd1(rps))^^2`` : 24-parameter expansion. ``rps`` denotes that</span>
-<span class="s2">  realignment parameters should be included. ``dd1`` and ``^^2`` denote</span>
+<span class="s2">* (dd1(rps))^^2 : 24-parameter expansion. rps denotes that</span>
+<span class="s2">  realignment parameters should be included. dd1 and ^^2 denote</span>
 <span class="s2">  temporal derivative and quadratic expansions as above.</span>
-<span class="s2">* ``(dd1(rps + wm + csf + gsr))^^2 + others`` : generate all expansion</span>
+<span class="s2">* (dd1(rps + wm + csf + gsr))^^2 + others : generate all expansion</span>
 <span class="s2">  terms necessary for a 36-parameter model as above, and</span>
 <span class="s2">  concatenate those expansion terms to all other regressor columns</span>
-<span class="s2">  in the confounds file.</span>
-
-<span class="s2">&quot;&quot;&quot;</span><span class="p">,</span>
+<span class="s2">  in the confounds file.&quot;&quot;&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">output_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Output path&quot;</span><span class="p">)</span>
 
@@ -387,46 +360,45 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    data : :obj:`~pandas.DataFrame`</span>
+<span class="sd">    data: pandas DataFrame object</span>
 <span class="sd">        A tabulation of observations from which spike regressors should be</span>
 <span class="sd">        estimated.</span>
-<span class="sd">    criteria : :obj:`dict` of (:obj:`str`, ``&#39;&gt;&#39;`` or ``&#39;&lt;&#39;`` or :obj:`float`)</span>
+<span class="sd">    criteria: dict{str: (&#39;&gt;&#39; or &#39;&lt;&#39;, float)}</span>
 <span class="sd">        Criteria for generating a spike regressor. If, for a given frame, the</span>
 <span class="sd">        value of the variable corresponding to the key exceeds the threshold</span>
 <span class="sd">        indicated by the value, then a spike regressor is created for that</span>
-<span class="sd">        frame. By default, the strategy from [Power2014]_ is implemented: any</span>
+<span class="sd">        frame. By default, the strategy from Power 2014 is implemented: any</span>
 <span class="sd">        frames with FD greater than 0.5 or standardised DV greater than 1.5</span>
 <span class="sd">        are flagged for censoring.</span>
-<span class="sd">    header_prefix : :obj:`str`</span>
+<span class="sd">    header_prefix: str</span>
 <span class="sd">        The prefix used to indicate spike regressors in the output data table.</span>
-<span class="sd">    lags: :obj:`list` of :obj:`int`</span>
+<span class="sd">    lags: list(int)</span>
 <span class="sd">        A list indicating the frames to be censored relative to each flag.</span>
-<span class="sd">        For instance, ``[0]`` censors the flagged frame, while ``[0, 1]`` censors</span>
+<span class="sd">        For instance, [0] censors the flagged frame, while [0, 1] censors</span>
 <span class="sd">        both the flagged frame and the following frame.</span>
-<span class="sd">    minimum_contiguous : :obj:`int` or :obj:`None`</span>
+<span class="sd">    minimum_contiguous: int or None</span>
 <span class="sd">        The minimum number of contiguous frames that must be unflagged for</span>
 <span class="sd">        spike regression. If any series of contiguous unflagged frames is</span>
 <span class="sd">        shorter than the specified minimum, then all of those frames will</span>
 <span class="sd">        additionally have spike regressors implemented.</span>
-<span class="sd">    concatenate : :obj:`bool`</span>
+<span class="sd">    concatenate: bool</span>
 <span class="sd">        Indicates whether the returned object should include only spikes</span>
 <span class="sd">        (if false) or all input time series and spikes (if true, default).</span>
-<span class="sd">    output : :obj:`str`</span>
+<span class="sd">    output: str</span>
 <span class="sd">        Indicates whether the output should be formatted as spike regressors</span>
 <span class="sd">        (&#39;spikes&#39;, a separate column for each outlier) or as a temporal mask</span>
 <span class="sd">        (&#39;mask&#39;, a single output column indicating the locations of outliers).</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    data : :obj:`~pandas.DataFrame`</span>
+<span class="sd">    data: pandas DataFrame object</span>
 <span class="sd">        The input DataFrame with a column for each spike regressor.</span>
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
-<span class="sd">    .. [Power2014] Power JD, et al. (2014)</span>
+<span class="sd">    Power JD, Mitra A, Laumann TO, Snyder AZ, Schlaggar BL, Petersen SE (2014)</span>
 <span class="sd">        Methods to detect, characterize, and remove motion artifact in resting</span>
-<span class="sd">        state fMRI. NeuroImage. doi:`10.1016/j.neuroimage.2013.08.048</span>
-<span class="sd">        &lt;https://doi.org/10.1016/j.neuroimage.2013.08.048&gt;`__.</span>
+<span class="sd">        state fMRI. NeuroImage.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">mask</span> <span class="o">=</span> <span class="p">{}</span>
@@ -478,22 +450,22 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    order : :obj:`list` of :obj:`int`</span>
-<span class="sd">        A list of temporal derivative terms to include. For instance, ``[1, 2]``</span>
+<span class="sd">    order: range or list(int)</span>
+<span class="sd">        A list of temporal derivative terms to include. For instance, [1, 2]</span>
 <span class="sd">        indicates that the first and second derivative terms should be added.</span>
-<span class="sd">        To retain the original terms, ``0`` *must* be included in the list.</span>
-<span class="sd">    variables : :obj:`list` of :obj:`str`</span>
+<span class="sd">        To retain the original terms, 0 *must* be included in the list.</span>
+<span class="sd">    variables: list(str)</span>
 <span class="sd">        List of variables for which temporal derivative terms should be</span>
 <span class="sd">        computed.</span>
-<span class="sd">    data : :obj:`~pandas.DataFrame`</span>
+<span class="sd">    data: pandas DataFrame object</span>
 <span class="sd">        Table of values of all observations of all variables.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    variables_deriv : :obj:`list`</span>
+<span class="sd">    variables_deriv: list</span>
 <span class="sd">        A list of variables to include in the final data frame after adding</span>
 <span class="sd">        the specified derivative terms.</span>
-<span class="sd">    data_deriv : :obj:`~pandas.DataFrame`</span>
+<span class="sd">    data_deriv: pandas DataFrame object</span>
 <span class="sd">        Table of values of all observations of all variables, including any</span>
 <span class="sd">        specified derivative terms.</span>
 
@@ -522,21 +494,21 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    order : :obj:`list` of :obj:`int`</span>
-<span class="sd">        A list of exponential terms to include. For instance, ``[1, 2]``</span>
+<span class="sd">    order: range or list(int)</span>
+<span class="sd">        A list of exponential terms to include. For instance, [1, 2]</span>
 <span class="sd">        indicates that the first and second exponential terms should be added.</span>
-<span class="sd">        To retain the original terms, ``1`` *must* be included in the list.</span>
-<span class="sd">    variables : :obj:`list` of :obj:`str`</span>
+<span class="sd">        To retain the original terms, 1 *must* be included in the list.</span>
+<span class="sd">    variables: list(str)</span>
 <span class="sd">        List of variables for which exponential terms should be computed.</span>
-<span class="sd">    data : :obj:`~pandas.DataFrame`</span>
+<span class="sd">    data: pandas DataFrame object</span>
 <span class="sd">        Table of values of all observations of all variables.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    variables_exp : :obj:`list`</span>
+<span class="sd">    variables_exp: list</span>
 <span class="sd">        A list of variables to include in the final data frame after adding</span>
 <span class="sd">        the specified exponential terms.</span>
-<span class="sd">    data_exp : :obj:`~pandas.DataFrame`</span>
+<span class="sd">    data_exp: pandas DataFrame object</span>
 <span class="sd">        Table of values of all observations of all variables, including any</span>
 <span class="sd">        specified exponential terms.</span>
 
@@ -621,17 +593,17 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    expression : :obj:`str`</span>
+<span class="sd">    expression: str</span>
 <span class="sd">        Formula expression: either a single variable or a variable group</span>
 <span class="sd">        paired with an operation (exponentiation or differentiation).</span>
-<span class="sd">    parent_data : :obj:`~pandas.DataFrame`</span>
+<span class="sd">    parent_data: pandas DataFrame</span>
 <span class="sd">        The source data for the model expansion.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    variables : :obj:`list`</span>
+<span class="sd">    variables: list</span>
 <span class="sd">        A list of variables in the provided formula expression.</span>
-<span class="sd">    data: :obj:`~pandas.DataFrame`</span>
+<span class="sd">    data: pandas DataFrame</span>
 <span class="sd">        A tabulation of all terms in the provided formula expression.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -729,31 +701,12 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    model_formula : :obj:`str`</span>
+<span class="sd">    model_formula: str</span>
 <span class="sd">        Expression for the model formula, e.g.</span>
-<span class="sd">        ``(a + b)^^2 + dd1(c + (d + e)^3) + f``</span>
+<span class="sd">        &#39;(a + b)^^2 + dd1(c + (d + e)^3) + f&#39;</span>
 <span class="sd">        Note that any expressions to be expanded *must* be in parentheses,</span>
-<span class="sd">        even if they include only a single variable</span>
-<span class="sd">        (e.g., ``(x)^2``, not ``x^2``).</span>
-<span class="sd">        Temporal derivative options:</span>
-
-<span class="sd">            * ``d6(variable)`` for the 6th temporal derivative</span>
-<span class="sd">            * ``dd6(variable)`` for all temporal derivatives up to the 6th</span>
-<span class="sd">            * ``d4-6(variable)`` for the 4th through 6th temporal derivatives</span>
-<span class="sd">            * ``0`` must be included in the temporal derivative range for the</span>
-<span class="sd">              original term to be returned when temporal derivatives are computed.</span>
-
-<span class="sd">        Exponential options:</span>
-
-<span class="sd">            * ``(variable)^6`` for the 6th power</span>
-<span class="sd">            * ``(variable)^^6`` for all powers up to the 6th</span>
-<span class="sd">            * ``(variable)^4-6`` for the 4th through 6th powers</span>
-<span class="sd">            * ``1`` must be included in the powers range for the original term to be</span>
-<span class="sd">              returned when exponential terms are computed.</span>
-
-<span class="sd">        Temporal derivatives and exponential terms are computed for all terms</span>
-<span class="sd">        in the grouping symbols that they adjoin.</span>
-<span class="sd">    parent_data : :obj:`~pandas.DataFrame`</span>
+<span class="sd">        even if they include only a single variable (e.g., (x)^2, not x^2).</span>
+<span class="sd">    parent_data: pandas DataFrame</span>
 <span class="sd">        A tabulation of all values usable in the model formula. Each additive</span>
 <span class="sd">        term in `model_formula` should correspond either to a variable in this</span>
 <span class="sd">        data frame or to instructions for operating on a variable (for</span>
@@ -761,11 +714,30 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    variables : :obj:`list` of :obj:`str`</span>
+<span class="sd">    variables: list(str)</span>
 <span class="sd">        A list of variables included in the model parsed from the provided</span>
 <span class="sd">        formula.</span>
-<span class="sd">    data : :obj:`~pandas.DataFrame`</span>
+<span class="sd">    data: pandas DataFrame</span>
 <span class="sd">        All values in the complete model.</span>
+
+<span class="sd">    Options</span>
+<span class="sd">    -------</span>
+<span class="sd">    Temporal derivative options:</span>
+<span class="sd">    * d6(variable) for the 6th temporal derivative</span>
+<span class="sd">    * dd6(variable) for all temporal derivatives up to the 6th</span>
+<span class="sd">    * d4-6(variable) for the 4th through 6th temporal derivatives</span>
+<span class="sd">    * 0 must be included in the temporal derivative range for the original</span>
+<span class="sd">      term to be returned when temporal derivatives are computed.</span>
+
+<span class="sd">    Exponential options:</span>
+<span class="sd">    * (variable)^6 for the 6th power</span>
+<span class="sd">    * (variable)^^6 for all powers up to the 6th</span>
+<span class="sd">    * (variable)^4-6 for the 4th through 6th powers</span>
+<span class="sd">    * 1 must be included in the powers range for the original term to be</span>
+<span class="sd">      returned when exponential terms are computed.</span>
+
+<span class="sd">    Temporal derivatives and exponential terms are computed for all terms</span>
+<span class="sd">    in the grouping symbols that they adjoin.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">variables</span> <span class="o">=</span> <span class="p">{}</span>
@@ -813,7 +785,7 @@
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright Copyright 2021, The NiPreps Developers.
+        &#169; Copyright Copyright 2021, Center for Reproducible Neuroscience, Stanford University.
 
     </p>
   </div>
@@ -884,6 +856,7 @@
             <dd><a href="../../../../1.3.0rc3/index.html">1.3.0rc3</a></dd>
             <dd><a href="../../../../1.3.1/index.html">1.3.1</a></dd>
             <dd><a href="confounds.html">1.3.2</a></dd>
+            <dd><a href="../../../../1.3.3/index.html">1.3.3</a></dd>
             <dd><a href="../../../../1.4.0rc0/index.html">1.4.0rc0</a></dd>
             <dd><a href="../../../../1.4.0rc1/index.html">1.4.0rc1</a></dd>
             <dd><a href="../../../../1.4.0rc2/index.html">1.4.0rc2</a></dd>

@@ -117,7 +117,7 @@
 <polyline fill="none" stroke="#000000" points="610,-1189.5 610,-1258.5 "/>
 <text text-anchor="middle" x="656" y="-1243.3" font-family="Times,serif" font-size="14.00" fill="#000000">check_hdr</text>
 <polyline fill="none" stroke="#000000" points="610,-1235.5 702,-1235.5 "/>
-<text text-anchor="middle" x="656" y="-1220.3" font-family="Times,serif" font-size="14.00" fill="#000000">header</text>
+<text text-anchor="middle" x="656" y="-1220.3" font-family="Times,serif" font-size="14.00" fill="#000000">images</text>
 <polyline fill="none" stroke="#000000" points="610,-1212.5 702,-1212.5 "/>
 <text text-anchor="middle" x="656" y="-1197.3" font-family="Times,serif" font-size="14.00" fill="#000000"> </text>
 <polyline fill="none" stroke="#000000" points="702,-1189.5 702,-1258.5 "/>
@@ -169,7 +169,7 @@
 <polyline fill="none" stroke="#000000" points="696,-553.5 696,-622.5 "/>
 <text text-anchor="middle" x="753.5" y="-607.3" font-family="Times,serif" font-size="14.00" fill="#000000">fixhdr_unifize</text>
 <polyline fill="none" stroke="#000000" points="696,-599.5 811,-599.5 "/>
-<text text-anchor="middle" x="753.5" y="-584.3" font-family="Times,serif" font-size="14.00" fill="#000000">header</text>
+<text text-anchor="middle" x="753.5" y="-584.3" font-family="Times,serif" font-size="14.00" fill="#000000">utils</text>
 <polyline fill="none" stroke="#000000" points="696,-576.5 811,-576.5 "/>
 <text text-anchor="middle" x="753.5" y="-561.3" font-family="Times,serif" font-size="14.00" fill="#000000"> </text>
 <polyline fill="none" stroke="#000000" points="811,-553.5 811,-622.5 "/>
@@ -195,7 +195,7 @@
 <polyline fill="none" stroke="#000000" points="163.5,-341.5 163.5,-410.5 "/>
 <text text-anchor="middle" x="235.5" y="-395.3" font-family="Times,serif" font-size="14.00" fill="#000000">fixhdr_skullstrip2</text>
 <polyline fill="none" stroke="#000000" points="163.5,-387.5 307.5,-387.5 "/>
-<text text-anchor="middle" x="235.5" y="-372.3" font-family="Times,serif" font-size="14.00" fill="#000000">header</text>
+<text text-anchor="middle" x="235.5" y="-372.3" font-family="Times,serif" font-size="14.00" fill="#000000">utils</text>
 <polyline fill="none" stroke="#000000" points="163.5,-364.5 307.5,-364.5 "/>
 <text text-anchor="middle" x="235.5" y="-349.3" font-family="Times,serif" font-size="14.00" fill="#000000"> </text>
 <polyline fill="none" stroke="#000000" points="307.5,-341.5 307.5,-410.5 "/>
